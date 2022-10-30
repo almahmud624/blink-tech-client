@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
   const [trending, setTrending] = useState(false);
@@ -8,22 +9,37 @@ const AddProduct = () => {
     const productName = form.productName.value;
     const imgURL = form.imgURL.value;
     const description = form.description.value;
-    const isTranding = trending;
+    const isTrending = trending;
     const productPrice = form.productPrice.value;
     const category = form.category.value;
     const rating = form.rating.value;
     const discount = form.discount.value;
+    if (rating >= 5 || discount >= 100) {
+      toast.error("Please Provide Valid Value");
+      return;
+    }
     const productInfo = {
       productName: productName,
       imgURL: imgURL,
       description: description,
-      isTranding: isTranding,
+      isTrending: isTrending,
       productPrice: productPrice,
       category: category,
       rating: rating,
       discount: discount,
     };
-    console.log(productInfo);
+    fetch("http://localhost:4000/products", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(productInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success("Data Uploaded Successfully");
+        form.reset();
+      });
   };
   return (
     <div>
@@ -146,6 +162,7 @@ const AddProduct = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                 pattern="^(\d)*(\.)?([0-9]{1})?$"
                 name="rating"
+                placeholder="Rating 5 or Less"
                 required
               />
             </div>
@@ -165,6 +182,7 @@ const AddProduct = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                 pattern="[0-9]+"
                 name="discount"
+                placeholder="Discount 100 or Less"
                 required
               />
             </div>
