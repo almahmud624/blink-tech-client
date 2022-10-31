@@ -4,6 +4,9 @@ import toast from "react-hot-toast";
 const AddProduct = () => {
   const [trending, setTrending] = useState(false);
   const [products, setProducts] = useState([]);
+  const [filterValue, setFilterValue] = useState(null);
+
+  // send data to server
   const handleSend = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -42,11 +45,47 @@ const AddProduct = () => {
         form.reset();
       });
   };
+
+  // get all data
   useEffect(() => {
     fetch("http://localhost:4000/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
+
+  // delete data
+  const handleDelete = (id) => {
+    fetch(`http://localhost:4000/products/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          toast.success("Data Remove Successfully");
+        }
+      });
+  };
+
+  // search data // !!bad searching functionality
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchValue = e.target.value;
+    setFilterValue(searchValue);
+  };
+  useEffect(() => {
+    console.log(filterValue);
+
+    if (filterValue) {
+      const filterData = products.filter((product) =>
+        product.productName.toLowerCase().includes(filterValue)
+      );
+      setProducts(filterData);
+    } else {
+      fetch("http://localhost:4000/products")
+        .then((res) => res.json())
+        .then((data) => setProducts(data));
+    }
+  }, [filterValue]);
   return (
     <div>
       <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
@@ -201,19 +240,32 @@ const AddProduct = () => {
           </div>
         </form>
       </section>
-      <section>
-        <div>
+      <section className="max-w-4xl my-10 p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+        <div className="mt-5 my-10 w-1/2 mx-auto text-center">
+          <input
+            type="text"
+            placeholder="Search Product"
+            className="input input-bordered w-full"
+            onChange={handleSearch}
+          />
+        </div>
+        <div className="grid grid-cols-2 justify-center items gap-5">
           {products?.map((product) => (
             <div
-              className="card w-96 bg-neutral text-neutral-content"
+              className="card w-96 mx-auto bg-neutral text-neutral-content"
               key={Math.random()}
             >
               <div className="card-body items-center text-center">
                 <h2 className="card-title">{product.productName}</h2>
-                <p>{product._id}</p>
-                <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Accept</button>
-                  <button className="btn btn-ghost">Deny</button>
+                <p>_id: {product._id}</p>
+                <div className="card-actions justify-end mt-3">
+                  <button className="btn btn-primary">Update</button>
+                  <button
+                    className="btn btn-ghost"
+                    onClick={() => handleDelete(product._id)}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
