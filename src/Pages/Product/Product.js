@@ -9,7 +9,7 @@ const Product = ({ product }) => {
             {product.productName}
           </h1>
           <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {product.description.slice(0, 200)}
+            {product.description?.slice(0, 200)}
             {"..."}
           </p>
         </div>

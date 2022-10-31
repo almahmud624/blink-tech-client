@@ -4,6 +4,8 @@ import Product from "../Product/Product";
 
 const Products = () => {
   const products = useLoaderData();
+  console.log(products);
+
   return (
     <div>
       <h3>All Products {products.length}</h3>

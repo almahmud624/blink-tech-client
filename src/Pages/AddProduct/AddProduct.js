@@ -5,45 +5,63 @@ const AddProduct = () => {
   const [trending, setTrending] = useState(false);
   const [products, setProducts] = useState([]);
   const [filterValue, setFilterValue] = useState(null);
+  const [updateProduct, setUpdateProduct] = useState(null);
+  const [product, setProduct] = useState({});
+
+  // get input value
+  const handleInputChange = (e) => {
+    const inputField = e.target.name;
+    const inputValue = e.target.value;
+    const newProduct = { ...product };
+    newProduct[inputField] = inputValue;
+    newProduct["isTrending"] = trending;
+    setProduct(newProduct);
+  };
 
   // send data to server
   const handleSend = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const productName = form.productName.value;
-    const imgURL = form.imgURL.value;
-    const description = form.description.value;
-    const isTrending = trending;
-    const productPrice = form.productPrice.value;
-    const category = form.category.value;
-    const rating = form.rating.value;
-    const discount = form.discount.value;
-    if (rating >= 5 || discount >= 100) {
-      toast.error("Please Provide Valid Value");
-      return;
+
+    if (!updateProduct) {
+      fetch("http://localhost:4000/products", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(product),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const newProduct = [...products, data];
+          setProducts(newProduct);
+          toast.success("Data Uploaded Successfully");
+          e.target.reset();
+        });
+    } else {
+      // update product
+
+      fetch(`http://localhost:4000/products/${updateProduct._id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(product),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.acknowledged) {
+            toast.success("Data Updated");
+            e.target.reset();
+          }
+        });
+      const updatedProducts = [...products];
+      updatedProducts[
+        updatedProducts
+          .map((v, i) => [i, v])
+          .filter((v) => v[1]._id === updateProduct._id)[0][0]
+      ] = product;
+      setProducts(updatedProducts);
     }
-    const productInfo = {
-      productName: productName,
-      imgURL: imgURL,
-      description: description,
-      isTrending: isTrending,
-      productPrice: productPrice,
-      category: category,
-      rating: rating,
-      discount: discount,
-    };
-    fetch("http://localhost:4000/products", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(productInfo),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        toast.success("Data Uploaded Successfully");
-        form.reset();
-      });
   };
 
   // get all data
@@ -64,6 +82,8 @@ const AddProduct = () => {
           toast.success("Data Remove Successfully");
         }
       });
+    const restProduct = products.filter((product) => product._id !== id);
+    setProducts(restProduct);
   };
 
   // search data // !!bad searching functionality
@@ -73,8 +93,6 @@ const AddProduct = () => {
     setFilterValue(searchValue);
   };
   useEffect(() => {
-    console.log(filterValue);
-
     if (filterValue) {
       const filterData = products.filter((product) =>
         product.productName.toLowerCase().includes(filterValue)
@@ -86,6 +104,16 @@ const AddProduct = () => {
         .then((data) => setProducts(data));
     }
   }, [filterValue]);
+
+  // update data
+  const handleUpdateProduct = (id) => {
+    fetch(`http://localhost:4000/products/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUpdateProduct(data);
+        setProduct(data);
+      });
+  };
   return (
     <div>
       <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
@@ -108,6 +136,8 @@ const AddProduct = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                 required
                 name="productName"
+                defaultValue={updateProduct?.productName}
+                onChange={handleInputChange}
               />
             </div>
 
@@ -124,6 +154,8 @@ const AddProduct = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                 name="imgURL"
                 required
+                defaultValue={updateProduct?.imgURL}
+                onChange={handleInputChange}
               />
             </div>
             <div className="col-span-2 form-control">
@@ -135,6 +167,8 @@ const AddProduct = () => {
                 placeholder=""
                 name="description"
                 required
+                defaultValue={updateProduct?.description}
+                onChange={handleInputChange}
               ></textarea>
             </div>
             <div className="flex items-center">
@@ -144,6 +178,7 @@ const AddProduct = () => {
                   className="checkbox"
                   onChange={() => setTrending(!trending)}
                   name="isTranding"
+                  defaultValue={updateProduct?.isTrending}
                 />
                 <label className="label">
                   <span className="text-gray-700 dark:text-gray-300">
@@ -168,6 +203,8 @@ const AddProduct = () => {
                   pattern="[0-9]+"
                   name="productPrice"
                   required
+                  defaultValue={updateProduct?.productPrice}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -181,6 +218,8 @@ const AddProduct = () => {
                 <select
                   className="select select-bordered dark:bg-gray-800 px-4 py-2 min-h-0 h-auto"
                   name="category"
+                  onChange={handleInputChange}
+                  defaultValue={updateProduct?.category}
                 >
                   <option disabled selected>
                     Product
@@ -209,6 +248,8 @@ const AddProduct = () => {
                 name="rating"
                 placeholder="Rating 5 or Less"
                 required
+                defaultValue={updateProduct?.rating}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -229,13 +270,15 @@ const AddProduct = () => {
                 name="discount"
                 placeholder="Discount 100 or Less"
                 required
+                defaultValue={updateProduct?.discount}
+                onChange={handleInputChange}
               />
             </div>
           </div>
 
           <div className="flex justify-end mt-6">
             <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
-              Send
+              {updateProduct ? "Update" : "Send"}
             </button>
           </div>
         </form>
@@ -259,9 +302,15 @@ const AddProduct = () => {
                 <h2 className="card-title">{product.productName}</h2>
                 <p>_id: {product._id}</p>
                 <div className="card-actions justify-end mt-3">
-                  <button className="btn btn-primary">Update</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleUpdateProduct(product._id)}
+                  >
+                    Update
+                  </button>
                   <button
                     className="btn btn-ghost"
+                    htmlFor="my-modal"
                     onClick={() => handleDelete(product._id)}
                   >
                     Delete
