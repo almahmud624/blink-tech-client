@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const AddProduct = () => {
   const [trending, setTrending] = useState(false);
+  const [products, setProducts] = useState([]);
   const handleSend = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -41,6 +42,11 @@ const AddProduct = () => {
         form.reset();
       });
   };
+  useEffect(() => {
+    fetch("http://localhost:4000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
   return (
     <div>
       <section className="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
@@ -194,6 +200,25 @@ const AddProduct = () => {
             </button>
           </div>
         </form>
+      </section>
+      <section>
+        <div>
+          {products?.map((product) => (
+            <div
+              className="card w-96 bg-neutral text-neutral-content"
+              key={Math.random()}
+            >
+              <div className="card-body items-center text-center">
+                <h2 className="card-title">{product.productName}</h2>
+                <p>{product._id}</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary">Accept</button>
+                  <button className="btn btn-ghost">Deny</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
