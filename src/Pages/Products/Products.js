@@ -1,13 +1,13 @@
-import React from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useContext } from "react";
+import { ProductDataContext } from "../../Context/ProductData";
 import Product from "../Product/Product";
 
 const Products = () => {
-  const products = useLoaderData();
+  const { products } = useContext(ProductDataContext);
 
   return (
     <div className="">
-      <h3 className="text-sm"> All Products {products.length}</h3>
+      {/* <h3 className="text-sm"> All Products {products?.length}</h3> */}
       <div className="max-w-screen-xl grid grid-cols-3 m-auto">
         {products?.map((product) => (
           <Product key={Math.random()} product={product}></Product>

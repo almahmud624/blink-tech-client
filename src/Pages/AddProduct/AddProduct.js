@@ -24,7 +24,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!deleteUpdateProduct) {
-      fetch("http://localhost:4000/products", {
+      fetch("https://blink-tech-server.vercel.app/products", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -40,13 +40,16 @@ const AddProduct = () => {
     } else {
       // update product
 
-      fetch(`http://localhost:4000/products/${deleteUpdateProduct._id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(product),
-      })
+      fetch(
+        `https://blink-tech-server.vercel.app/products/${deleteUpdateProduct._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(product),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.acknowledged) {
@@ -70,14 +73,14 @@ const AddProduct = () => {
 
   // get all data
   useEffect(() => {
-    fetch("http://localhost:4000/products")
+    fetch("https://blink-tech-server.vercel.app/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
 
   // delete data
   const handleDelete = (id) => {
-    fetch(`http://localhost:4000/products/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/products/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -105,7 +108,7 @@ const AddProduct = () => {
       );
       setProducts(filterData);
     } else {
-      fetch("http://localhost:4000/products")
+      fetch("https://blink-tech-server.vercel.app/products")
         .then((res) => res.json())
         .then((data) => setProducts(data));
     }
@@ -113,7 +116,7 @@ const AddProduct = () => {
 
   // get update and delete product id
   const handleDeleteUpdateProduct = (id, deleteAlert, updateAlert) => {
-    fetch(`http://localhost:4000/products/${id}`)
+    fetch(`https://blink-tech-server.vercel.app/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setDeleteUpdateProduct(data);

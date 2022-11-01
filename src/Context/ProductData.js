@@ -4,7 +4,7 @@ export const ProductDataContext = createContext();
 const ProductData = ({ children }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:4000/products")
+    fetch("https://blink-tech-server.vercel.app/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);

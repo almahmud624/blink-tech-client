@@ -37,7 +37,7 @@ const Navbar = ({ setModeTheme }) => {
                 </Link>
               </li>
               <li>
-                <Link to="">Blog</Link>
+                <Link to="/add-products">All Products</Link>
               </li>
             </ul>
           </div>
@@ -59,7 +59,7 @@ const Navbar = ({ setModeTheme }) => {
               <Link to="/products">Products</Link>
             </li>
             <li>
-              <Link to="">Blog</Link>
+              <Link to="/add-products">All Products</Link>
             </li>
           </ul>
         </div>
