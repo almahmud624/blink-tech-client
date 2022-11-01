@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import AddProduct from "../Pages/AddProduct/AddProduct";
+import Footer from "../Pages/Shared/Footer";
 import Navbar from "../Pages/Shared/Navbar";
 
 const Main = () => {
+  const [modeTheme, setModeTheme] = useState("night");
+  console.log(modeTheme);
+
   return (
-    <div>
-      <Navbar />
+    <div data-theme={modeTheme}>
+      <Navbar setModeTheme={setModeTheme} />
       <Outlet></Outlet>
+      <Footer />
     </div>
   );
 };
