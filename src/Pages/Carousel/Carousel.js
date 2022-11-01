@@ -31,13 +31,13 @@ const Carousel = () => {
         effect={"fade"}
       >
         {carouseImages.map((carousel) => (
-          <SwiperSlide className="bg-[#DCDDE2] relative rounded">
+          <SwiperSlide className="bg-[#DCDDE2]  relative rounded">
             <div className="relative flex h-screen justify-center items-center space-x-4 px-4">
               <div className="z-10 w-1/2 px-4">
-                <h3 className="text-gray-800 capitalize font-bold text-7xl">
+                <h3 className="text-gray-800  capitalize font-bold text-7xl">
                   up to 30% off game box
                 </h3>
-                <p className="text-gray-500 mt-4 font-base">
+                <p className="text-gray-500  mt-4 font-base">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Deserunt asperiores laboriosam ipsa neque quasi quam.
                 </p>

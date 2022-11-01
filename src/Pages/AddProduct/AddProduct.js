@@ -254,6 +254,7 @@ const AddProduct = () => {
                     <option>smartphone</option>
                     <option>iphone&ipad</option>
                     <option>tablet</option>
+                    <option>watch</option>
                   </select>
                 </div>
               </div>

@@ -1,0 +1,18 @@
+import React, { createContext, useEffect, useState } from "react";
+
+export const ProductDataContext = createContext();
+const ProductData = ({ children }) => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:4000/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
+  return (
+    <ProductDataContext.Provider value={{ products }}>
+      {children}
+    </ProductDataContext.Provider>
+  );
+};
+
+export default ProductData;
