@@ -4,6 +4,7 @@ import AddProduct from "../Pages/AddProduct/AddProduct";
 import Home from "../Pages/Home/Home";
 import Products from "../Pages/Products/Products";
 import ErrorPage from "../Pages/Shared/ErrorPage";
+import Authentication from "../Pages/Authentication/Authentication";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -21,6 +22,14 @@ export const router = createBrowserRouter([
       {
         path: "/add-products",
         element: <AddProduct />,
+      },
+      {
+        path: "/register",
+        element: <Authentication />,
+      },
+      {
+        path: "/login",
+        element: <Authentication />,
       },
     ],
   },

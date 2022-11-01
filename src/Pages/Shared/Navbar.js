@@ -61,6 +61,12 @@ const Navbar = ({ setModeTheme }) => {
             <li>
               <Link to="/add-products">All Products</Link>
             </li>
+            <li>
+              <Link to="/register">Sign Up</Link>
+            </li>
+            <li>
+              <Link to="/login">Sign In</Link>
+            </li>
           </ul>
         </div>
         <div className="navbar-end">
