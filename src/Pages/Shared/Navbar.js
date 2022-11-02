@@ -48,10 +48,8 @@ const Navbar = ({ setModeTheme }) => {
             <li>
               <Link to="/add-products">All Products</Link>
             </li>
-            <li>
-              <Link to="/orders">Orders</Link>
-            </li>
-            {!user?.uid && (
+
+            {!user?.uid ? (
               <>
                 <li>
                   <Link to="/register">Sign Up</Link>
@@ -60,6 +58,10 @@ const Navbar = ({ setModeTheme }) => {
                   <Link to="/login">Sign In</Link>
                 </li>
               </>
+            ) : (
+              <li>
+                <Link to="/orders">Orders</Link>
+              </li>
             )}
           </ul>
         </div>
