@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { GrGoogle } from "react-icons/gr";
 import { FiAlertOctagon } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthProvider";
 
 const Authentication = () => {
@@ -21,6 +22,7 @@ const Authentication = () => {
       createUser(mail, password)
         .then((res) => {
           userProfileUpdate(userProfile);
+          toast.success("Signup is Successful");
           console.log(res.user);
         })
         .catch((error) => {
@@ -30,6 +32,7 @@ const Authentication = () => {
       // login user
       userLogin(mail, password)
         .then((res) => {
+          toast.success("Login is Successful");
           console.log(res.user);
         })
         .catch((error) => {

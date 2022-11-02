@@ -4,6 +4,9 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Zoom } from "react-toastify";
 import ProductData from "./Context/ProductData";
 import AuthProvider from "./Context/AuthProvider";
 
@@ -12,6 +15,12 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <ProductData>
+        <ToastContainer
+          position="top-center"
+          effect="zoom"
+          transition={Zoom}
+          theme="light"
+        />
         <Toaster />
         <App />
       </ProductData>
