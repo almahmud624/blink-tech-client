@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { ProductDataContext } from "../../Context/ProductData";
 
 const AddProduct = () => {
+  const { products, setProducts } = useContext(ProductDataContext);
+
   const [trending, setTrending] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [filterValue, setFilterValue] = useState(null);
+  const [promoted, setPromoted] = useState(false);
+  // const [filterValue, setFilterValue] = useState(null);
   const [deleteUpdateProduct, setDeleteUpdateProduct] = useState(null);
   const [product, setProduct] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
+  console.log(promoted);
+
   // get input value
   const handleInputChange = (e) => {
     const inputField = e.target.name;
@@ -16,6 +21,7 @@ const AddProduct = () => {
     const newProduct = { ...product };
     newProduct[inputField] = inputValue;
     newProduct["isTrending"] = trending;
+    newProduct["isPromoted"] = promoted;
     setProduct(newProduct);
   };
 
@@ -39,7 +45,6 @@ const AddProduct = () => {
         });
     } else {
       // update product
-
       fetch(
         `https://blink-tech-server.vercel.app/products/${deleteUpdateProduct._id}`,
         {
@@ -71,13 +76,6 @@ const AddProduct = () => {
     e.target.reset();
   };
 
-  // get all data
-  useEffect(() => {
-    fetch("https://blink-tech-server.vercel.app/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
-
   // delete data
   const handleDelete = (id) => {
     fetch(`https://blink-tech-server.vercel.app/products/${id}`, {
@@ -96,23 +94,23 @@ const AddProduct = () => {
   };
 
   // search data // !!bad searching functionality
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const searchValue = e.target.value;
-    setFilterValue(searchValue);
-  };
-  useEffect(() => {
-    if (filterValue) {
-      const filterData = products.filter((product) =>
-        product.productName.toLowerCase().includes(filterValue)
-      );
-      setProducts(filterData);
-    } else {
-      fetch("https://blink-tech-server.vercel.app/products")
-        .then((res) => res.json())
-        .then((data) => setProducts(data));
-    }
-  }, [filterValue]);
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   const searchValue = e.target.value;
+  //   setFilterValue(searchValue);
+  // };
+  // useEffect(() => {
+  //   if (filterValue) {
+  //     const filterData = products.filter((product) =>
+  //       product.productName.toLowerCase().includes(filterValue)
+  //     );
+  //     setProducts(filterData);
+  //   } else {
+  //     fetch("https://blink-tech-server.vercel.app/products")
+  //       .then((res) => res.json())
+  //       .then((data) => setProducts(data));
+  //   }
+  // }, [filterValue]);
 
   // get update and delete product id
   const handleDeleteUpdateProduct = (id, deleteAlert, updateAlert) => {
@@ -253,7 +251,7 @@ const AddProduct = () => {
                     <option>headphone</option>
                     <option>audio</option>
                     <option>games</option>
-                    <option>dvd players</option>
+                    <option>camera</option>
                     <option>smartphone</option>
                     <option>iphone&ipad</option>
                     <option>tablet</option>
@@ -277,27 +275,42 @@ const AddProduct = () => {
                   onChange={handleInputChange}
                 />
               </div>
-            </div>
-
-            <div className="mt-5">
-              <label className="text-gray-700 dark:text-gray-200" for="ra">
-                Discount
-              </label>
-              <div className="input-group">
-                <span className="px-4 py-2 mt-2 bg-gray-700 font-semibold">
-                  %
-                </span>
-                <input
-                  id="discount"
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                  pattern="[0-9]+"
-                  name="discount"
-                  placeholder="Discount 100 or Less"
-                  required
-                  defaultValue={product?.discount}
-                  onChange={handleInputChange}
-                />
+              <div className="mt-5">
+                <label className="text-gray-700 dark:text-gray-200" for="ra">
+                  Discount
+                </label>
+                <div className="input-group">
+                  <span className="px-4 py-2 mt-2 bg-gray-700 font-semibold">
+                    %
+                  </span>
+                  <input
+                    id="discount"
+                    type="text"
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                    pattern="[0-9]+"
+                    name="discount"
+                    placeholder="Discount 100 or Less"
+                    required
+                    defaultValue={product?.discount}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="flex items-end">
+                <div className="form-control w-full max-w-xs flex flex-row items-center gap-1">
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    onChange={() => setPromoted(!promoted)}
+                    name="isPromoted"
+                    defaultValue={product?.isPromoted}
+                  />
+                  <label className="label">
+                    <span className="text-gray-700 dark:text-gray-300">
+                      is Promoted?
+                    </span>
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -323,7 +336,7 @@ const AddProduct = () => {
             type="text"
             placeholder="Search Product"
             className="input input-bordered w-full"
-            onChange={handleSearch}
+            // onChange={handleSearch}
           />
         </div>
         <div className="grid grid-cols-2 justify-center items gap-5">
@@ -333,8 +346,21 @@ const AddProduct = () => {
               key={Math.random()}
             >
               <div className="card-body items-center text-center">
-                <h2 className="card-title">{prod.productName}</h2>
-                <p>_id: {prod._id}</p>
+                <div className="flex gap-3 items-center">
+                  <div className="avatar bg-indigo-100 rounded-md">
+                    <div className="w-16 rounded shadow-lg">
+                      <img
+                        src={prod.imgURL}
+                        className="drop-shadow-xl"
+                        alt="Tailwind-CSS-Avatar-component"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="card-title">{prod.productName}</h2>
+                    <p>_id: {prod._id}</p>
+                  </div>
+                </div>
                 <div className="card-actions justify-end mt-3">
                   <button
                     className="btn btn-primary"
