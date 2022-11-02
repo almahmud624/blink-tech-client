@@ -48,6 +48,9 @@ const Navbar = ({ setModeTheme }) => {
             <li>
               <Link to="/add-products">All Products</Link>
             </li>
+            <li>
+              <Link to="/orders">Orders</Link>
+            </li>
             {!user?.uid && (
               <>
                 <li>

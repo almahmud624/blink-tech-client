@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { ProductDataContext } from "../../Context/ProductData";
 
@@ -12,7 +12,7 @@ const AddProduct = () => {
   const [product, setProduct] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  console.log(promoted);
+  const nameRef = useRef();
 
   // get input value
   const handleInputChange = (e) => {
@@ -28,7 +28,6 @@ const AddProduct = () => {
   // send data to server
   const handleSend = (e) => {
     e.preventDefault();
-
     if (!deleteUpdateProduct) {
       fetch("https://blink-tech-server.vercel.app/products", {
         method: "POST",
@@ -114,6 +113,7 @@ const AddProduct = () => {
 
   // get update and delete product id
   const handleDeleteUpdateProduct = (id, deleteAlert, updateAlert) => {
+    nameRef.current.focus();
     fetch(`https://blink-tech-server.vercel.app/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -159,7 +159,8 @@ const AddProduct = () => {
                   required
                   name="productName"
                   defaultValue={product?.productName}
-                  onChange={handleInputChange}
+                  onBlur={handleInputChange}
+                  ref={nameRef}
                 />
               </div>
 
@@ -200,7 +201,7 @@ const AddProduct = () => {
                     className="checkbox"
                     onChange={() => setTrending(!trending)}
                     name="isTranding"
-                    defaultValue={product?.isTrending}
+                    defaultChecked={product?.isTrending}
                   />
                   <label className="label">
                     <span className="text-gray-700 dark:text-gray-300">
@@ -244,7 +245,7 @@ const AddProduct = () => {
                     defaultValue={product?.category}
                   >
                     <option disabled selected>
-                      Product
+                      {product?.category ? product?.category : "Product"}
                     </option>
                     <option>computer</option>
                     <option>laptop</option>
@@ -303,7 +304,7 @@ const AddProduct = () => {
                     className="checkbox"
                     onChange={() => setPromoted(!promoted)}
                     name="isPromoted"
-                    defaultValue={product?.isPromoted}
+                    defaultChecked={product?.isPromoted}
                   />
                   <label className="label">
                     <span className="text-gray-700 dark:text-gray-300">

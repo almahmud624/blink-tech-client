@@ -6,6 +6,7 @@ import Products from "../Pages/Products/Products";
 import ErrorPage from "../Pages/Shared/ErrorPage";
 import Authentication from "../Pages/Authentication/Authentication";
 import CheckOut from "../Pages/CheckOut/CheckOut";
+import Orders from "../Pages/Orders/Orders";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Authentication />,
+      },
+      {
+        path: "/orders",
+        element: <Orders />,
       },
       {
         path: "/checkout/:id",

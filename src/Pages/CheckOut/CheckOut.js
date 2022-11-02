@@ -17,11 +17,11 @@ const CheckOut = () => {
 
   const onSubmit = (customer, e) => {
     const order = {
-      productId: _id,
-      productName,
-      productPrice,
-      customer: {
-        ...customer,
+      ...customer,
+      orderInfo: {
+        productId: _id,
+        productName,
+        productPrice,
       },
     };
     fetch("http://localhost:4000/orders", {
@@ -104,7 +104,6 @@ const CheckOut = () => {
                     id="email"
                     class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     placeholder="Enter your email"
-                    readOnly
                     defaultValue={user?.email}
                     {...register("mail", {
                       required: "Email Address is required",
