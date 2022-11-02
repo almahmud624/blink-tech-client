@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthProvider";
 
 const Authentication = () => {
-  const { userLogin, createUser, userProfileUpdate } = useContext(AuthContext);
+  const { userLogin, createUser, userProfileUpdate, userGoogleSignIn } =
+    useContext(AuthContext);
   const location = useLocation();
   const {
     register,
@@ -40,14 +41,17 @@ const Authentication = () => {
         });
     }
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const name = e.form.name.value;
-  //   const email = e.form.email.value;
-  //   const password = e.form.password.value;
-  //   console.log(user);
-  // };
+
+  // google sign in
+  const handleGoogleSignIn = () => {
+    userGoogleSignIn()
+      .then((res) => {
+        console.log(res.user);
+      })
+      .catch((error) => {
+        console.log(error.code);
+      });
+  };
 
   return (
     <div>
@@ -240,6 +244,7 @@ const Authentication = () => {
                     <button
                       type="submit"
                       class="w-full items-center block px-10 py-3.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                      onClick={handleGoogleSignIn}
                     >
                       <div class="flex items-center justify-center">
                         <GrGoogle />
