@@ -1,22 +1,50 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import { GrGoogle } from "react-icons/gr";
+import { FiAlertOctagon } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthProvider";
 
 const Authentication = () => {
-  const [user, setUser] = useState({});
+  const { userLogin, createUser, userProfileUpdate } = useContext(AuthContext);
   const location = useLocation();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(user);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const onSubmit = (data) => {
+    const { name, mail, password, photoURL } = data;
+    const userProfile = { displayName: name, photoURL: photoURL };
+    // creating user
+    if (location.pathname !== "/login") {
+      createUser(mail, password)
+        .then((res) => {
+          userProfileUpdate(userProfile);
+          console.log(res.user);
+        })
+        .catch((error) => {
+          console.log(error.code);
+        });
+    } else {
+      // login user
+      userLogin(mail, password)
+        .then((res) => {
+          console.log(res.user);
+        })
+        .catch((error) => {
+          console.log(error.code);
+        });
+    }
   };
-  const handleInputChange = (e) => {
-    const inputField = e.target.name;
-    const inputValue = e.target.value;
-    const newUser = { ...user };
-    newUser[inputField] = inputValue;
-    setUser(newUser);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const form = e.target;
+  //   const name = e.form.name.value;
+  //   const email = e.form.email.value;
+  //   const password = e.form.password.value;
+  //   console.log(user);
+  // };
 
   return (
     <div>
@@ -38,20 +66,49 @@ const Authentication = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} class="mt-6 space-y-2">
+                <form onSubmit={handleSubmit(onSubmit)} class="mt-6 space-y-2">
                   {location.pathname !== "/login" && (
-                    <div>
-                      <label for="email" class="sr-only">
-                        Your Name
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                        placeholder="Your Name"
-                        onChange={handleInputChange}
-                      />
+                    <div className="flex justify-between gap-3">
+                      <div className="w-1/2">
+                        <label for="email" class="sr-only">
+                          Your Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                          placeholder="Your Name"
+                          {...register("name", { required: true })}
+                          aria-invalid={errors.name ? "true" : "false"}
+                        />
+                        {errors.name?.type === "required" && (
+                          <p role="alert" className="py-2 pb-1 text-red-500">
+                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                            Your name is required
+                          </p>
+                        )}
+                      </div>
+                      <div className="w-1/2">
+                        <label for="photoURL" class="sr-only">
+                          Your photoURL
+                        </label>
+                        <input
+                          type="text"
+                          name="photoURL"
+                          id="photoURL"
+                          class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                          placeholder="Your photoURL"
+                          {...register("photoURL", { required: true })}
+                          aria-invalid={errors.photoURL ? "true" : "false"}
+                        />
+                        {errors.photoURL?.type === "required" && (
+                          <p role="alert" className="py-2 pb-1 text-red-500">
+                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                            Your photoURL is required
+                          </p>
+                        )}
+                      </div>
                     </div>
                   )}
                   <div>
@@ -64,8 +121,29 @@ const Authentication = () => {
                       id="email"
                       class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                       placeholder="Enter your email"
-                      onChange={handleInputChange}
+                      {...register("mail", {
+                        required: "Email Address is required",
+                        validate: {
+                          emailValidation: (value) =>
+                            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                              value
+                            ) === true,
+                        },
+                      })}
+                      aria-invalid={errors.mail ? "true" : "false"}
                     />
+                    {errors.mail && (
+                      <p role="alert" className="py-2 pb-1 text-red-500">
+                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />
+                        {errors.mail?.message}
+                      </p>
+                    )}
+                    {errors.mail && errors.mail.type === "emailValidation" && (
+                      <p className="py-1 pb-1 text-red-500 flex items-center">
+                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                        Your email is invalid
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label for="password" class="sr-only">
@@ -77,8 +155,54 @@ const Authentication = () => {
                       id="password"
                       class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                       placeholder="Enter your password"
-                      onChange={handleInputChange}
+                      {...register("password", {
+                        required: "Password is required",
+                        validate: {
+                          positiveNumber: (value) =>
+                            /[0-9]/g.test(value) === true,
+                          graterThanSeven: (value) => value.length >= 6,
+                          aCapitalLetter: (value) =>
+                            /[A-Z]/g.test(value) === true,
+                          aSmallLetter: (value) =>
+                            /[a-z]/g.test(value) === true,
+                        },
+                      })}
+                      aria-invalid={errors.password ? "true" : "false"}
                     />
+                    {errors.password && (
+                      <p role="alert" className="py-2 pb-1 text-red-500">
+                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />
+                        {errors.password?.message}
+                      </p>
+                    )}
+                    {errors.password &&
+                      errors.password.type === "positiveNumber" && (
+                        <p className="py-1 pb-1 text-red-500 flex items-center">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                          Your password conatain at least One Number
+                        </p>
+                      )}
+                    {errors.password &&
+                      errors.password.type === "graterThanSeven" && (
+                        <p className="py-1 pb-1 text-red-500 flex items-center">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                          Your password should have 6 character
+                        </p>
+                      )}
+                    {errors.password &&
+                      errors.password.type === "aCapitalLetter" && (
+                        <p className="py-1 pb-1 text-red-500 flex items-center">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                          Password Contain at least One Capital letter.
+                        </p>
+                      )}
+                    {errors.password &&
+                      errors.password.type === "aSmallLetter" && (
+                        <p className="py-1 pb-1 text-red-500 flex items-center">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                          Password Contain at least One Small letter.
+                        </p>
+                      )}
                   </div>
                   <div class="flex flex-col mt-4 lg:space-y-2">
                     <button
@@ -143,8 +267,8 @@ const Authentication = () => {
               </div>
               <div class="order-first hidden w-full lg:block">
                 <img
-                  class="object-cover h-full bg-cover rounded-l-lg"
-                  src="https://images.unsplash.com/photo-1491933382434-500287f9b54b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1000&amp;q=80"
+                  class="object-cover h-full bg-cover mx-auto rounded-l-lg"
+                  src="https://img.freepik.com/free-vector/sign-page-abstract-concept-illustration_335657-3875.jpg?w=360&t=st=1667327003~exp=1667327603~hmac=473702c48387fdaa820e05b4e774f9185c9c74e1a994ec0e26ea43d96d0bad5d"
                   alt=""
                 />
               </div>

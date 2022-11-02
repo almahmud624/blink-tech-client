@@ -5,13 +5,9 @@ import { ProductDataContext } from "../../Context/ProductData";
 
 const Promotion = () => {
   const { products } = useContext(ProductDataContext);
-  console.log(products);
-
   const hotProduct = products.find(
     (product) => product._id === "6360e169ae4a166c4a9d470e"
   );
-  console.log(hotProduct);
-
   return (
     <div>
       <div className="hero">
@@ -23,7 +19,7 @@ const Promotion = () => {
           <div className="p-5 py-12 bg-indigo-100 dark:bg-indigo-900">
             <h5 className="font-medium text-indigo-400 mb-2 pr-2 inline-block border-r-4 border-b-4 rounded-lg border-indigo-400">
               Hot Hot <IoFlameSharp className="inline-block text-red-500" />{" "}
-              Save {hotProduct.discount}%
+              Save {hotProduct?.discount}%
             </h5>
             <h1 className="text-5xl font-bold">
               {hotProduct?.productName}{" "}
@@ -37,7 +33,7 @@ const Promotion = () => {
               <span className="text-2xl ml-2">
                 $
                 {Math.round(
-                  hotProduct?.productPrice * (hotProduct.discount / 100)
+                  hotProduct?.productPrice * (hotProduct?.discount / 100)
                 )}
               </span>
             </div>

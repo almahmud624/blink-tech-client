@@ -5,14 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "react-hot-toast";
 import ProductData from "./Context/ProductData";
+import AuthProvider from "./Context/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <ProductData>
-      <Toaster />
-      <App />
-    </ProductData>
+    <AuthProvider>
+      <ProductData>
+        <Toaster />
+        <App />
+      </ProductData>
+    </AuthProvider>
   </React.StrictMode>
 );
 

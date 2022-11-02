@@ -5,8 +5,6 @@ import Navbar from "../Pages/Shared/Navbar";
 
 const Main = () => {
   const [modeTheme, setModeTheme] = useState("night");
-  console.log(modeTheme);
-
   return (
     <div data-theme={modeTheme}>
       <Navbar setModeTheme={setModeTheme} />
