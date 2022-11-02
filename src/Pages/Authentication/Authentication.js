@@ -243,7 +243,7 @@ const Authentication = () => {
                   <div>
                     <button
                       type="submit"
-                      class="w-full items-center block px-10 py-3.5 text-base font-medium text-center text-blue-600 transition duration-500 ease-in-out transform border-2 border-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                      class="w-full items-center block px-10 py-3 text-base font-medium text-center text-indigo-900 transition bg-indigo-300 duration-500 ease-in-out transform border-2 border-indigo-400 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                       onClick={handleGoogleSignIn}
                     >
                       <div class="flex items-center justify-center">
@@ -262,7 +262,7 @@ const Authentication = () => {
                       </span>
                     </div>
                   ) : (
-                    <div className="mt-7 text-center text-gray-500 text-sm">
+                    <div className="mt-7 pb-5 text-center text-gray-500 text-sm">
                       <span>
                         You didn't have an account?{" "}
                         <Link to="/register" className="text-indigo-400">

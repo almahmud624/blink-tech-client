@@ -1,204 +1,220 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { FiAlertOctagon } from "react-icons/fi";
+import { useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../Context/AuthProvider";
 
 const CheckOut = () => {
+  const product = useLoaderData();
+  const { _id, productName, productPrice, imgURL, category } = product;
+  const { user } = useContext(AuthContext);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const onSubmit = (customer, e) => {
+    const order = {
+      productId: _id,
+      productName,
+      productPrice,
+      customer: {
+        ...customer,
+      },
+    };
+    fetch("http://localhost:4000/orders", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data.acknowledged &&
+          toast.success(`${customer.name}, Your Order Successfully Placed.`);
+        e.target.reset();
+      });
+
+    // creating user
+  };
+
   return (
     <div>
-      <div class="relative mx-auto w-full bg-white">
-        <div class="grid min-h-screen grid-cols-10">
-          <div class="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24">
-            <div class="mx-auto w-full max-w-lg">
-              <h1 class="relative text-2xl font-medium text-gray-700 sm:text-3xl">
+      <div className="relative mx-auto w-full bg-white">
+        <div className="grid min-h-screen grid-cols-10">
+          <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24">
+            <div className="mx-auto w-full max-w-lg">
+              <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
                 Secure Checkout
-                <span class="mt-2 block h-1 w-10 bg-teal-600 sm:w-20"></span>
+                <span className="mt-2 block h-1 w-10 bg-teal-600 sm:w-20"></span>
               </h1>
-              <form action="" class="mt-10 flex flex-col space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} class="mt-6 space-y-2">
+                <div className="flex justify-between gap-3">
+                  <div className="w-full">
+                    <label for="email" class="sr-only">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      placeholder="Your Name"
+                      {...register("name", { required: true })}
+                      aria-invalid={errors.name ? "true" : "false"}
+                    />
+                    {errors.name?.type === "required" && (
+                      <p role="alert" className="py-2 pb-1 text-red-500">
+                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                        Your name is required
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full">
+                  <label for="phone" class="sr-only">
+                    Your Phone
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    placeholder="Your Phone"
+                    {...register("phone", { required: true })}
+                    aria-invalid={errors.phone ? "true" : "false"}
+                  />
+                  {errors.phone?.type === "required" && (
+                    <p role="alert" className="py-2 pb-1 text-red-500">
+                      <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                      Phone Number required
+                    </p>
+                  )}
+                </div>
                 <div>
-                  <label
-                    for="email"
-                    class="text-xs font-semibold text-gray-500"
-                  >
+                  <label for="email" class="sr-only">
                     Email
                   </label>
                   <input
-                    type="email"
-                    id="email"
+                    type="text"
                     name="email"
-                    placeholder="john.capler@fang.com"
-                    class="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-sm placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
+                    id="email"
+                    class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    placeholder="Enter your email"
+                    readOnly
+                    defaultValue={user?.email}
+                    {...register("mail", {
+                      required: "Email Address is required",
+                    })}
                   />
                 </div>
-                <div class="relative">
-                  <label
-                    for="card-number"
-                    class="text-xs font-semibold text-gray-500"
+                <div>
+                  <label for="message" class="sr-only">
+                    Your Message
+                  </label>
+                  <textarea
+                    name="message"
+                    id="message"
+                    class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    placeholder="Your Message"
+                    defaultValue={user?.message}
+                    {...register("message")}
+                  />
+                </div>
+
+                <div class="flex flex-col mt-4 lg:space-y-2">
+                  <button
+                    type="submit"
+                    class="flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
-                    Card number
-                  </label>
-                  <input
-                    type="text"
-                    id="card-number"
-                    name="card-number"
-                    placeholder="1234-5678-XXXX-XXXX"
-                    class="block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 pr-10 text-sm placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
-                  />
-                  <img
-                    src="/images/uQUFIfCYVYcLK0qVJF5Yw.png"
-                    alt=""
-                    class="absolute bottom-3 right-3 max-h-4"
-                  />
-                </div>
-                <div>
-                  <p class="text-xs font-semibold text-gray-500">
-                    Expiration date
-                  </p>
-                  <div class="mr-6 flex flex-wrap">
-                    <div class="my-1">
-                      <label for="month" class="sr-only">
-                        Select expiration month
-                      </label>
-                      <select
-                        name="month"
-                        id="month"
-                        class="cursor-pointer rounded border-gray-300 bg-gray-50 py-3 px-2 text-sm shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
-                      >
-                        <option value="">Month</option>
-                      </select>
-                    </div>
-                    <div class="my-1 ml-3 mr-6">
-                      <label for="year" class="sr-only">
-                        Select expiration year
-                      </label>
-                      <select
-                        name="year"
-                        id="year"
-                        class="cursor-pointer rounded border-gray-300 bg-gray-50 py-3 px-2 text-sm shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
-                      >
-                        <option value="">Year</option>
-                      </select>
-                    </div>
-                    <div class="relative my-1">
-                      <label for="security-code" class="sr-only">
-                        Security code
-                      </label>
-                      <input
-                        type="text"
-                        id="security-code"
-                        name="security-code"
-                        placeholder="Security code"
-                        class="block w-36 rounded border-gray-300 bg-gray-50 py-3 px-4 text-sm placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <label for="card-name" class="sr-only">
-                    Card name
-                  </label>
-                  <input
-                    type="text"
-                    id="card-name"
-                    name="card-name"
-                    placeholder="Name on the card"
-                    class="mt-1 block w-full rounded border-gray-300 bg-gray-50 py-3 px-4 text-sm placeholder-gray-300 shadow-sm outline-none transition focus:ring-2 focus:ring-teal-500"
-                  />
+                    Order Now
+                  </button>
                 </div>
               </form>
-              <p class="mt-10 text-center text-sm font-semibold text-gray-500">
+              <p className="mt-10 text-center text-sm font-semibold text-gray-500">
                 By placing this order you agree to the{" "}
                 <a
                   href="#"
-                  class="whitespace-nowrap text-teal-400 underline hover:text-teal-600"
+                  className="whitespace-nowrap text-teal-400 underline hover:text-teal-600"
                 >
                   Terms and Conditions
                 </a>
               </p>
               <button
                 type="submit"
-                class="mt-4 inline-flex w-full items-center justify-center rounded bg-teal-600 py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg"
+                className="mt-4 inline-flex w-full items-center justify-center rounded bg-teal-600 py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg"
               >
                 Place Order
               </button>
             </div>
           </div>
-          <div class="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
-            <h2 class="sr-only">Order summary</h2>
+          <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
+            <h2 className="sr-only">Order summary</h2>
             <div>
               <img
                 src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
                 alt=""
-                class="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
               />
-              <div class="absolute inset-0 h-full w-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
+              <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
             </div>
-            <div class="relative">
-              <ul class="space-y-5">
-                <li class="flex justify-between">
-                  <div class="inline-flex">
+            <div className="relative">
+              <ul className="space-y-5">
+                <li className="flex justify-between">
+                  <div className="inline-flex">
                     <img
-                      src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                      src={imgURL}
                       alt=""
-                      class="max-h-16"
+                      className="max-h-16 bg-indigo-50 rounded-sm"
                     />
-                    <div class="ml-3">
-                      <p class="text-base font-semibold text-white">
-                        Nano Titanium Hair Dryer
+                    <div className="ml-3">
+                      <p className="text-base font-semibold text-white">
+                        {productName}
                       </p>
-                      <p class="text-sm font-medium text-white text-opacity-80">
-                        Pdf, doc Kindle
+                      <p className="text-sm font-medium text-white text-opacity-80 capitalize">
+                        {category}
                       </p>
                     </div>
                   </div>
-                  <p class="text-sm font-semibold text-white">$260.00</p>
-                </li>
-                <li class="flex justify-between">
-                  <div class="inline-flex">
-                    <img
-                      src="https://images.unsplash.com/photo-1621607512214-68297480165e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGhhaXIlMjBkcnllcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                      alt=""
-                      class="max-h-16"
-                    />
-                    <div class="ml-3">
-                      <p class="text-base font-semibold text-white">
-                        Luisia H35
-                      </p>
-                      <p class="text-sm font-medium text-white text-opacity-80">
-                        Hair Dryer
-                      </p>
-                    </div>
-                  </div>
-                  <p class="text-sm font-semibold text-white">$350.00</p>
+                  <p className="text-sm font-semibold text-white">
+                    ${productPrice}
+                  </p>
                 </li>
               </ul>
-              <div class="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
-              <div class="space-y-2">
-                <p class="flex justify-between text-lg font-bold text-white">
+              <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
+              <div className="space-y-2">
+                <p className="flex justify-between text-lg font-bold text-white">
                   <span>Total price:</span>
                   <span>$510.00</span>
                 </p>
-                <p class="flex justify-between text-sm font-medium text-white">
+                <p className="flex justify-between text-sm font-medium text-white">
                   <span>Vat: 10%</span>
                   <span>$55.00</span>
                 </p>
               </div>
             </div>
-            <div class="relative mt-10 text-white">
-              <h3 class="mb-5 text-lg font-bold">Support</h3>
-              <p class="text-sm font-semibold">
-                +01 653 235 211 <span class="font-light">(International)</span>
+            <div className="relative mt-10 text-white">
+              <h3 className="mb-5 text-lg font-bold">Support</h3>
+              <p className="text-sm font-semibold">
+                +01 653 235 211{" "}
+                <span className="font-light">(International)</span>
               </p>
-              <p class="mt-1 text-sm font-semibold">
-                support@nanohair.com <span class="font-light">(Email)</span>
+              <p className="mt-1 text-sm font-semibold">
+                support@nanohair.com <span className="font-light">(Email)</span>
               </p>
-              <p class="mt-2 text-xs font-medium">
+              <p className="mt-2 text-xs font-medium">
                 Call us now for payment related issues
               </p>
             </div>
-            <div class="relative mt-10 flex">
-              <p class="flex flex-col">
-                <span class="text-sm font-bold text-white">
+            <div className="relative mt-10 flex">
+              <p className="flex flex-col">
+                <span className="text-sm font-bold text-white">
                   Money Back Guarantee
                 </span>
-                <span class="text-xs font-medium text-white">
+                <span className="text-xs font-medium text-white">
                   within 30 days of purchase
                 </span>
               </p>

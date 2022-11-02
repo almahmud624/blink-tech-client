@@ -5,8 +5,8 @@ import { ProductDataContext } from "../../Context/ProductData";
 
 const Promotion = () => {
   const { products } = useContext(ProductDataContext);
-  const hotProduct = products.find(
-    (product) => product._id === "6360e169ae4a166c4a9d470e"
+  const hotProduct = products?.find(
+    (product) => product?._id === "6360e169ae4a166c4a9d470e"
   );
   return (
     <div>
@@ -15,6 +15,7 @@ const Promotion = () => {
           <img
             src={hotProduct?.imgURL}
             className="max-w-md rounded-lg shadow-2xl"
+            alt=""
           />
           <div className="p-5 py-12 bg-indigo-100 dark:bg-indigo-900">
             <h5 className="font-medium text-indigo-400 mb-2 pr-2 inline-block border-r-4 border-b-4 rounded-lg border-indigo-400">
