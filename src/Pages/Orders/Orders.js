@@ -3,6 +3,7 @@ import { AuthContext } from "../../Context/AuthProvider";
 import { FiAlertOctagon, FiEdit, FiTrash } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { ProductDataContext } from "../../Context/ProductData";
 
 const Orders = () => {
   const { user } = useContext(AuthContext);
@@ -11,7 +12,7 @@ const Orders = () => {
 
   // cancel order
   const handleDelete = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -25,7 +26,7 @@ const Orders = () => {
 
   // order status update
   const handleUpdateStatus = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -34,12 +35,20 @@ const Orders = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.modifiedCount > 0) {
+          let updatedStatus = [...orders];
+          updatedStatus[
+            updatedStatus
+              .map((v, i) => [i, v])
+              .filter((v) => v[1]._id === id)[0][0]
+          ]["status"] = "approved";
+          setOrders(updatedStatus);
+        }
       });
   };
 
   useEffect(() => {
-    fetch(`http://localhost:4000/orders?email=${user?.email}`)
+    fetch(`https://blink-tech-server.vercel.app/orders?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setOrders(data);
@@ -105,9 +114,9 @@ const Orders = () => {
                   </td>
                   <td className="">
                     <div className="avatar flex items-center">
-                      <div className="w-8 rounded ml-6">
+                      <div className="w-8 rounded ml-6 bg-slate-300">
                         <img
-                          src="https://placeimg.com/192/192/people"
+                          src={order?.orderInfo?.imgURL}
                           alt="Tailwind-CSS-Avatar-component"
                         />
                       </div>
