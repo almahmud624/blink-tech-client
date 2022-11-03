@@ -1,16 +1,16 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { DataContext } from "../../../Context/DataProvider";
 
-const AddProduct = ({ updateId }) => {
+const AddProduct = ({ updateId, setModal }) => {
   const { products, setProducts } = useContext(DataContext);
   const [trending, setTrending] = useState(false);
   const [promoted, setPromoted] = useState(false);
   const location = useLocation();
-  console.log(updateId);
   const [product, setProduct] = useState({});
   const nameRef = useRef();
+  console.log(updateId);
 
   // get input value
   const handleInputChange = (e) => {
@@ -53,6 +53,7 @@ const AddProduct = ({ updateId }) => {
         .then((data) => {
           if (data.acknowledged) {
             toast.success("Data Updated");
+            setModal(false);
           }
         });
       const updatedProducts = [...products];
@@ -63,9 +64,28 @@ const AddProduct = ({ updateId }) => {
       ] = product;
       setProducts(updatedProducts);
     }
-
+    setProduct("");
     e.target.reset();
   };
+
+  // get single product
+  useEffect(() => {
+    let isUpdate = false;
+    fetch(`https://blink-tech-server.vercel.app/products/${updateId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isUpdate) {
+          setProduct(data);
+          console.log(data);
+        }
+      });
+
+    // return a clean up function
+    return () => {
+      // clear something from the previous effect
+      isUpdate = true;
+    };
+  }, [updateId]);
 
   return (
     <div>

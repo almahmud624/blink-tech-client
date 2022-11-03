@@ -7,6 +7,7 @@ import AddProduct from "../AddProduct/AddProduct";
 const AllProduct = () => {
   const { products, setProducts } = useContext(DataContext);
   const [updateDeleteId, setUpdateDeleteId] = useState("");
+  const [modal, setModal] = useState(false);
 
   // Product Delete
   const handleDelete = (id) => {
@@ -23,8 +24,11 @@ const AllProduct = () => {
     setProducts(restProduct);
   };
 
-  // Product Update
-  const handleUpdate = (id) => {};
+  const handleModalUpdateId = (id) => {
+    setUpdateDeleteId(id);
+    setModal(true);
+  };
+
   return (
     <div>
       <link
@@ -92,7 +96,7 @@ const AllProduct = () => {
                       <button className="text-gray-400 hover:text-gray-100">
                         <label
                           htmlFor="my-modal-5"
-                          onClick={() => setUpdateDeleteId(product?._id)}
+                          onClick={() => handleModalUpdateId(product?._id)}
                           className="btn text-lg p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none text-gray-400 hover:text-gray-100"
                         >
                           <FiEdit />
@@ -131,12 +135,18 @@ const AllProduct = () => {
       </div>
       {/* update modal */}
       <input type="checkbox" id="my-modal-5" className="modal-toggle" />
-      <div className="modal modal-bottom sm:modal-middle backdrop-brightness-50 ">
+      <div
+        className={`${
+          modal
+            ? "modal modal-bottom sm:modal-middle backdrop-brightness-50"
+            : "modal modal-bottom sm:modal-middle backdrop-brightness-50 hidden"
+        }`}
+      >
         <div
           className="modal-box dark:bg-gray-800"
           style={{ maxWidth: "48rem" }}
         >
-          <AddProduct updateId={updateDeleteId} />
+          <AddProduct updateId={updateDeleteId} setModal={setModal} />
           <div className="modal-action">
             <label
               // onClick={() => handleDelete(updateDeleteId)}
