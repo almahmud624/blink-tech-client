@@ -7,14 +7,14 @@ import { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Zoom } from "react-toastify";
-import ProductData from "./Context/ProductData";
 import AuthProvider from "./Context/AuthProvider";
+import DataProvider from "./Context/DataProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <ProductData>
+      <DataProvider>
         <ToastContainer
           position="top-center"
           effect="zoom"
@@ -23,7 +23,7 @@ root.render(
         />
         <Toaster />
         <App />
-      </ProductData>
+      </DataProvider>
     </AuthProvider>
   </React.StrictMode>
 );

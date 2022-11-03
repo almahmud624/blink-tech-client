@@ -7,10 +7,11 @@ import "swiper/css/effect-fade";
 import "./Carousel.css";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { ProductDataContext } from "../../Context/ProductData";
+import { DataContext } from "../../Context/DataProvider";
 
 const Carousel = () => {
-  const { products } = useContext(ProductDataContext);
+  const { products } = useContext(DataContext);
+
   const promotedProduct = products?.filter(
     (product) => product.isPromoted === true
   );

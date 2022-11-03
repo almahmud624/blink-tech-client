@@ -8,15 +8,14 @@ const Orders = () => {
   const { user } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [deleteId, setDeleteId] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState();
   const [size, setSize] = useState(5);
   const [page, setPage] = useState(0);
   const pages = Math.ceil(count / size);
-  console.log([...Array(page).keys()]);
 
   // cancel order
   const handleDelete = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -30,7 +29,7 @@ const Orders = () => {
 
   // order status update
   const handleUpdateStatus = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -53,7 +52,7 @@ const Orders = () => {
 
   // load orders by email
   useEffect(() => {
-    fetch(`http://localhost:4000/orders?email=${user?.email}`)
+    fetch(`https://blink-tech-server.vercel.app/orders?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setOrders(data.orders);
@@ -63,7 +62,9 @@ const Orders = () => {
 
   // pagination
   useEffect(() => {
-    fetch(`http://localhost:4000/orders?page=${page}&size=${size}`)
+    fetch(
+      `https://blink-tech-server.vercel.app/orders?page=${page}&size=${size}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setCount(data.count);
@@ -166,7 +167,6 @@ const Orders = () => {
                     </label>
                     <label
                       htmlFor="my-modal-6"
-                      onClick={() => setDeleteId(order?._id)}
                       className="ml-3 text-lg btn p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none"
                     >
                       <FiEdit />
@@ -192,9 +192,9 @@ const Orders = () => {
                     fill="currentColor"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </button>
@@ -221,9 +221,9 @@ const Orders = () => {
                     fill="currentColor"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </button>
@@ -231,7 +231,7 @@ const Orders = () => {
               <select
                 id="countries"
                 onChange={(e) => setSize(e.target.value)}
-                class="bg-gray-50 border border-gray-100 text-gray-900 text-sm rounded focus:ring-indigo-500 focus:border-indigo-500 p-1 py-1 dark:bg-indigo-500 dark:border-indigo-300 dark:placeholder-gray-700 dark:text-white cursor-pointer dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                className="bg-gray-50 border border-gray-100 text-gray-900 text-sm rounded focus:ring-indigo-500 focus:border-indigo-500 p-1 py-1 dark:bg-indigo-500 dark:border-indigo-300 dark:placeholder-gray-700 dark:text-white cursor-pointer dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
               >
                 <option selected="" value="5">
                   5

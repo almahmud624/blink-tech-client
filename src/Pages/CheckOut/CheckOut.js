@@ -53,17 +53,20 @@ const CheckOut = () => {
                 Secure Checkout
                 <span className="mt-2 block h-1 w-10 bg-teal-600 sm:w-20"></span>
               </h1>
-              <form onSubmit={handleSubmit(onSubmit)} class="mt-6 space-y-2">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mt-6 space-y-2"
+              >
                 <div className="flex justify-between gap-3">
                   <div className="w-full">
-                    <label for="email" class="sr-only">
+                    <label for="email" className="sr-only">
                       Your Name
                     </label>
                     <input
                       type="text"
                       name="name"
                       id="name"
-                      class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                      className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                       placeholder="Your Name"
                       {...register("name", { required: true })}
                       aria-invalid={errors.name ? "true" : "false"}
@@ -77,14 +80,14 @@ const CheckOut = () => {
                   </div>
                 </div>
                 <div className="w-full">
-                  <label for="phone" class="sr-only">
+                  <label for="phone" className="sr-only">
                     Your Phone
                   </label>
                   <input
                     type="text"
                     name="phone"
                     id="phone"
-                    class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     placeholder="Your Phone"
                     {...register("phone", { required: true })}
                     aria-invalid={errors.phone ? "true" : "false"}
@@ -97,14 +100,14 @@ const CheckOut = () => {
                   )}
                 </div>
                 <div>
-                  <label for="email" class="sr-only">
+                  <label for="email" className="sr-only">
                     Email
                   </label>
                   <input
                     type="text"
                     name="email"
                     id="email"
-                    class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     placeholder="Enter your email"
                     defaultValue={user?.email}
                     {...register("mail", {
@@ -113,23 +116,23 @@ const CheckOut = () => {
                   />
                 </div>
                 <div>
-                  <label for="message" class="sr-only">
+                  <label for="message" className="sr-only">
                     Your Message
                   </label>
                   <textarea
                     name="message"
                     id="message"
-                    class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     placeholder="Your Message"
                     defaultValue={user?.message}
                     {...register("message")}
                   />
                 </div>
 
-                <div class="flex flex-col mt-4 lg:space-y-2">
+                <div className="flex flex-col mt-4 lg:space-y-2">
                   <button
                     type="submit"
-                    class="flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
                     Order Now
                   </button>

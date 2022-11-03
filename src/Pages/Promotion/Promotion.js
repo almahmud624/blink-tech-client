@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { IoFlameSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { ProductDataContext } from "../../Context/ProductData";
+import { DataContext } from "../../Context/DataProvider";
 
 const Promotion = () => {
-  const { products } = useContext(ProductDataContext);
+  const { products } = useContext(DataContext);
   const hotProduct = products?.find(
-    (product) => product?._id === "6360e169ae4a166c4a9d470e"
+    (product) => product?._id === "6363b42dc0b4a5b15e8e50fd"
   );
   return (
     <div>

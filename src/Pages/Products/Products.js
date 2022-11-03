@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { ProductDataContext } from "../../Context/ProductData";
+import { DataContext } from "../../Context/DataProvider";
 import Product from "../Product/Product";
 
 const Products = () => {
-  const { products } = useContext(ProductDataContext);
+  const { products } = useContext(DataContext);
 
   return (
     <div className="">

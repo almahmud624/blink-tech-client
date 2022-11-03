@@ -24,7 +24,7 @@ const Navbar = ({ setModeTheme }) => {
                 </Link>
               </li>
               <li>
-                <Link to="/add-products">All Products</Link>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
             </ul>
           </div>
@@ -46,7 +46,7 @@ const Navbar = ({ setModeTheme }) => {
               <Link to="/products">Products</Link>
             </li>
             <li>
-              <Link to="/add-products">All Products</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
 
             {!user?.uid ? (
