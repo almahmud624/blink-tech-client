@@ -11,7 +11,7 @@ const AllProduct = () => {
 
   // Product Delete
   const handleDelete = (id) => {
-    fetch(`https://blink-tech-server.vercel.app/products/${id}`, {
+    fetch(`http://localhost:4000/products/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -147,7 +147,7 @@ const AllProduct = () => {
           style={{ maxWidth: "48rem" }}
         >
           <AddProduct updateId={updateDeleteId} setModal={setModal} />
-          <div className="modal-action">
+          {/* <div className="modal-action">
             <label
               // onClick={() => handleDelete(updateDeleteId)}
               htmlFor="my-modal-5"
@@ -161,7 +161,7 @@ const AllProduct = () => {
             >
               Cancel
             </label>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

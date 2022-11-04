@@ -2,14 +2,16 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GrGoogle } from "react-icons/gr";
 import { FiAlertOctagon } from "react-icons/fi";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthProvider";
 
 const Authentication = () => {
-  const { userLogin, createUser, userProfileUpdate, userGoogleSignIn } =
+  const { userLogin, createUser, userProfileUpdate, user, userGoogleSignIn } =
     useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
   const {
     register,
     formState: { errors },
@@ -31,13 +33,31 @@ const Authentication = () => {
         });
     } else {
       // login user
+      const userEmail = {
+        email: user?.email || mail,
+      };
+      console.log(userEmail);
+
       userLogin(mail, password)
         .then((res) => {
-          toast.success("Login is Successful");
-          console.log(res.user);
+          fetch("http://localhost:4000/jwt", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(userEmail),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              localStorage.setItem("blink-token", data.token);
+            });
+
+          // toast.success("Login is Successful");
+          navigate(from, { replace: true });
         })
         .catch((error) => {
-          console.log(error.code);
+          toast.error(error.code);
         });
     }
   };
@@ -46,7 +66,7 @@ const Authentication = () => {
   const handleGoogleSignIn = () => {
     userGoogleSignIn()
       .then((res) => {
-        console.log(res.user);
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error.code);

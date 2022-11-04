@@ -19,13 +19,26 @@ const Navbar = ({ setModeTheme }) => {
                 <Link to="">Home</Link>
               </li>
               <li tabIndex={0}>
-                <Link to="/products" className="justify-between">
-                  Products
-                </Link>
+                <Link to="/products">Products</Link>
               </li>
               <li>
                 <Link to="/dashboard">Dashboard</Link>
               </li>
+
+              {!user?.uid ? (
+                <>
+                  <li>
+                    <Link to="/register">Sign Up</Link>
+                  </li>
+                  <li>
+                    <Link to="/login">Sign In</Link>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link to="/orders">Orders</Link>
+                </li>
+              )}
             </ul>
           </div>
           <Link

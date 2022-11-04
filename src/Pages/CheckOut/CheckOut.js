@@ -109,6 +109,7 @@ const CheckOut = () => {
                     id="email"
                     className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                     placeholder="Enter your email"
+                    readOnly
                     defaultValue={user?.email}
                     {...register("mail", {
                       required: "Email Address is required",
@@ -138,21 +139,6 @@ const CheckOut = () => {
                   </button>
                 </div>
               </form>
-              <p className="mt-10 text-center text-sm font-semibold text-gray-500">
-                By placing this order you agree to the{" "}
-                <a
-                  href="#"
-                  className="whitespace-nowrap text-teal-400 underline hover:text-teal-600"
-                >
-                  Terms and Conditions
-                </a>
-              </p>
-              <button
-                type="submit"
-                className="mt-4 inline-flex w-full items-center justify-center rounded bg-teal-600 py-2.5 px-4 text-base font-semibold tracking-wide text-white text-opacity-80 outline-none ring-offset-2 transition hover:text-opacity-100 focus:ring-2 focus:ring-teal-500 sm:text-lg"
-              >
-                Place Order
-              </button>
             </div>
           </div>
           <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">

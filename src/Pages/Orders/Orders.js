@@ -15,7 +15,7 @@ const Orders = () => {
 
   // cancel order
   const handleDelete = (id) => {
-    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
+    fetch(`http://localhost:4000/orders/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -29,7 +29,7 @@ const Orders = () => {
 
   // order status update
   const handleUpdateStatus = (id) => {
-    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
+    fetch(`http://localhost:4000/orders/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -52,9 +52,15 @@ const Orders = () => {
 
   // load orders by email
   useEffect(() => {
-    fetch(`https://blink-tech-server.vercel.app/orders?email=${user?.email}`)
+    fetch(`http://localhost:4000/orders?email=${user?.email}`, {
+      // headers: {
+      //   authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+      // },
+    })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
+
         setOrders(data.orders);
         setCount(data.count);
       });
@@ -62,18 +68,24 @@ const Orders = () => {
 
   // pagination
   useEffect(() => {
-    fetch(
-      `https://blink-tech-server.vercel.app/orders?page=${page}&size=${size}`
-    )
+    let unsubscribed = false;
+    fetch(`http://localhost:4000/orders?page=${page}&size=${size}`)
       .then((res) => res.json())
       .then((data) => {
-        setCount(data.count);
-        setOrders(data.orders);
+        if (!unsubscribed) {
+          setCount(data.count);
+          setOrders(data.orders);
+        }
       });
+
+    // cleanup function
+    return () => {
+      unsubscribed = true;
+    };
   }, [page, size]);
   return (
     <div className="my-20 max-w-screen-lg mx-auto">
-      {orders.length > 0 ? (
+      {orders?.length > 0 ? (
         <div className="overflow-x-auto  relative shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -113,7 +125,10 @@ const Orders = () => {
             </thead>
             <tbody>
               {orders?.map((order) => (
-                <tr className="bg-white border-b dark:bg-gray-800 ">
+                <tr
+                  key={Math.random()}
+                  className="bg-white border-b dark:bg-gray-800 "
+                >
                   <td className="p-4 w-4">
                     <div className="flex items-center">
                       {/* <input
@@ -183,7 +198,10 @@ const Orders = () => {
             </p>
             <ol className="flex justify-center gap-1 text-xs font-medium">
               <li>
-                <button className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100">
+                <button
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
+                  onClick={() => setPage(page - 1)}
+                >
                   <span className="sr-only">Prev Page</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +230,10 @@ const Orders = () => {
               ))}
 
               <li>
-                <button className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100">
+                <button
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
+                  onClick={() => setPage(page + 1)}
+                >
                   <span className="sr-only">Next Page</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

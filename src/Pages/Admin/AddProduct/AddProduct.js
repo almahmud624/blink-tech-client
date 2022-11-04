@@ -10,7 +10,6 @@ const AddProduct = ({ updateId, setModal }) => {
   const location = useLocation();
   const [product, setProduct] = useState({});
   const nameRef = useRef();
-  console.log(updateId);
 
   // get input value
   const handleInputChange = (e) => {
@@ -27,7 +26,7 @@ const AddProduct = ({ updateId, setModal }) => {
   const handleSend = (e) => {
     e.preventDefault();
     if (!updateId) {
-      fetch("https://blink-tech-server.vercel.app/products", {
+      fetch("http://localhost:4000/products", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -39,10 +38,11 @@ const AddProduct = ({ updateId, setModal }) => {
           const newProduct = [...products, data];
           setProducts(newProduct);
           toast.success("Data Uploaded Successfully");
+          e.target.reset();
         });
     } else {
       // update product
-      fetch(`https://blink-tech-server.vercel.app/products/${updateId}`, {
+      fetch(`http://localhost:4000/products/${updateId}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -64,19 +64,17 @@ const AddProduct = ({ updateId, setModal }) => {
       ] = product;
       setProducts(updatedProducts);
     }
-    setProduct("");
-    e.target.reset();
+    // setProduct({});
   };
 
   // get single product
   useEffect(() => {
     let isUpdate = false;
-    fetch(`https://blink-tech-server.vercel.app/products/${updateId}`)
+    fetch(`http://localhost:4000/products/${updateId}`)
       .then((res) => res.json())
       .then((data) => {
         if (!isUpdate) {
           setProduct(data);
-          console.log(data);
         }
       });
 
@@ -203,7 +201,6 @@ const AddProduct = ({ updateId, setModal }) => {
                     <option disabled selected>
                       {product?.category ? product?.category : "Product"}
                     </option>
-                    <option>computer</option>
                     <option>laptop</option>
                     <option>headphone</option>
                     <option>audio</option>
@@ -213,6 +210,7 @@ const AddProduct = ({ updateId, setModal }) => {
                     <option>iphone&ipad</option>
                     <option>tablet</option>
                     <option>watch</option>
+                    <option>others</option>
                   </select>
                 </div>
               </div>
@@ -272,11 +270,31 @@ const AddProduct = ({ updateId, setModal }) => {
             </div>
 
             <div className="flex justify-end mt-6 gap-5">
-              <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
-                Send
-              </button>
+              {location.pathname === "/dashboard/add-products" && (
+                <button className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+                  Send
+                </button>
+              )}
             </div>
           </form>
+          <div className="flex gap-5 justify-end">
+            {updateId && (
+              <>
+                <button
+                  className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+                  onClick={handleSend}
+                >
+                  Update
+                </button>
+                <button
+                  className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-red-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+                  onClick={() => setModal(false)}
+                >
+                  Cancel
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </section>
     </div>

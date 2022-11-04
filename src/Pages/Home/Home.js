@@ -1,7 +1,6 @@
 import React from "react";
 import About from "../About/About";
 import Carousel from "../Carousel/Carousel";
-import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Products from "../Products/Products";
 import Promotion from "../Promotion/Promotion";
 
@@ -11,10 +10,7 @@ const Home = () => {
       <Carousel />
       <About />
       <Promotion />
-      <section className="">
-        <LeftSideBar />
-        <Products />
-      </section>
+      <Products />
     </div>
   );
 };
