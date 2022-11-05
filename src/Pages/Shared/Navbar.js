@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { GrMoon, GrSun, GrTechnology } from "react-icons/gr";
 import { AuthContext } from "../../Context/AuthProvider";
+import { FiMenu } from "react-icons/fi";
 
 const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
@@ -10,7 +11,9 @@ const Navbar = ({ setModeTheme }) => {
       <div className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden"></label>
+            <label tabIndex={0} className="btn btn-ghost lg:hidden">
+              <FiMenu className="text-xl" />
+            </label>
             <ul
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"

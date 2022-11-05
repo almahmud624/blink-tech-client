@@ -19,7 +19,7 @@ const Products = () => {
   return (
     <div className="">
       <LeftSideBar handleProductFilter={handleProductFilter} />
-      <div className="max-w-screen-xl grid grid-cols-3 m-auto">
+      <div className="max-w-screen-xl grid-cols-2 md:grid-cols-2 lg:grid-cols-3 m-auto">
         {filterProducts?.map((product) => (
           <Product key={Math.random()} product={product}></Product>
         ))}

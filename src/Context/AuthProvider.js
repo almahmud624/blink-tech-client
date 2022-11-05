@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
 
   // user sign out
   const userSignOut = () => {
+    localStorage.removeItem("blink-token");
     return signOut(auth);
   };
 

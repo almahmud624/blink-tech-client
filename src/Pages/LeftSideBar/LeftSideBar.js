@@ -39,8 +39,8 @@ const LeftSideBar = ({ handleProductFilter }) => {
           />
         </div>
 
-        <div className="flex flex-row justify-between flex-1">
-          <nav className="flex">
+        <div className="flex flex-row  justify-between flex-1">
+          <nav className="flex lg:flex-nowrap flex-wrap justify-center">
             {/* <a
               className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-md dark:bg-gray-800 dark:text-gray-200"
               href="#"

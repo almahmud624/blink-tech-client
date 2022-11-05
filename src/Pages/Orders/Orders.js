@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const Orders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, userSignOut } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [deleteId, setDeleteId] = useState(false);
   const [count, setCount] = useState();
@@ -33,6 +33,7 @@ const Orders = () => {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("blink-token")}`,
       },
       body: JSON.stringify({ status: "approved" }),
     })
@@ -53,18 +54,23 @@ const Orders = () => {
   // load orders by email
   useEffect(() => {
     fetch(`http://localhost:4000/orders?email=${user?.email}`, {
-      // headers: {
-      //   authorization: `Bearer ${localStorage.getItem("blink-token")}`,
-      // },
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+      },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          return userSignOut();
+        }
+        return res.json();
+      })
       .then((data) => {
         console.log(data);
 
         setOrders(data.orders);
         setCount(data.count);
       });
-  }, [user?.email]);
+  }, [user?.email, userSignOut]);
 
   // pagination
   useEffect(() => {

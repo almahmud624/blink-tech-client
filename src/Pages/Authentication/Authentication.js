@@ -40,21 +40,26 @@ const Authentication = () => {
 
       userLogin(mail, password)
         .then((res) => {
+          const user = res.user;
+
+          // get jwt token
+          const currentUser = {
+            email: user.email,
+          };
+          console.log(currentUser);
           fetch("http://localhost:4000/jwt", {
             method: "POST",
             headers: {
               "content-type": "application/json",
             },
-            body: JSON.stringify(userEmail),
+            body: JSON.stringify(currentUser),
           })
             .then((res) => res.json())
             .then((data) => {
               console.log(data);
               localStorage.setItem("blink-token", data.token);
+              navigate(from, { replace: true });
             });
-
-          // toast.success("Login is Successful");
-          navigate(from, { replace: true });
         })
         .catch((error) => {
           toast.error(error.code);
