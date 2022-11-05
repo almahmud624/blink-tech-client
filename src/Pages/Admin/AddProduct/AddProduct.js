@@ -26,7 +26,7 @@ const AddProduct = ({ updateId, setModal }) => {
   const handleSend = (e) => {
     e.preventDefault();
     if (!updateId) {
-      fetch("http://localhost:4000/products", {
+      fetch("https://blink-tech-server.vercel.app/products", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -42,7 +42,7 @@ const AddProduct = ({ updateId, setModal }) => {
         });
     } else {
       // update product
-      fetch(`http://localhost:4000/products/${updateId}`, {
+      fetch(`https://blink-tech-server.vercel.app/products/${updateId}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -70,7 +70,7 @@ const AddProduct = ({ updateId, setModal }) => {
   // get single product
   useEffect(() => {
     let isUpdate = false;
-    fetch(`http://localhost:4000/products/${updateId}`)
+    fetch(`https://blink-tech-server.vercel.app/products/${updateId}`)
       .then((res) => res.json())
       .then((data) => {
         if (!isUpdate) {

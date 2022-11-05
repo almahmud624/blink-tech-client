@@ -26,7 +26,7 @@ const CheckOut = () => {
         category,
       },
     };
-    fetch("http://localhost:4000/orders", {
+    fetch("https://blink-tech-server.vercel.app/orders", {
       method: "POST",
       headers: {
         "content-type": "application/json",

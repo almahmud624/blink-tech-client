@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
           </PrivateRouter>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:4000/products/${params.id}`),
+          fetch(`https://blink-tech-server.vercel.app/products/${params.id}`),
       },
       {
         path: "/dashboard",

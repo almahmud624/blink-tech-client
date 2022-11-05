@@ -15,7 +15,7 @@ const Orders = () => {
 
   // cancel order
   const handleDelete = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -29,7 +29,7 @@ const Orders = () => {
 
   // order status update
   const handleUpdateStatus = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -53,7 +53,7 @@ const Orders = () => {
 
   // load orders by email
   useEffect(() => {
-    fetch(`http://localhost:4000/orders?email=${user?.email}`, {
+    fetch(`https://blink-tech-server.vercel.app/orders?email=${user?.email}`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("blink-token")}`,
       },
@@ -75,7 +75,9 @@ const Orders = () => {
   // pagination
   useEffect(() => {
     let unsubscribed = false;
-    fetch(`http://localhost:4000/orders?page=${page}&size=${size}`)
+    fetch(
+      `https://blink-tech-server.vercel.app/orders?page=${page}&size=${size}`
+    )
       .then((res) => res.json())
       .then((data) => {
         if (!unsubscribed) {
@@ -90,10 +92,10 @@ const Orders = () => {
     };
   }, [page, size]);
   return (
-    <div className="my-20 max-w-screen-lg mx-auto">
+    <div className="my-20 max-w-screen-lg px-4 mx-auto">
       {orders?.length > 0 ? (
         <div className="overflow-x-auto  relative shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  overflow-x-scroll">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="p-4">

@@ -11,7 +11,7 @@ const AllProduct = () => {
 
   // Product Delete
   const handleDelete = (id) => {
-    fetch(`http://localhost:4000/products/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/products/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -38,7 +38,7 @@ const AllProduct = () => {
       <div className="flex items-center justify-center bg-gray-900">
         <div className="col-span-12 w-full">
           <div className="overflow-auto lg:overflow-visible ">
-            <table className="table text-gray-400 border-separate space-y-6 text-sm w-full px-5">
+            <table className="table text-gray-400 border-separate space-y-6 text-sm w-full px-5 overflow-x-auto">
               <thead className="bg-gray-800 text-gray-500">
                 <tr>
                   <th className="p-3">Brand</th>

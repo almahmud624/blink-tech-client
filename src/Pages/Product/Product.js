@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Product = ({ product }) => {
   return (
     <div>
-      <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+      <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md mx-auto">
         <a
           className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
           href=""

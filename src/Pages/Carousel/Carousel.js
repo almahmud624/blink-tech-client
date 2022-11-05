@@ -33,8 +33,8 @@ const Carousel = () => {
       >
         {promotedProduct?.map((items) => (
           <SwiperSlide className="bg-[#DCDDE2]  relative rounded">
-            <div className="relative flex h-screen justify-center items-center space-x-4 px-4">
-              <div className="z-10 w-1/2 px-4">
+            <div className="relative flex h-screen md:flex-row flex-col-reverse justify-center items-center space-x-4 px-4">
+              <div className="z-10 w-full text-center md:text-left md:w-1/2 px-4">
                 <h3 className="text-gray-800  capitalize font-bold text-5xl leading-tight">
                   up to {items?.discount}% off <br></br>
                   <span className="text-indigo-500">{items?.productName}</span>
@@ -51,7 +51,7 @@ const Carousel = () => {
                   Buy Now <IoCartOutline className="inline-block h-5 w-5" />
                 </Link>
               </div>
-              <div className="w-1/2 drop-shadow-2xl ">
+              <div className="w-full md:w-1/2 drop-shadow-2xl ">
                 <img src={items?.imgURL} alt="" className="w-full h-full" />
               </div>
             </div>

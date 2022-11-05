@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { GrGoogle } from "react-icons/gr";
 import { FiAlertOctagon } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthProvider";
+import { setAuthToken } from "../../Utilities/JwtApi";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Authentication = () => {
-  const { userLogin, createUser, userProfileUpdate, user, userGoogleSignIn } =
+  const { userLogin, createUser, userProfileUpdate, user } =
     useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
@@ -43,41 +44,14 @@ const Authentication = () => {
           const user = res.user;
 
           // get jwt token
-          const currentUser = {
-            email: user.email,
-          };
-          console.log(currentUser);
-          fetch("http://localhost:4000/jwt", {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(currentUser),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-              localStorage.setItem("blink-token", data.token);
-              navigate(from, { replace: true });
-            });
+          setAuthToken(user);
+          navigate(from, { replace: true });
         })
         .catch((error) => {
           toast.error(error.code);
         });
     }
   };
-
-  // google sign in
-  const handleGoogleSignIn = () => {
-    userGoogleSignIn()
-      .then((res) => {
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
-  };
-
   return (
     <div>
       <section>
@@ -160,7 +134,7 @@ const Authentication = () => {
                         required: "Email Address is required",
                         validate: {
                           emailValidation: (value) =>
-                            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+                            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
                               value
                             ) === true,
                         },
@@ -268,18 +242,8 @@ const Authentication = () => {
                       </span>
                     </div>
                   </div>
-                  <div>
-                    <button
-                      type="submit"
-                      className="w-full items-center block px-10 py-3 text-base font-medium text-center text-indigo-900 transition bg-indigo-300 duration-500 ease-in-out transform border-2 border-indigo-400 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                      onClick={handleGoogleSignIn}
-                    >
-                      <div className="flex items-center justify-center">
-                        <GrGoogle />
-                        <span className="ml-4"> Log in with Google</span>
-                      </div>
-                    </button>
-                  </div>
+                  <SocialLogin />
+
                   {location.pathname !== "/login" ? (
                     <div className="mt-7 text-center text-gray-500 text-sm">
                       <span>

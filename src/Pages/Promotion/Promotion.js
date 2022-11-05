@@ -14,7 +14,7 @@ const Promotion = () => {
         <div className="hero-content flex-col lg:flex-row justify-between  pt-0">
           <img
             src={hotProduct?.imgURL}
-            className="max-w-md rounded-lg shadow-2xl"
+            className="max-w-md rounded-lg shadow-2xl mt-5 md:mt-0"
             alt=""
           />
           <div className="p-5 py-12 bg-indigo-100 dark:bg-indigo-900">
