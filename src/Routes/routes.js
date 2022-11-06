@@ -10,6 +10,8 @@ import Orders from "../Pages/Orders/Orders";
 import Dashboard from "../Pages/Admin/Dashboard/Dashboard";
 import AllProduct from "../Pages/Admin/AllProduct/AllProduct";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
+import ProductDetails from "../Pages/ProductDetails/ProductDetails";
+import Cart from "../Pages/Cart/Cart";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +29,16 @@ export const router = createBrowserRouter([
       {
         path: "/add-products",
         element: <AddProduct />,
+      },
+      {
+        path: "/product-details/:id",
+        element: <ProductDetails />,
+        loader: ({ params }) =>
+          fetch(`https://blink-tech-server.vercel.app/products/${params.id}`),
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
       {
         path: "/register",

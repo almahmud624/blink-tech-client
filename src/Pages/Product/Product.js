@@ -5,9 +5,9 @@ const Product = ({ product }) => {
   return (
     <div>
       <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md mx-auto">
-        <a
+        <Link
           className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-          href=""
+          to={`/product-details/${product._id}`}
         >
           <img className="object-cover" src={product.imgURL} alt="product" />
           {product?.discount > 0 && (
@@ -15,7 +15,7 @@ const Product = ({ product }) => {
               {product?.discount}% OFF
             </span>
           )}
-        </a>
+        </Link>
         <div className="mt-4 px-5 pb-5">
           <a href="">
             <h5 className="text-xl tracking-tight text-slate-900">
@@ -27,7 +27,8 @@ const Product = ({ product }) => {
               <span className="text-3xl font-bold text-slate-900">
                 $
                 {product?.discount > 0
-                  ? Math.round(
+                  ? product.productPrice -
+                    Math.round(
                       product?.productPrice * (product?.discount / 100)
                     )
                   : product?.productPrice}

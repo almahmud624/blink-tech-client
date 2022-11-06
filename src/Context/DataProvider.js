@@ -4,7 +4,7 @@ export const DataContext = createContext();
 const DataProvider = ({ children }) => {
   const [products, setProducts] = useState();
   const [orders, setOrders] = useState();
-  const [formData, setFormData] = useState({});
+  const [cart, setCart] = useState([]);
 
   // get product data
   useEffect(() => {
@@ -30,8 +30,8 @@ const DataProvider = ({ children }) => {
     setProducts,
     orders,
     setOrders,
-    formData,
-    setFormData,
+    cart,
+    setCart,
   };
   return (
     <DataContext.Provider value={dataCenter}>{children}</DataContext.Provider>

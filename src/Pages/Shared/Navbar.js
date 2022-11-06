@@ -2,10 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { GrMoon, GrSun, GrTechnology } from "react-icons/gr";
 import { AuthContext } from "../../Context/AuthProvider";
-import { FiMenu } from "react-icons/fi";
+import { FiMenu, FiShoppingCart } from "react-icons/fi";
+import { DataContext } from "../../Context/DataProvider";
 
 const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
+  const { cart } = useContext(DataContext);
   return (
     <div className="max-w-screen-xl mx-auto">
       <div className="navbar bg-base-100">
@@ -82,6 +84,18 @@ const Navbar = ({ setModeTheme }) => {
           </ul>
         </div>
         <div className="navbar-end">
+          <Link
+            type="button"
+            className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
+            to="/cart"
+          >
+            <FiShoppingCart className="text-xl" />
+            <span className="sr-only">Notifications</span>
+            <div className="inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900">
+              {cart.length}
+            </div>
+          </Link>
+
           <label className="swap swap-rotate mr-3">
             <input type="checkbox" />
             <GrSun
