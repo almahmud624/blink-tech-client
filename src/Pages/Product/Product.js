@@ -17,11 +17,9 @@ const Product = ({ product }) => {
           )}
         </Link>
         <div className="mt-4 px-5 pb-5">
-          <a href="">
-            <h5 className="text-xl tracking-tight text-slate-900">
-              {product.productName}
-            </h5>
-          </a>
+          <h5 className="text-xl tracking-tight text-slate-900">
+            {product.productName}
+          </h5>
           <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
               <span className="text-3xl font-bold text-slate-900">
@@ -91,8 +89,7 @@ const Product = ({ product }) => {
             </div>
           </div>
           <Link
-            to={`/checkout/${product?._id}`}
-            href="#"
+            to={`/product-details/${product?._id}`}
             className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
           >
             Add to cart

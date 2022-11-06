@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertOctagon } from "react-icons/fi";
-import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/AuthProvider";
+import { DataContext } from "../../Context/DataProvider";
 
 const CheckOut = () => {
-  const product = useLoaderData();
-  const { _id, productName, productPrice, imgURL, category } = product;
+  // const product = useLoaderData();
+  // const { _id, productName, productPrice, imgURL, category } = product;
   const { user } = useContext(AuthContext);
+  const { cart, setCart } = useContext(DataContext);
   const {
     register,
     formState: { errors },
@@ -18,15 +19,16 @@ const CheckOut = () => {
   const onSubmit = (customer, e) => {
     const order = {
       ...customer,
-      orderInfo: {
-        productId: _id,
-        productName,
-        productPrice,
-        imgURL,
-        category,
-      },
+      orderInfo: cart,
+      // orderInfo: {
+      //   productId: _id,
+      //   productName,x`
+      //   productPrice,
+      //   imgURL,
+      //   category,
+      // },
     };
-    fetch("https://blink-tech-server.vercel.app/orders", {
+    fetch("http://localhost:4000/orders", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -38,6 +40,7 @@ const CheckOut = () => {
         data.acknowledged &&
           toast.success(`${customer.name}, Your Order Successfully Placed.`);
         e.target.reset();
+        setCart([]);
       });
 
     // creating user
@@ -153,26 +156,28 @@ const CheckOut = () => {
             </div>
             <div className="relative">
               <ul className="space-y-5">
-                <li className="flex justify-between">
-                  <div className="inline-flex">
-                    <img
-                      src={imgURL}
-                      alt=""
-                      className="max-h-16 bg-indigo-50 rounded-sm"
-                    />
-                    <div className="ml-3">
-                      <p className="text-base font-semibold text-white">
-                        {productName}
-                      </p>
-                      <p className="text-sm font-medium text-white text-opacity-80 capitalize">
-                        {category}
-                      </p>
+                {cart?.map((item) => (
+                  <li key={item?._id} className="flex justify-between">
+                    <div className="inline-flex">
+                      <img
+                        src={item?.imgURL}
+                        alt=""
+                        className="max-h-16 bg-indigo-50 rounded-sm"
+                      />
+                      <div className="ml-3">
+                        <p className="text-base font-semibold text-white">
+                          {item?.productName}
+                        </p>
+                        <p className="text-sm font-medium text-white text-opacity-80 capitalize">
+                          {item?.category}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-sm font-semibold text-white">
-                    ${productPrice}
-                  </p>
-                </li>
+                    <p className="text-sm font-semibold text-white">
+                      ${item?.productPrice}
+                    </p>
+                  </li>
+                ))}
               </ul>
               <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
               <div className="space-y-2">

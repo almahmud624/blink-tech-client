@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { FiTrash } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { DataContext } from "../../Context/DataProvider";
 
 const Cart = () => {
@@ -15,129 +17,89 @@ const Cart = () => {
 
   return (
     <div>
-      <section className=" bg-gray-100 py-12 mb-12 sm:py-16 lg:py-20">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center">
-            <h1 className="text-2xl font-semibold text-gray-900">Your Cart</h1>
-          </div>
-
-          <div className="mx-auto mt-8 max-w-md md:mt-12">
-            <div className="rounded-3xl bg-white shadow-lg">
-              <div className="px-4 py-6 sm:px-8 sm:py-10">
-                <div className="flow-root">
-                  <ul className="-my-8">
-                    {cart.map((item) => (
-                      <li
-                        key={item?._id}
-                        className="flex flex-col space-y-3 py-6 text-left sm:flex-row sm:space-x-5 sm:space-y-0"
-                      >
-                        <div className="shrink-0 relative">
-                          <span className="absolute top-1 left-1 flex h-6 w-6 items-center justify-center rounded-full border bg-white text-sm font-medium text-gray-500 shadow sm:-top-2 sm:-right-2">
-                            {item?.quantity}
-                          </span>
-                          <img
-                            className="h-24 w-24 max-w-full rounded-lg object-cover"
-                            src={item?.imgURL}
-                            alt=""
-                          />
-                        </div>
-
-                        <div className="relative flex flex-1 flex-col justify-between">
-                          <div className="sm:col-gap-5 sm:grid sm:grid-cols-2">
-                            <div className="pr-8 sm:pr-5">
-                              <p className="text-base font-semibold text-gray-900">
-                                {item?.productName}
-                              </p>
-                              <p className="mx-0 mt-1 mb-0 text-sm text-gray-400">
-                                {item?.category}
-                              </p>
-                            </div>
-
-                            <div className="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
-                              <p className="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
-                                ${item?.productPrice}.00
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
-                            <button
-                              type="button"
-                              className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900"
-                              onClick={() => handleRemoveCartItem(item?._id)}
-                            >
-                              <svg
-                                className="h-5 w-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M6 18L18 6M6 6l12 12"
-                                  className=""
-                                ></path>
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <hr className="mx-0 mt-6 mb-0 h-0 border-r-0 border-b-0 border-l-0 border-t border-solid border-gray-300" />
-
-                <div className="mt-6 space-y-3 border-t border-b py-8">
-                  <div className="flex items-center justify-between">
-                    <p className="text-gray-400">Subtotal</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      ${totalPrice}.00
-                    </p>
+      <div className="flex flex-col max-w-xl mx-auto p-6 space-y-4 sm:p-10 dark:bg-gray-900 dark:text-gray-100">
+        <h2 className="text-xl font-semibold">Your cart</h2>
+        <ul className="flex flex-col divide-y divide-gray-700">
+          {cart?.map((item) => (
+            <li className="flex flex-col py-6 sm:flex-row sm:justify-between">
+              <div className="flex w-full space-x-2 sm:space-x-4">
+                <img
+                  className="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500"
+                  src={item?.imgURL}
+                  alt="Polaroid camera"
+                />
+                <div className="flex flex-col justify-between w-full pb-4">
+                  <div className="flex justify-between w-full pb-2 space-x-2">
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-semibold leading-snug sm:pr-8">
+                        {item?.productName}
+                      </h3>
+                      <p className="text-sm dark:text-gray-400">
+                        {item?.category}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-semibold">
+                        {item?.productPrice}$
+                      </p>
+                      {/* <p className="text-sm line-through dark:text-gray-600">
+                        75.50€
+                      </p> */}
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-gray-400">Shipping</p>
-                    <p className="text-lg font-semibold text-gray-900">$8.00</p>
-                  </div>
-                </div>
-                <div className="mt-6 flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">Total</p>
-                  <p className="text-2xl font-semibold text-gray-900">
-                    <span className="text-xs font-normal text-gray-400">$</span>{" "}
-                    {grandTotal}.00
-                  </p>
-                </div>
-
-                <div className="mt-6 text-center">
-                  <button
-                    type="button"
-                    className="group inline-flex w-full items-center justify-center rounded-md bg-orange-500 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
-                  >
-                    Place Order
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
+                  <div className="flex text-sm items-center">
+                    <button
+                      className="flex items-center justify-center bg-red-700  px-4 mr-2 py-2 mb-5 rounded-md transition border text-gray-200"
+                      onClick={() => handleRemoveCartItem(item?._id)}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </button>
+                      <FiTrash />
+                    </button>
+                    <div className="sm:order-1 mb-5 w-10 pl-2">
+                      <div className="mx-auto flex h-8 items-stretch text-gray-600">
+                        <button className="flex items-center justify-center rounded-l-md  px-4 transition border text-gray-200">
+                          -
+                        </button>
+                        <div className="flex w-full items-center justify-center bg-green-700 border-t border-b text-gray-200 px-4 text-xs uppercase transition">
+                          {item?.quantity}
+                        </div>
+                        <button className="flex items-center justify-center rounded-r-md  px-4 transition border text-gray-200">
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </li>
+          ))}
+        </ul>
+        <div className="space-y-1 text-right">
+          <p>
+            Total amount:
+            <span className="font-semibold">{totalPrice} €</span>
+          </p>
+          <p className="text-sm dark:text-gray-400">
+            Not including taxes and shipping costs
+          </p>
         </div>
-      </section>
+        <div className="flex justify-end space-x-4">
+          <Link
+            to="/products"
+            type="button"
+            className="px-6 py-2 border rounded-md dark:border-violet-400"
+          >
+            Back
+            <span className="sr-only sm:not-sr-only">to shop</span>
+          </Link>
+          <Link
+            to="/checkout"
+            type="button"
+            className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400"
+          >
+            <span className="sr-only sm:not-sr-only">Continue to</span>Checkout
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

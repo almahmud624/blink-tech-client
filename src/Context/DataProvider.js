@@ -8,14 +8,14 @@ const DataProvider = ({ children }) => {
 
   // get product data
   useEffect(() => {
-    fetch("https://blink-tech-server.vercel.app/products")
+    fetch("http://localhost:4000/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
 
   // get customer orders data
   useEffect(() => {
-    fetch("https://blink-tech-server.vercel.app/orders")
+    fetch("http://localhost:4000/orders")
       .then((res) => res.json())
       .then((data) => setOrders(data));
   }, []);

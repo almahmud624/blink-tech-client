@@ -11,7 +11,7 @@ const AllProduct = () => {
 
   // Product Delete
   const handleDelete = (id) => {
-    fetch(`https://blink-tech-server.vercel.app/products/${id}`, {
+    fetch(`http://localhost:4000/products/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

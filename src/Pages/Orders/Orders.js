@@ -7,29 +7,45 @@ import { Link } from "react-router-dom";
 const Orders = () => {
   const { user, userSignOut } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
-  const [deleteId, setDeleteId] = useState(false);
+
+  const [deleteId, setDeleteId] = useState();
   const [count, setCount] = useState();
   const [size, setSize] = useState(5);
   const [page, setPage] = useState(0);
   const pages = Math.ceil(count / size);
 
-  // cancel order
-  const handleDelete = (id) => {
-    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
-      method: "DELETE",
+  let restOrder;
+  let v = orders?.find((i) => i._id === "6367f06904314d5bc0f40d17");
+  restOrder = v?.orderInfo?.filter((v) => v._id !== "6363b42dc0b4a5b15e8e50fd");
+  if (restOrder) {
+    v.orderInfo = [...restOrder];
+  }
+
+  console.log([v]);
+
+  // cancel order put method
+  const handleDelete = (orderId, productId) => {
+    fetch(`http://localhost:4000/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ productId: productId }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        toast.success("Order Succssfully Cancelled");
+        if (data.modifiedCount > 0) {
+          toast.success("Order Succssfully Cancelled");
+        }
+        // let restOrder = orders?.filter((order) => order?._id !== id);
+        // setOrders(restOrder);
       });
-    let restOrder = orders?.filter((order) => order?._id !== id);
-    setOrders(restOrder);
   };
 
   // order status update
   const handleUpdateStatus = (id) => {
-    fetch(`https://blink-tech-server.vercel.app/orders/${id}`, {
+    fetch(`http://localhost:4000/orders/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -53,7 +69,7 @@ const Orders = () => {
 
   // load orders by email
   useEffect(() => {
-    fetch(`https://blink-tech-server.vercel.app/orders?email=${user?.email}`, {
+    fetch(`http://localhost:4000/orders?email=${user?.email}`, {
       headers: {
         authorization: `Bearer ${localStorage.getItem("blink-token")}`,
       },
@@ -65,8 +81,6 @@ const Orders = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-
         setOrders(data.orders);
         setCount(data.count);
       });
@@ -75,9 +89,7 @@ const Orders = () => {
   // pagination
   useEffect(() => {
     let unsubscribed = false;
-    fetch(
-      `https://blink-tech-server.vercel.app/orders?page=${page}&size=${size}`
-    )
+    fetch(`http://localhost:4000/orders?page=${page}&size=${size}`)
       .then((res) => res.json())
       .then((data) => {
         if (!unsubscribed) {
@@ -133,13 +145,15 @@ const Orders = () => {
             </thead>
             <tbody>
               {orders?.map((order) => (
-                <tr
-                  key={Math.random()}
-                  className="bg-white border-b dark:bg-gray-800 "
-                >
-                  <td className="p-4 w-4">
-                    <div className="flex items-center">
-                      {/* <input
+                <>
+                  {order?.orderInfo.map((item) => (
+                    <tr
+                      key={Math.random()}
+                      className="bg-white border-b dark:bg-gray-800 "
+                    >
+                      <td className="p-4 w-4">
+                        <div className="flex items-center">
+                          {/* <input
                         id="checkbox-table-1"
                         type="checkbox"
                         className="w-4 h-4 text-indigo-600 bg-gray-100 rounded border-gray-300 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -147,55 +161,55 @@ const Orders = () => {
                       <label for="checkbox-table-1" className="sr-only">
                         checkbox
                       </label> */}
-                    </div>
-                  </td>
-                  <td className="px-0 w-0">
-                    <div className="avatar flex items-center">
-                      <div className="w-8 rounded bg-slate-300">
-                        <img
-                          src={order?.orderInfo?.imgURL}
-                          alt="Tailwind-CSS-Avatar-component"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    {order?.orderInfo?.productName}
-                  </th>
-                  {/* <td className="py-4 px-6">Sliver</td> */}
-                  <td className="py-4 px-6">Laptop</td>
-                  <td className="py-4 px-6">
-                    ${order?.orderInfo?.productPrice}
-                  </td>
-                  <td
-                    onClick={() => handleUpdateStatus(order?._id)}
-                    className={`${
-                      order?.status
-                        ? "py-4 px-6 capitalize cursor-pointer text-green-600"
-                        : "py-4 px-6 capitalize cursor-pointer text-red-600"
-                    }`}
-                  >
-                    {order?.status ? order?.status : "Pending"}
-                  </td>
-                  <td className="py-4 px-6 flex items-center">
-                    <label
-                      htmlFor="my-modal-6"
-                      onClick={() => setDeleteId(order?._id)}
-                      className="btn text-lg p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none"
-                    >
-                      <FiTrash />
-                    </label>
-                    <label
-                      htmlFor="my-modal-6"
-                      className="ml-3 text-lg btn p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none"
-                    >
-                      <FiEdit />
-                    </label>
-                  </td>
-                </tr>
+                        </div>
+                      </td>
+                      <td className="px-0 w-0">
+                        <div className="avatar flex items-center">
+                          <div className="w-8 rounded bg-slate-300">
+                            <img
+                              src={item?.imgURL}
+                              alt="Tailwind-CSS-Avatar-component"
+                            />
+                          </div>
+                        </div>
+                      </td>
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {item.productName}
+                      </th>
+                      {/* <td className="py-4 px-6">Sliver</td> */}
+                      <td className="py-4 px-6">Laptop</td>
+                      <td className="py-4 px-6">${item.productPrice}</td>
+                      <td
+                        onClick={() => handleUpdateStatus(order?._id)}
+                        className={`${
+                          order?.status
+                            ? "py-4 px-6 capitalize cursor-pointer text-green-600"
+                            : "py-4 px-6 capitalize cursor-pointer text-red-600"
+                        }`}
+                      >
+                        {order?.status ? order?.status : "Pending"}
+                      </td>
+                      <td className="py-4 px-6 flex items-center">
+                        <label
+                          htmlFor="my-modal-6"
+                          onClick={() => handleDelete(order?._id, item?._id)}
+                          className="btn text-lg p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none"
+                        >
+                          <FiTrash />
+                        </label>
+                        <label
+                          htmlFor="my-modal-6"
+                          className="ml-3 text-lg btn p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none"
+                        >
+                          <FiEdit />
+                        </label>
+                      </td>
+                    </tr>
+                  ))}
+                </>
               ))}
             </tbody>
           </table>
@@ -292,7 +306,9 @@ const Orders = () => {
           </div>
         </section>
       )}
-      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+
+      {/* Modal */}
+      {/* <input type="checkbox" id="my-modal-6" className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Are You Sure?</h3>
@@ -312,13 +328,13 @@ const Orders = () => {
               Cancel
             </label>
           </div>
-          {/* <div className="modal-action">
+          <div className="modal-action">
             <label htmlFor="my-modal-6" className="modal-toggle">
               Cancel
             </label>
-          </div> */}
+          </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

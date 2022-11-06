@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
         path: "/product-details/:id",
         element: <ProductDetails />,
         loader: ({ params }) =>
-          fetch(`https://blink-tech-server.vercel.app/products/${params.id}`),
+          fetch(`http://localhost:4000/products/${params.id}`),
       },
       {
         path: "/cart",
@@ -57,14 +57,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/checkout/:id",
+        path: "/checkout",
         element: (
           <PrivateRouter>
             <CheckOut />
           </PrivateRouter>
         ),
-        loader: ({ params }) =>
-          fetch(`https://blink-tech-server.vercel.app/products/${params.id}`),
+        // loader: ({ params }) =>
+        //   fetch(`http://localhost:4000/products/${params.id}`),
       },
       {
         path: "/dashboard",

@@ -3,7 +3,7 @@ export const setAuthToken = (user) => {
     email: user.email,
   };
   console.log(currentUser);
-  fetch("https://blink-tech-server.vercel.app/jwt", {
+  fetch("http://localhost:4000/jwt", {
     method: "POST",
     headers: {
       "content-type": "application/json",
