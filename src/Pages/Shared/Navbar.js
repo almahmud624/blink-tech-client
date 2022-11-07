@@ -9,7 +9,7 @@ const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
   const { cart } = useContext(DataContext);
   return (
-    <div className="max-w-screen-xl mx-auto">
+    <div className="max-w-screen-xl mx-auto sticky top-0 left-0 bg-base-100 z-40">
       <div className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">

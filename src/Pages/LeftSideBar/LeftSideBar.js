@@ -71,17 +71,14 @@ const LeftSideBar = ({ handleProductFilter, setQuery }) => {
               <span className="mx-4 font-medium capitalize">All</span>
             </Link>
             {filterdCategories?.map((category) => (
-              <>
-                <Link
-                  className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                  to=""
-                  onClick={() => handleProductFilter(category)}
-                >
-                  <span className="mx-4 font-medium capitalize">
-                    {category}
-                  </span>
-                </Link>
-              </>
+              <Link
+                key={Math.random()}
+                className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
+                to=""
+                onClick={() => handleProductFilter(category)}
+              >
+                <span className="mx-4 font-medium capitalize">{category}</span>
+              </Link>
             ))}
           </nav>
         </div>

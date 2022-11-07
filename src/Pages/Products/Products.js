@@ -1,12 +1,17 @@
 import React, { useContext, useState } from "react";
+import { FiXCircle } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { DataContext } from "../../Context/DataProvider";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Product from "../Product/Product";
 
 const Products = () => {
-  const { products } = useContext(DataContext);
+  const { products, cart, setCart } = useContext(DataContext);
   const [query, setQuery] = useState("");
   const [filterProducts, setFilterProducts] = useState(products);
+  const [showPopups, setShowPopups] = useState(false);
+
+  // filter and query product
   const handleProductFilter = (categoryValue) => {
     if (categoryValue === "all") {
       setFilterProducts(products);
@@ -17,6 +22,42 @@ const Products = () => {
     );
     setFilterProducts(filterByCategory);
   };
+
+  // product add to cart
+  const handleAddToCart = (product) => {
+    let newCart;
+    const newCartItem = {
+      _id: product?._id,
+      productName: product?.productName,
+      productPrice: product?.productPrice,
+      imgURL: product?.imgURL,
+      category: product?.category,
+      quantity: 1,
+    };
+    const exist = cart.find((i) => i._id === newCartItem._id);
+    if (exist) {
+      exist.quantity += 1;
+
+      const restItem = cart.filter((i) => i._id !== exist._id);
+      newCart = [...restItem, exist];
+    } else {
+      newCart = [...cart, newCartItem];
+    }
+    setCart(newCart);
+    setShowPopups(true);
+
+    // close modal auto
+    setTimeout(() => {
+      setShowPopups(false);
+    }, 5000);
+  };
+
+  // total cart price calculation
+  const totalPrice = cart.reduce((acc, cur) => {
+    const total = parseInt(acc) + parseInt(cur.productPrice) * cur.quantity;
+    return total;
+  }, 0);
+
   return (
     <div className="">
       <LeftSideBar
@@ -29,9 +70,65 @@ const Products = () => {
             searchItem?.productName.toLowerCase().includes(query)
           )
           .map((product) => (
-            <Product key={Math.random()} product={product}></Product>
+            <Product
+              key={Math.random()}
+              product={product}
+              setShowPopups={setShowPopups}
+              handleAddToCart={handleAddToCart}
+            ></Product>
           ))}
       </div>
+      {/* model */}
+      <section
+        className={`${
+          showPopups
+            ? "rounded-3xl shadow-2xl block  fixed  top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 backdrop-blur backdrop-brightness-50"
+            : "rounded-3xl shadow-2xl hidden"
+        }`}
+      >
+        <div className="bg-gray-100 p-2 rounded">
+          <FiXCircle
+            className="text-2xl text-indigo-900 cursor-pointer"
+            onClick={() => setShowPopups(false)}
+          />
+          <div className="p-6 text-center sm:p-8 max-w-lg mx-auto ">
+            <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+              The Product was added to your cart
+            </p>
+            <li className="flex items-start justify-between text-gray-700 border p-2 rounded mt-5">
+              <img
+                className="flex-shrink-0 object-cover w-12 h-12 dark:border-transparent rounded outline-none   dark:bg-gray-500"
+                src={cart[cart.length - 1]?.imgURL}
+                alt="Polaroid camera"
+              />
+              <h3>
+                {cart[cart.length - 1]?.productName}
+                <span className=" text-green-600 ml-2 text-lg">
+                  x{cart[cart.length - 1]?.quantity}
+                </span>
+              </h3>
+              <div className="text-right">
+                <span className="block">
+                  ${cart[cart.length - 1]?.productPrice}
+                </span>
+              </div>
+            </li>
+            <div className="flex justify-between text-gray-700 mt-5 items-center">
+              <p className="text-xs">
+                You have {cart?.length} items in your cart
+              </p>
+              <p className="text-sm">Subtotal: {totalPrice}$</p>
+            </div>
+
+            <Link
+              className="mt-8 inline-block w-full rounded-lg bg-indigo-600 py-4 text-sm font-bold text-white shadow-xl"
+              to="/checkout"
+            >
+              CheckOut
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

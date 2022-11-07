@@ -13,7 +13,7 @@ const Cart = () => {
     const total = parseInt(acc) + parseInt(cur.productPrice) * cur.quantity;
     return total;
   }, 0);
-  const grandTotal = totalPrice + 8;
+  // const grandTotal = totalPrice + 8;
 
   return (
     <div>
@@ -21,7 +21,10 @@ const Cart = () => {
         <h2 className="text-xl font-semibold">Your cart</h2>
         <ul className="flex flex-col divide-y divide-gray-700">
           {cart?.map((item) => (
-            <li className="flex flex-col py-6 sm:flex-row sm:justify-between">
+            <li
+              key={Math.random()}
+              className="flex flex-col py-6 sm:flex-row sm:justify-between"
+            >
               <div className="flex w-full space-x-2 sm:space-x-4">
                 <img
                   className="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500"

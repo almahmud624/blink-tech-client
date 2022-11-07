@@ -23,7 +23,6 @@ const DataProvider = ({ children }) => {
   if (!products || !orders) {
     return;
   }
-  console.log(orders);
 
   const dataCenter = {
     products,

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Product = ({ product }) => {
+const Product = ({ product, handleAddToCart }) => {
   return (
     <div>
       <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md mx-auto">
@@ -88,12 +88,13 @@ const Product = ({ product }) => {
               </span>
             </div>
           </div>
-          <Link
-            to={`/product-details/${product?._id}`}
+          <button
+            // to={`/product-details/${product?._id}`}
+            onClick={() => handleAddToCart(product)}
             className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
           >
             Add to cart
-          </Link>
+          </button>
         </div>
       </div>
     </div>
