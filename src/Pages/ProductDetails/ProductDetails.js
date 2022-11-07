@@ -258,8 +258,8 @@ const ProductDetails = () => {
                   Add to cart
                 </button>
 
-                <a
-                  href="#"
+                <Link
+                  href=""
                   className="inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3"
                 >
                   <svg
@@ -276,7 +276,7 @@ const ProductDetails = () => {
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
               <div className="mt-10 md:mt-16 lg:mt-20">
                 <div className="text-gray-800 text-lg font-semibold mb-3">

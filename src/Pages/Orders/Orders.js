@@ -44,25 +44,26 @@ const Orders = () => {
   };
 
   // order status update
-  const handleUpdateStatus = (id) => {
-    fetch(`http://localhost:4000/orders/${id}`, {
+  const handleUpdateStatus = (orderId, productId) => {
+    fetch(`http://localhost:4000/orders/${orderId}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${localStorage.getItem("blink-token")}`,
       },
-      body: JSON.stringify({ status: "approved" }),
+      body: JSON.stringify({ status: "approved", productId: productId }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
-          let updatedStatus = [...orders];
-          updatedStatus[
-            updatedStatus
-              .map((v, i) => [i, v])
-              .filter((v) => v[1]._id === id)[0][0]
-          ]["status"] = "approved";
-          setOrders(updatedStatus);
+          // let updatedStatus = [...orders];
+          // updatedStatus[
+          //   updatedStatus
+          //     .map((v, i) => [i, v])
+          //     .filter((v) => v[1]._id === id)[0][0]
+          // ]["status"] = "approved";
+          // setOrders(updatedStatus);
+          toast.success("Product Approved");
         }
       });
   };
@@ -183,14 +184,16 @@ const Orders = () => {
                       <td className="py-4 px-6">Laptop</td>
                       <td className="py-4 px-6">${item.productPrice}</td>
                       <td
-                        onClick={() => handleUpdateStatus(order?._id)}
+                        onClick={() =>
+                          handleUpdateStatus(order?._id, item?._id)
+                        }
                         className={`${
-                          order?.status
+                          item?.status
                             ? "py-4 px-6 capitalize cursor-pointer text-green-600"
                             : "py-4 px-6 capitalize cursor-pointer text-red-600"
                         }`}
                       >
-                        {order?.status ? order?.status : "Pending"}
+                        {item?.status ? item?.status : "Pending"}
                       </td>
                       <td className="py-4 px-6 flex items-center">
                         <label
