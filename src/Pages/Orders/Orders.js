@@ -12,16 +12,8 @@ const Orders = () => {
   const [count, setCount] = useState();
   const [size, setSize] = useState(5);
   const [page, setPage] = useState(0);
-  const pages = Math.ceil(count / size);
-
-  let restOrder;
-  let v = orders?.find((i) => i._id === "6367f06904314d5bc0f40d17");
-  restOrder = v?.orderInfo?.filter((v) => v._id !== "6363b42dc0b4a5b15e8e50fd");
-  if (restOrder) {
-    v.orderInfo = [...restOrder];
-  }
-
-  console.log([v]);
+  const pages = Math.ceil(parseInt(count) / size);
+  console.log(pages, size, count);
 
   // cancel order put method
   const handleDelete = (orderId, productId) => {
