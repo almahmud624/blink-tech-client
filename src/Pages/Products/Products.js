@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { DataContext } from "../../Context/DataProvider";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Product from "../Product/Product";
@@ -10,6 +10,7 @@ const Products = () => {
   const [query, setQuery] = useState("");
   const [filterProducts, setFilterProducts] = useState(products);
   const [showPopups, setShowPopups] = useState(false);
+  const location = useLocation();
 
   // filter and query product
   const handleProductFilter = (categoryValue) => {
@@ -52,32 +53,43 @@ const Products = () => {
     }, 5000);
   };
 
-  // total cart price calculation
+  // modal total cart price calculation
   const totalPrice = cart.reduce((acc, cur) => {
     const total = parseInt(acc) + parseInt(cur.productPrice) * cur.quantity;
     return total;
   }, 0);
 
+  // hide left sidebar on homepage
+  const home = location?.pathname === "/" || location.pathname === "/home";
   return (
-    <div className="">
-      <LeftSideBar
-        handleProductFilter={handleProductFilter}
-        setQuery={setQuery}
-      />
-      <div className="max-w-screen-xl grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-auto">
-        {filterProducts
-          ?.filter((searchItem) =>
-            searchItem?.productName.toLowerCase().includes(query)
-          )
-          .map((product) => (
-            <Product
-              key={Math.random()}
-              product={product}
-              setShowPopups={setShowPopups}
-              handleAddToCart={handleAddToCart}
-            ></Product>
-          ))}
+    <div className={`py-20 max-w-screen-xl mx-auto ${!home && "flex gap-20"}`}>
+      {!home && (
+        <LeftSideBar
+          handleProductFilter={handleProductFilter}
+          setQuery={setQuery}
+          className=""
+        />
+      )}
+
+      {/**All Products */}
+      <div>
+        <h2 className="text-5xl mb-10 font-semibold mx-10">New Products</h2>
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {products
+            ?.filter((searchItem) =>
+              searchItem?.productName.toLowerCase().includes(query)
+            )
+            .map((product) => (
+              <Product
+                key={Math.random()}
+                product={product}
+                setShowPopups={setShowPopups}
+                handleAddToCart={handleAddToCart}
+              ></Product>
+            ))}
+        </div>
       </div>
+
       {/* model */}
       <section
         className={`${

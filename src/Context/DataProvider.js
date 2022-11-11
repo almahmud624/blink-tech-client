@@ -6,12 +6,15 @@ const DataProvider = ({ children }) => {
   const [orders, setOrders] = useState();
   const [cart, setCart] = useState([]);
 
-  // get product data
+  // for price sorting -> ascending & descending
+  const [isAsc, setIsAsc] = useState(true);
+
+  // get product data with sort by price
   useEffect(() => {
-    fetch("http://localhost:4000/products")
+    fetch(`http://localhost:4000/products?order=${isAsc ? "asc" : "desc"}`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
-  }, []);
+  }, [isAsc]);
 
   // get customer orders data
   useEffect(() => {
@@ -31,6 +34,7 @@ const DataProvider = ({ children }) => {
     setOrders,
     cart,
     setCart,
+    setIsAsc,
   };
   return (
     <DataContext.Provider value={dataCenter}>{children}</DataContext.Provider>
