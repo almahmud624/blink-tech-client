@@ -7,7 +7,7 @@ import TitleHighlighter from "../../Component/TitleHighlighter";
 const BecomeSeller = () => {
   return (
     <div>
-      <div className="hero min-h-screen bg-base-100 pb-20">
+      <div className="hero min-h-screen bg-base-100">
         <div className="hero-content flex-col gap-20 lg:flex-row">
           <img
             src={sellerImg}
