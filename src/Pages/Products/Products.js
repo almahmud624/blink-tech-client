@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
 import { Link, useLocation } from "react-router-dom";
+import SectionTitle from "../../Component/SectionTitle";
+import TitleHighlighter from "../../Component/TitleHighlighter";
 import { DataContext } from "../../Context/DataProvider";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Product from "../Product/Product";
@@ -72,22 +74,35 @@ const Products = () => {
       )}
 
       {/**All Products */}
-      <div>
-        <h2 className="text-5xl mb-10 font-semibold mx-10">New Products</h2>
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {products
-            ?.filter((searchItem) =>
-              searchItem?.productName.toLowerCase().includes(query)
-            )
-            .map((product) => (
-              <Product
-                key={Math.random()}
-                product={product}
-                setShowPopups={setShowPopups}
-                handleAddToCart={handleAddToCart}
-              ></Product>
-            ))}
-        </div>
+      <div className="pt-10">
+        {products.length > 0 ? (
+          <>
+            <TitleHighlighter>Products</TitleHighlighter>
+            <SectionTitle>Explore Our Products</SectionTitle>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-20">
+              {products
+                ?.filter((searchItem) =>
+                  searchItem?.productName.toLowerCase().includes(query)
+                )
+                .map((product) => (
+                  <Product
+                    key={Math.random()}
+                    product={product}
+                    setShowPopups={setShowPopups}
+                    handleAddToCart={handleAddToCart}
+                  ></Product>
+                ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex h-screen justify-self-end px-20  items-center justify-center">
+              <span className="py-4 px-20 border-2 w-full block text-3xl  border-gray-800">
+                Data Not Found!
+              </span>
+            </div>
+          </>
+        )}
       </div>
 
       {/* model */}

@@ -1,21 +1,22 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GrMoon, GrSun, GrTechnology } from "react-icons/gr";
 import { AuthContext } from "../../Context/AuthProvider";
 import { FiMenu, FiShoppingCart } from "react-icons/fi";
 import { DataContext } from "../../Context/DataProvider";
+import Cart from "../Cart/Cart";
 
 const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
   const { cart, setSearchText } = useContext(DataContext);
   const searchRef = useRef();
   const navigate = useNavigate();
-
   // search product
   const handleSearch = () => {
     setSearchText(searchRef.current.value);
     navigate("/products");
   };
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="max-w-screen-xl mx-auto sticky py-2 top-0 left-0 bg-base-100 z-40">
       <div className="navbar bg-base-100">
@@ -126,7 +127,7 @@ const Navbar = ({ setModeTheme }) => {
                   navigate("/products");
                 }}
                 className="block p-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search Mockups, Logos..."
+                placeholder="Search Products...."
                 required=""
               />
               <button
@@ -142,7 +143,7 @@ const Navbar = ({ setModeTheme }) => {
           <Link
             type="button"
             className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
-            to="/cart"
+            onClick={() => setIsOpen(true)}
           >
             <FiShoppingCart className="text-xl" />
             <span className="sr-only">Notifications</span>
@@ -190,6 +191,31 @@ const Navbar = ({ setModeTheme }) => {
             </div>
           )}
         </div>
+      </div>
+      <div
+        className={
+          " fixed overflow-hidden bg-gray-900 z-10  bg-opacity-25 inset-0 transform ease-in-out " +
+          (isOpen
+            ? " transition-opacity opacity-100 duration-500 translate-x-0  "
+            : " transition-all delay-500 opacity-0 translate-x-full  ")
+        }
+      >
+        <section
+          className={
+            " max-w-lg right-0 absolute bg-gray-900  h-full shadow-xl delay-400 duration-500 overflow-y-scroll ease-in-out transition-all transform  " +
+            (isOpen ? " translate-x-0 " : " translate-x-full ")
+          }
+        >
+          <article className="relative max-w-lg pb-10 flex flex-col space-y-6 h-full">
+            <Cart />
+          </article>
+        </section>
+        <section
+          className=" h-full cursor-pointer "
+          onClick={() => {
+            setIsOpen(false);
+          }}
+        ></section>
       </div>
     </div>
   );

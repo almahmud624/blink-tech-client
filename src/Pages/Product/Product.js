@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PrimaryBtn from "../../Component/PrimaryBtn";
 
 const Product = ({ product, handleAddToCart }) => {
   return (
@@ -52,13 +53,12 @@ const Product = ({ product, handleAddToCart }) => {
               </span>
             </div>
           </div>
-          <button
-            // to={`/product-details/${product?._id}`}
+          <PrimaryBtn
+            customClass="py-2 px-3.5"
             onClick={() => handleAddToCart(product)}
-            className="flex items-center justify-center rounded-md bg-indigo-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
           >
-            Add to cart
-          </button>
+            Add to Cart
+          </PrimaryBtn>
         </div>
       </div>
     </div>
