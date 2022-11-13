@@ -12,7 +12,7 @@ import AllProduct from "../Pages/Admin/AllProduct/AllProduct";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
-import TechDoc from "../Pages/TechDoc/TechDoc";
+import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
 export const router = createBrowserRouter([
   {
     path: "/",

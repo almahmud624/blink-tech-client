@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import TechDocServiceStep from "./TechDocServiceStep";
+import TechDocServiceStep from "../TechDocServiceStep/TechDocServiceStep";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 
-const TechDocBanner = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const TechDocBanner = ({ selectedDate, setSelectedDate }) => {
   const serviceSteps = [
     {
       _id: 1,
@@ -82,7 +81,6 @@ const TechDocBanner = () => {
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                 />
-                <p>You have selected date: {format(selectedDate, "PP")}</p>
               </div>
             </div>
           </div>
