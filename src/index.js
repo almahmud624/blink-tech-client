@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Zoom } from "react-toastify";
 import AuthProvider from "./Context/AuthProvider";
 import DataProvider from "./Context/DataProvider";
+import "react-day-picker/dist/style.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

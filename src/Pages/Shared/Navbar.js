@@ -35,6 +35,9 @@ const Navbar = ({ setModeTheme }) => {
               <li tabIndex={0}>
                 <Link to="/products">Products</Link>
               </li>
+              <li tabIndex={0}>
+                <Link to="/tech-doc">TechDoc</Link>
+              </li>
               <li>
                 <Link to="/dashboard">Dashboard</Link>
               </li>
@@ -71,6 +74,9 @@ const Navbar = ({ setModeTheme }) => {
             </li>
             <li tabIndex={0}>
               <Link to="/products">Products</Link>
+            </li>
+            <li tabIndex={0}>
+              <Link to="/tech-doc">TechDoc</Link>
             </li>
             <li>
               <Link to="/dashboard">Dashboard</Link>

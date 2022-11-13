@@ -12,6 +12,7 @@ import AllProduct from "../Pages/Admin/AllProduct/AllProduct";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
+import TechDoc from "../Pages/TechDoc/TechDoc";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
         ),
         // loader: ({ params }) =>
         //   fetch(`http://localhost:4000/products/${params.id}`),
+      },
+      {
+        path: "/tech-doc",
+        element: <TechDoc />,
       },
       {
         path: "/dashboard",

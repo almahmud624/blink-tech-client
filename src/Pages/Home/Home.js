@@ -2,6 +2,7 @@ import React from "react";
 import About from "../About/About";
 import BecomeSeller from "../BecomeSeller/BecomeSeller";
 import Carousel from "../Carousel/Carousel";
+import GetATechDoc from "../GetATechDoc/GetATechDoc";
 import Products from "../Products/Products";
 import Promotion from "../Promotion/Promotion";
 import Testimonials from "../Testimonials/Testimonials";
@@ -13,7 +14,8 @@ const Home = () => {
       <About />
       <Promotion />
       <Products />
-      <BecomeSeller />
+      {/* <BecomeSeller /> */}
+      <GetATechDoc />
       <Testimonials />
     </div>
   );
