@@ -13,6 +13,7 @@ import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
 import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
+import UserProfile from "../Pages/UserProfile/UserProfile";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -72,8 +73,20 @@ export const router = createBrowserRouter([
         element: <TechDoc />,
       },
       {
+        path: "/profile",
+        element: (
+          <PrivateRouter>
+            <UserProfile />
+          </PrivateRouter>
+        ),
+      },
+      {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <PrivateRouter>
+            <Dashboard />
+          </PrivateRouter>
+        ),
         children: [
           { index: true, element: <AllProduct /> },
           { path: "all-products", element: <AllProduct /> },

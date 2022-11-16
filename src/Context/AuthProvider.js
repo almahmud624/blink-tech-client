@@ -10,6 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
+  sendEmailVerification,
 } from "firebase/auth";
 
 export const AuthContext = createContext();
@@ -51,6 +52,12 @@ const AuthProvider = ({ children }) => {
   const userFacebookSignIn = () => {
     return signInWithPopup(auth, facebookProvider);
   };
+
+  // verify user
+  const userVerify = () => {
+    return sendEmailVerification(auth.currentUser);
+  };
+
   useEffect(() => {
     const unSubscriber = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -67,6 +74,7 @@ const AuthProvider = ({ children }) => {
     userFacebookSignIn,
     userProfileUpdate,
     userSignOut,
+    userVerify,
     loading,
     setLoading,
   };

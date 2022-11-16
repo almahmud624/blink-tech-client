@@ -9,6 +9,7 @@ import Cart from "../Cart/Cart";
 const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
   const { cart, setSearchText } = useContext(DataContext);
+
   const searchRef = useRef();
   const navigate = useNavigate();
   // search product
@@ -182,13 +183,12 @@ const Navbar = ({ setModeTheme }) => {
                 className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a href="/">{user?.displayName}</a>
+                  <Link to="/">{user?.displayName}</Link>
                 </li>
                 <li>
-                  <a className="justify-between" href="/">
+                  <Link className="justify-between" to="/profile">
                     Profile
-                    <span className="badge">New</span>
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <button onClick={userSignOut}>Logout</button>

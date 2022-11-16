@@ -13,7 +13,6 @@ const BookingModal = ({ service, selectedDate, setService }) => {
   const onSubmit = (data) => {
     data.selectedDate = date;
     data.service = service?.name;
-    console.log(data);
 
     // modal closed conditon
     // if service null modal not open else its open. we use this for modal closed
