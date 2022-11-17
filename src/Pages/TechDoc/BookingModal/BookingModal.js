@@ -5,7 +5,7 @@ import { AuthContext } from "../../../Context/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const BookingModal = ({ service, selectedDate, setService }) => {
+const BookingModal = ({ service, selectedDate, setService, refetch }) => {
   const { name, slots } = service;
   const { user } = useContext(AuthContext);
   const date = format(selectedDate, "PP");
@@ -25,8 +25,10 @@ const BookingModal = ({ service, selectedDate, setService }) => {
         "http://localhost:4000/bookings",
         bookingInfo
       );
-      console.log(res.data);
-      toast.success("Booking Confirmed");
+      if (res.data.acknowledged) {
+        toast.success("Booking Confirmed");
+        refetch();
+      }
     } catch (error) {
       console.log(error);
     }

@@ -23,6 +23,7 @@ const AppointmentOptions = ({ option, setService, service }) => {
           htmlFor={_id}
         >
           <span className="mt-2- font-semibold text-xl ">{name}</span>
+          <span className="text-sm capitalize my-1">{slots[0]}</span>
           <span className="text-sm capitalize">
             {slots?.length > 0 && slots.length}{" "}
             {slots?.length > 1 ? "Quotes" : "Quote"} Avilable
