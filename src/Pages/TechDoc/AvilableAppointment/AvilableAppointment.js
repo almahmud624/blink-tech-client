@@ -4,12 +4,17 @@ import AppointmentOptions from "../AppointmentOptions/AppointmentOptions";
 import BookingModal from "../BookingModal/BookingModal";
 import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
+import Loader from "../../../Component/Loader";
 
 const AvilableAppointment = ({ selectedDate }) => {
   const [service, setService] = useState(null);
   const date = format(selectedDate, "PP");
   // load data using react query
-  const { data: appointmentOptions = [], refetch } = useQuery({
+  const {
+    data: appointmentOptions = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["appointment-options"],
     queryFn: async () => {
       const res = await fetch(
@@ -19,6 +24,10 @@ const AvilableAppointment = ({ selectedDate }) => {
       return data;
     },
   });
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="my-10">

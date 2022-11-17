@@ -28,6 +28,8 @@ const BookingModal = ({ service, selectedDate, setService, refetch }) => {
       if (res.data.acknowledged) {
         toast.success("Booking Confirmed");
         refetch();
+      } else {
+        toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);
