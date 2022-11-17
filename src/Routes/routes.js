@@ -14,6 +14,7 @@ import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
 import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
 import UserProfile from "../Pages/UserProfile/UserProfile";
+import MyAppointments from "../Pages/Dashboard/MyAppointments/MyAppointments";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -91,6 +92,10 @@ export const router = createBrowserRouter([
                 <Orders />
               </PrivateRouter>
             ),
+          },
+          {
+            path: "my-appointments",
+            element: <MyAppointments />,
           },
         ],
       },

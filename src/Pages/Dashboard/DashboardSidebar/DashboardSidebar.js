@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FiArrowDown, FiBox, FiPieChart, FiShoppingBag } from "react-icons/fi";
+import { IoNewspaperOutline } from "react-icons/io5";
 
 const DashboardSidebar = () => {
   return (
@@ -94,6 +95,15 @@ const DashboardSidebar = () => {
                 >
                   <FiBox />
                   <span className="ml-3">Order</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/my-appointments"
+                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <IoNewspaperOutline />
+                  <span className="ml-3 capitalize">appointments</span>
                 </Link>
               </li>
             </ul>
