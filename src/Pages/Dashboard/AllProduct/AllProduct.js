@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { DataContext } from "../../../Context/DataProvider";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { toast } from "react-toastify";
-import AddProduct from "../AddProduct/AddProduct";
+import AddProduct from "../../Dashboard/AddProduct/AddProduct";
 
 const AllProduct = () => {
   const { products, setProducts } = useContext(DataContext);

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
@@ -23,23 +24,18 @@ const AddProduct = ({ updateId, setModal }) => {
   };
 
   // send data to server
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
     if (!updateId) {
-      fetch("http://localhost:4000/products", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(product),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const newProduct = [...products, data];
-          setProducts(newProduct);
-          toast.success("Data Uploaded Successfully");
-          e.target.reset();
-        });
+      try {
+        const res = await axios.post("http://localhost:4000/products", product);
+        const newProduct = [...products, res.data];
+        setProducts(newProduct);
+        toast.success("Data Uploaded Successfully");
+        e.target.reset();
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       // update product
       fetch(`http://localhost:4000/products/${updateId}`, {
@@ -68,22 +64,13 @@ const AddProduct = ({ updateId, setModal }) => {
   };
 
   // get single product
-  useEffect(() => {
-    let isUpdate = false;
-    fetch(`http://localhost:4000/products/${updateId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!isUpdate) {
-          setProduct(data);
-        }
-      });
-
-    // return a clean up function
-    return () => {
-      // clear something from the previous effect
-      isUpdate = true;
-    };
-  }, [updateId]);
+  // useEffect(() => {
+  //   fetch(`http://localhost:4000/products/${updateId}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setProduct(data);
+  //     });
+  // }, [updateId]);
 
   return (
     <div>

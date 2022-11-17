@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
-import AddProduct from "../Pages/Admin/AddProduct/AddProduct";
+import AddProduct from "../Pages/Dashboard/AddProduct/AddProduct";
 import Home from "../Pages/Home/Home";
 import Products from "../Pages/Products/Products";
 import ErrorPage from "../Pages/Shared/ErrorPage";
 import Authentication from "../Pages/Authentication/Authentication";
 import CheckOut from "../Pages/CheckOut/CheckOut";
 import Orders from "../Pages/Orders/Orders";
-import Dashboard from "../Pages/Admin/Dashboard/Dashboard";
+import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import AllProduct from "../Pages/Admin/AllProduct/AllProduct";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
@@ -50,14 +50,7 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <Authentication />,
       },
-      {
-        path: "/orders",
-        element: (
-          <PrivateRouter>
-            <Orders />
-          </PrivateRouter>
-        ),
-      },
+
       {
         path: "/checkout",
         element: (
@@ -91,6 +84,14 @@ export const router = createBrowserRouter([
           { index: true, element: <AllProduct /> },
           { path: "all-products", element: <AllProduct /> },
           { path: "add-products", element: <AddProduct /> },
+          {
+            path: "orders",
+            element: (
+              <PrivateRouter>
+                <Orders />
+              </PrivateRouter>
+            ),
+          },
         ],
       },
     ],
