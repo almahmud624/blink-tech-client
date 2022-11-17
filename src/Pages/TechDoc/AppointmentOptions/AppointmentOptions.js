@@ -14,7 +14,7 @@ const AppointmentOptions = ({ option, setService, service }) => {
           onClick={() => {
             setService(option);
           }}
-          checked={service?._id === option?._id ? true : false}
+          defaultChecked={service?._id === option?._id ? true : false}
           // disabled={slots?.length === 0}
         />
 

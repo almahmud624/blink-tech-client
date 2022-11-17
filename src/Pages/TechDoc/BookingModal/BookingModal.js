@@ -1,18 +1,35 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../Context/AuthProvider";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const BookingModal = ({ service, selectedDate, setService }) => {
   const { name, slots } = service;
+  const { user } = useContext(AuthContext);
   const date = format(selectedDate, "PP");
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const onSubmit = (data) => {
-    data.selectedDate = date;
-    data.service = service?.name;
+  const onSubmit = async (bookingInfo) => {
+    bookingInfo.selectedDate = date;
+    bookingInfo.service = service?.name;
+
+    // send booking info on server
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/bookings",
+        bookingInfo
+      );
+      console.log(res.data);
+      toast.success("Booking Confirmed");
+    } catch (error) {
+      console.log(error);
+    }
 
     // modal closed conditon
     // if service null modal not open else its open. we use this for modal closed
@@ -36,7 +53,7 @@ const BookingModal = ({ service, selectedDate, setService }) => {
                     value={date}
                     disabled
                     className="mt-2 h-10 text-sm w-full rounded-md bg-gray-800 px-3"
-                    {...register("date")}
+                    {...register("selectedDate")}
                   />
                 </div>
               </div>
@@ -44,7 +61,7 @@ const BookingModal = ({ service, selectedDate, setService }) => {
                 <div>
                   <select
                     id="slots"
-                    className="bg-gray-50 h-10 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
+                    className="bg-gray-50 h-10 text-indigo-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-indigo-200 dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer"
                     {...register("slot")}
                     defaultValue={slots[0]}
                   >
@@ -61,6 +78,7 @@ const BookingModal = ({ service, selectedDate, setService }) => {
                   <input
                     type="text"
                     placeholder="Your Name"
+                    defaultValue={user?.displayName}
                     name="name"
                     className="mt-2 h-10 text-sm w-full rounded-md bg-gray-800 px-3"
                     {...register("name", {
@@ -80,6 +98,7 @@ const BookingModal = ({ service, selectedDate, setService }) => {
                   type="email"
                   name="email"
                   placeholder="Info@example.com"
+                  defaultValue={user?.email}
                   className="mt-2 h-10 text-sm w-full rounded-md bg-gray-800 px-3"
                   {...register("email", {
                     required: "Email Address is required",
@@ -97,7 +116,7 @@ const BookingModal = ({ service, selectedDate, setService }) => {
                   <input
                     type="tel"
                     name="phone"
-                    placeholder="+543 5445 0543"
+                    placeholder="+880 17 0000 0000"
                     className="mt-2 h-10 text-sm w-full rounded-md bg-gray-800 px-3"
                     {...register(
                       "phone",
@@ -118,7 +137,7 @@ const BookingModal = ({ service, selectedDate, setService }) => {
                   rows="4"
                   name="message"
                   className="block mt-5 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Your message..."
+                  placeholder="Write your problem..."
                   {...register("message", {
                     required: "Message is required",
                   })}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
 import AppointmentOptions from "../AppointmentOptions/AppointmentOptions";
 import BookingModal from "../BookingModal/BookingModal";
@@ -38,7 +38,9 @@ const AvilableAppointment = ({ selectedDate }) => {
           <label
             htmlFor="booking-modal"
             className="btn bg-indigo-300 text-gray-800  inline-block mt-3 rounded  px-8 py-3 text-sm font-medium outline-none  hover:bg-indigo-500 hover:text-indigo-100 hover:rotate-2 hover:scale-110  transition-all duration-300 capitalize z-30 self-center "
-            onClick={() => !service && toast.error("Plz! Add a Service First.")}
+            onClick={() =>
+              !service && toast.error("Plz! Select a Service First.")
+            }
           >
             Book Now
           </label>
