@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AvilableQuote from "../AvilableQuote/AvilableQuote";
+import AvilableAppointment from "../AvilableAppointment/AvilableAppointment";
 import TechDocBanner from "../TechDocBanner/TechDocBanner";
 
 const TechDoc = () => {
@@ -11,7 +11,7 @@ const TechDoc = () => {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <AvilableQuote selectedDate={selectedDate} />
+        <AvilableAppointment selectedDate={selectedDate} />
       </div>
     </>
   );

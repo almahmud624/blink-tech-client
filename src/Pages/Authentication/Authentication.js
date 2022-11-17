@@ -17,6 +17,7 @@ const Authentication = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
   const onSubmit = (data) => {
     const { name, mail, password, photoURL } = data;
@@ -27,10 +28,10 @@ const Authentication = () => {
         .then((res) => {
           userProfileUpdate(userProfile);
           toast.success("Signup is Successful");
-          console.log(res.user);
+          navigate("/");
         })
         .catch((error) => {
-          console.log(error.code);
+          toast.error(error.code);
         });
     } else {
       // login user
@@ -51,6 +52,7 @@ const Authentication = () => {
           toast.error(error.code);
         });
     }
+    reset();
   };
   return (
     <div>

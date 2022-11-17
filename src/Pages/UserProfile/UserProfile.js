@@ -16,6 +16,7 @@ const UserProfile = () => {
     .slice(0, 4)
     .join(" ");
 
+  // edit user profile
   const handleUserProfileUpdate = (profileInfo) => {
     userProfileUpdate(profileInfo)
       .then(() => {
@@ -40,6 +41,11 @@ const UserProfile = () => {
             <label
               htmlFor="profile-edit-modal"
               className="cursor-pointer text-sm underline text-blue-500 text-right"
+              onClick={() => {
+                if (!user?.emailVerified) {
+                  toast.error("First verify your email,Please...");
+                }
+              }}
             >
               Edit Profile
             </label>
@@ -102,7 +108,9 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <ProfileEditModal handleUserProfileUpdate={handleUserProfileUpdate} />
+      {user?.emailVerified && (
+        <ProfileEditModal handleUserProfileUpdate={handleUserProfileUpdate} />
+      )}
     </div>
   );
 };

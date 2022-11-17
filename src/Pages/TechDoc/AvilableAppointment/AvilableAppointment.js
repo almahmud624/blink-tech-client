@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-import QuoteOption from "../QuoteOption/QuoteOption";
+import AppointmentOptions from "../AppointmentOptions/AppointmentOptions";
 import BookingModal from "../BookingModal/BookingModal";
 import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
 
-const AvilableQuote = ({ selectedDate }) => {
-  const [quoteOptions, setQuoteOptions] = useState([]);
+const AvilableAppointment = ({ selectedDate }) => {
   const [service, setService] = useState(null);
 
-  useEffect(() => {
-    fetch("appointmentOptions.json")
-      .then((res) => res.json())
-      .then((data) => setQuoteOptions(data));
-  }, []);
+  // load data using react query
+  const { data: appointmentOptions = [] } = useQuery({
+    queryKey: ["appointment-options"],
+    queryFn: () =>
+      fetch("http://localhost:4000/appointment-options").then((res) =>
+        res.json()
+      ),
+  });
+
   return (
     <div className="my-10">
       <p className="text-lg text-center font-semibold text-indigo-200">
@@ -21,8 +25,8 @@ const AvilableQuote = ({ selectedDate }) => {
 
       <div className="flex gap-10 items-center">
         <div className="w-8/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-5 gap-y-5 my-10 py-10">
-          {quoteOptions?.map((option) => (
-            <QuoteOption
+          {appointmentOptions?.map((option) => (
+            <AppointmentOptions
               key={Math.random()}
               option={option}
               setService={setService}
@@ -57,4 +61,4 @@ const AvilableQuote = ({ selectedDate }) => {
   );
 };
 
-export default AvilableQuote;
+export default AvilableAppointment;
