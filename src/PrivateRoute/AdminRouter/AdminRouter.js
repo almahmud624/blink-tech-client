@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import Loader from "../../Component/Loader";
 import { AuthContext } from "../../Context/AuthProvider";
 import useCheckAdmin from "../../Hooks/useCheckAdmin";
 
@@ -8,7 +9,7 @@ const AdminRouter = ({ children }) => {
   const [isAdmin, isAdminLoading] = useCheckAdmin(user?.email);
   const location = useLocation();
   if (loading || isAdminLoading) {
-    return `${(<h1>loading...</h1>)}`;
+    return <Loader />;
   }
   if (user?.uid && isAdmin) {
     return children;

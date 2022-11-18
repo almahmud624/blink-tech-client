@@ -9,7 +9,11 @@ const Users = () => {
     queryKey: ["users"],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:4000/users");
+        const res = await axios.get("http://localhost:4000/users", {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+          },
+        });
         return res.data;
       } catch (error) {
         console.log(error);
@@ -24,10 +28,10 @@ const Users = () => {
     //       authorization: `Bearer ${localStorage.getItem("blink-token")}`,
     //     },
     //   });
-    //   if (res?.data.modifiedCount > 0) {
-    //     toast.success("Set Role Admin Successfull");
-    //     refetch();
-    //   }
+    // if (res?.data.modifiedCount > 0) {
+    //   toast.success("Set Role Admin Successfull");
+    //   refetch();
+    // }
     // } catch (error) {
     //   console.log(error);
     // }
@@ -39,7 +43,10 @@ const Users = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.modifiedCount > 0) {
+          toast.success("Set Role Admin Successfull");
+          refetch();
+        }
       });
   };
 

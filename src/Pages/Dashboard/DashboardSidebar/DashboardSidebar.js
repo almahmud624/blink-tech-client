@@ -63,42 +63,42 @@ const DashboardSidebar = () => {
                       Add Products
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to="#"
-                      className="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                    >
-                      Invoice
-                    </Link>
-                  </li>
                 </ul>
               </li>
-              <li>
-                <Link
-                  to="/dashboard/all-products"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <span className="flex-1 ml-3 whitespace-nowrap">
-                    Products
-                  </span>
-                  <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                    Pro
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/dashboard/add-products"
-                  className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <span className="flex-1 ml-3 whitespace-nowrap">
-                    Add Products
-                  </span>
-                  <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">
-                    3
-                  </span>
-                </Link>
-              </li>
+
+              {isAdmin && (
+                <>
+                  <li>
+                    <Link
+                      to="/dashboard/all-products"
+                      className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <span className="flex-1 ml-3 whitespace-nowrap">
+                        Products
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/add-products"
+                      className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <span className="flex-1 ml-3 whitespace-nowrap">
+                        Add Products
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/dashboard/users"
+                      className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <FiUserCheck />
+                      <span className="ml-3 capitalize">Users</span>
+                    </Link>
+                  </li>
+                </>
+              )}
               <li>
                 <Link
                   to="/dashboard/orders"
@@ -117,17 +117,6 @@ const DashboardSidebar = () => {
                   <span className="ml-3 capitalize">appointments</span>
                 </Link>
               </li>
-              {isAdmin && (
-                <li>
-                  <Link
-                    to="/dashboard/users"
-                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <FiUserCheck />
-                    <span className="ml-3 capitalize">Users</span>
-                  </Link>
-                </li>
-              )}
             </ul>
           </div>
         </aside>

@@ -31,37 +31,72 @@ const Navbar = ({ setModeTheme }) => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link to="">Home</Link>
+                <Link
+                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                  to=""
+                >
+                  Home
+                </Link>
               </li>
               <li tabIndex={0}>
-                <Link to="/products">Products</Link>
+                <Link
+                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                  to="/products"
+                >
+                  Products
+                </Link>
               </li>
               <li tabIndex={0}>
-                <Link to="/tech-doc">TechDoc</Link>
+                <Link
+                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                  to="/tech-doc"
+                >
+                  TechDoc
+                </Link>
               </li>
               <li>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link
+                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                  to="/dashboard"
+                >
+                  Dashboard
+                </Link>
               </li>
 
               {!user?.uid ? (
                 <>
                   <li>
-                    <Link to="/register">Sign Up</Link>
+                    <Link
+                      className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                      to="/register"
+                    >
+                      Sign Up
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/login">Sign In</Link>
+                    <Link
+                      className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                      to="/login"
+                    >
+                      Sign In
+                    </Link>
                   </li>
                 </>
               ) : (
                 <li>
-                  <Link to="/orders">Orders</Link>
+                  <Link
+                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                    to="/orders"
+                  >
+                    Orders
+                  </Link>
                 </li>
               )}
             </ul>
           </div>
           <Link
+            className="hover:bg-gray-800 rounded px-3 mx-1 py-1  btn btn-ghost normal-case hover:bg-transparent text-xl"
             to=""
-            className="btn btn-ghost normal-case hover:bg-transparent text-xl"
           >
             Blink
             <GrTechnology className="text-red-400" />
@@ -71,25 +106,52 @@ const Navbar = ({ setModeTheme }) => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0">
             <li>
-              <Link to="">Home</Link>
+              <Link className="hover:bg-gray-800 rounded px-3 mx-1 py-1 " to="">
+                Home
+              </Link>
             </li>
             <li tabIndex={0}>
-              <Link to="/products">Products</Link>
+              <Link
+                className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                to="/products"
+              >
+                Products
+              </Link>
             </li>
             <li tabIndex={0}>
-              <Link to="/tech-doc">TechDoc</Link>
+              <Link
+                className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                to="/tech-doc"
+              >
+                TechDoc
+              </Link>
             </li>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link
+                className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                to="/dashboard"
+              >
+                Dashboard
+              </Link>
             </li>
 
             {!user?.uid && (
               <>
                 <li>
-                  <Link to="/register">Sign Up</Link>
+                  <Link
+                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                    to="/register"
+                  >
+                    Sign Up
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/login">Sign In</Link>
+                  <Link
+                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                    to="/login"
+                  >
+                    Sign In
+                  </Link>
                 </li>
               </>
             )}
@@ -144,8 +206,8 @@ const Navbar = ({ setModeTheme }) => {
           </div>
 
           <Link
+            className="hover:bg-gray-800 rounded px-3 mx-1 py-1  inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
             type="button"
-            className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
             onClick={() => setIsOpen(true)}
           >
             <FiShoppingCart className="text-xl" />
@@ -179,10 +241,18 @@ const Navbar = ({ setModeTheme }) => {
                 className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <Link to="/">{user?.displayName}</Link>
+                  <Link
+                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+                    to="/"
+                  >
+                    {user?.displayName}
+                  </Link>
                 </li>
                 <li>
-                  <Link className="justify-between" to="/profile">
+                  <Link
+                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1  justify-between"
+                    to="/profile"
+                  >
                     Profile
                   </Link>
                 </li>

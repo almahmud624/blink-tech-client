@@ -86,7 +86,14 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <AllProduct /> },
           { path: "all-products", element: <AllProduct /> },
-          { path: "add-products", element: <AddProduct /> },
+          {
+            path: "add-products",
+            element: (
+              <AdminRouter>
+                <AddProduct />
+              </AdminRouter>
+            ),
+          },
           {
             path: "orders",
             element: <Orders />,

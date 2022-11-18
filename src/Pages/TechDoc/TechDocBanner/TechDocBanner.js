@@ -41,11 +41,11 @@ const TechDocBanner = ({ selectedDate, setSelectedDate }) => {
   return (
     <div>
       <div>
-        <div class="flex min-h-screen">
-          <div class="relative my-auto mx-auto flex flex-col gap-x-20 px-4 sm:max-w-xl md:max-w-screen-xl md:flex-row">
-            <div class="flex h-full w-7/12 space-x-3 overflow-hidden md:justify-end hero-content">
+        <div className="flex min-h-screen">
+          <div className="relative my-auto mx-auto flex flex-col gap-x-20 px-4 sm:max-w-xl md:max-w-screen-xl md:flex-row">
+            <div className="flex h-full w-7/12 space-x-3 overflow-hidden md:justify-end hero-content">
               {serviceSteps?.slice(0, 1).map((step) => (
-                <div class="w-60 h-3/4 overflow-hidden shadow-md rounded-xl  relative">
+                <div className="w-60 h-3/4 overflow-hidden shadow-md rounded-xl  relative">
                   <div className="md:flex flex-start ">
                     <div className="z-10 h-full w-full bg-gray-300 bg-clip-padding backdrop-filter backdrop-blur-[3px] bg-opacity-5 p-3 ">
                       <div className="flex justify-between mb-2">
@@ -68,14 +68,14 @@ const TechDocBanner = ({ selectedDate, setSelectedDate }) => {
                   </div>
                 </div>
               ))}
-              <div class="w-full flex-col space-y-3 rounded-xl py-4 lg:flex lg:w-80 ">
+              <div className="w-full flex-col space-y-3 rounded-xl py-4 lg:flex lg:w-80 ">
                 {serviceSteps.slice(1, 4).map((step) => (
                   <TechDocServiceStep key={Math.random()} step={step} />
                 ))}
               </div>
             </div>
-            <div class="mx-auto w-1/3 flex ">
-              <div class="mb-16 lg:my-auto lg:max-w-lg">
+            <div className="mx-auto w-1/3 flex ">
+              <div className="mb-16 lg:my-auto lg:max-w-lg">
                 <DayPicker
                   mode="single"
                   selected={selectedDate}
