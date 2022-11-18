@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertOctagon } from "react-icons/fi";
@@ -8,8 +9,7 @@ import { setAuthToken } from "../../Utilities/JwtApi";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Authentication = () => {
-  const { userLogin, createUser, userProfileUpdate, user } =
-    useContext(AuthContext);
+  const { userLogin, createUser, userProfileUpdate } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
@@ -28,18 +28,13 @@ const Authentication = () => {
         .then((res) => {
           userProfileUpdate(userProfile);
           toast.success("Signup is Successful");
-          navigate("/");
+          storeUserData(name, mail);
         })
         .catch((error) => {
           toast.error(error.code);
         });
     } else {
       // login user
-      const userEmail = {
-        email: user?.email || mail,
-      };
-      console.log(userEmail);
-
       userLogin(mail, password)
         .then((res) => {
           const user = res.user;
@@ -53,6 +48,20 @@ const Authentication = () => {
         });
     }
     reset();
+  };
+
+  // store user data on database
+  const storeUserData = (name, email) => {
+    const user = { name, email };
+    axios({
+      method: "post",
+      url: "http://localhost:4000/users",
+      data: user,
+    }).then((res) => {
+      // get jwt token
+      setAuthToken(user);
+      navigate("/");
+    });
   };
   return (
     <div>

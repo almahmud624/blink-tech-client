@@ -4,22 +4,29 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const MyAppointments = () => {
-  const { user } = useContext(AuthContext);
+  const { user, userSignOut } = useContext(AuthContext);
 
   const { data: bookings = [] } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/bookings?email=${user?.email}`
+          `http://localhost:4000/bookings?email=${user?.email}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+            },
+          }
         );
         return res.data;
       } catch (error) {
+        if (error.response.status === 401 || error.response.status === 403) {
+          return userSignOut();
+        }
         console.log(error);
       }
     },
   });
-  console.log(bookings);
 
   return (
     <div>

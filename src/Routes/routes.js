@@ -8,13 +8,13 @@ import Authentication from "../Pages/Authentication/Authentication";
 import CheckOut from "../Pages/CheckOut/CheckOut";
 import Orders from "../Pages/Orders/Orders";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
-import AllProduct from "../Pages/Admin/AllProduct/AllProduct";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
 import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import MyAppointments from "../Pages/Dashboard/MyAppointments/MyAppointments";
+import AllProduct from "../Pages/Dashboard/AllProduct/AllProduct";
 export const router = createBrowserRouter([
   {
     path: "/",
