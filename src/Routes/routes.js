@@ -15,6 +15,7 @@ import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import MyAppointments from "../Pages/Dashboard/MyAppointments/MyAppointments";
 import AllProduct from "../Pages/Dashboard/AllProduct/AllProduct";
+import Users from "../Pages/Dashboard/Users/Users";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -87,15 +88,19 @@ export const router = createBrowserRouter([
           { path: "add-products", element: <AddProduct /> },
           {
             path: "orders",
-            element: (
-              <PrivateRouter>
-                <Orders />
-              </PrivateRouter>
-            ),
+            element: <Orders />,
           },
           {
             path: "my-appointments",
             element: <MyAppointments />,
+          },
+          {
+            path: "my-appointments",
+            element: <MyAppointments />,
+          },
+          {
+            path: "users",
+            element: <Users />,
           },
         ],
       },
