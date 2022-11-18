@@ -8,7 +8,6 @@ import Authentication from "../Pages/Authentication/Authentication";
 import CheckOut from "../Pages/CheckOut/CheckOut";
 import Orders from "../Pages/Orders/Orders";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
-import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import Cart from "../Pages/Cart/Cart";
 import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
@@ -16,6 +15,8 @@ import UserProfile from "../Pages/UserProfile/UserProfile";
 import MyAppointments from "../Pages/Dashboard/MyAppointments/MyAppointments";
 import AllProduct from "../Pages/Dashboard/AllProduct/AllProduct";
 import Users from "../Pages/Dashboard/Users/Users";
+import PrivateRouter from "../PrivateRoute/PrivateRouter/PrivateRouter";
+import AdminRouter from "../PrivateRoute/AdminRouter/AdminRouter";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -100,7 +101,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "users",
-            element: <Users />,
+            element: (
+              <AdminRouter>
+                <Users />
+              </AdminRouter>
+            ),
           },
         ],
       },

@@ -18,11 +18,29 @@ const Users = () => {
   });
 
   const handleMakeAdmin = async (id) => {
-    const res = await axios.patch(`http://localhost:4000/users/admin/${id}`);
-    if (res?.data.modifiedCount > 0) {
-      toast.success("Set Role Admin Successfull");
-      refetch();
-    }
+    // try {
+    //   const res = await axios.patch(`http://localhost:4000/users/admin/${id}`, {
+    //     headers: {
+    //       authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+    //     },
+    //   });
+    //   if (res?.data.modifiedCount > 0) {
+    //     toast.success("Set Role Admin Successfull");
+    //     refetch();
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    fetch(`http://localhost:4000/users/admin/${id}`, {
+      method: "PATCH",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   return (
