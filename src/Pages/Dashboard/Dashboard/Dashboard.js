@@ -13,7 +13,10 @@ const Dashboard = () => {
           type="checkbox"
           className="drawer-toggle"
         />
-        <div className="drawer-content overflow-auto">
+        <div
+          className="drawer-content overflow-auto"
+          style={{ zIndex: "unset" }}
+        >
           {/** Page Content */}
           <label
             htmlFor="drawer-dashboard"

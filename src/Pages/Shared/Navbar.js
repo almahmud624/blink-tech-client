@@ -19,8 +19,8 @@ const Navbar = ({ setModeTheme }) => {
   };
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="max-w-screen-xl mx-auto sticky py-2 top-0 left-0 bg-base-100 z-40">
-      <div className="navbar bg-base-100">
+    <div className="sticky py-2 top-0 left-0 bg-base-100 z-30">
+      <div className="navbar bg-base-100 max-w-screen-xl mx-auto ">
         <div className="navbar-start w-1/6">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">

@@ -27,14 +27,17 @@ const AllProduct = () => {
     },
   });
   // Product Delete
-  const handleDelete = (id) => {
+  const handleDelete = (product) => {
     try {
-      axios.delete(`http://localhost:4000/products/${id}`).then((res) => {
-        if (res?.data.deletedCount > 0) {
-          toast.success("Product Successfully Removed");
-          refetch();
-        }
-      });
+      axios
+        .delete(`http://localhost:4000/products/${product?._id}`)
+        .then((res) => {
+          if (res?.data.deletedCount > 0) {
+            toast.success("Product Successfully Removed");
+            refetch();
+            setDeletingProduct(null);
+          }
+        });
     } catch (error) {
       console.log(error);
     }
@@ -47,10 +50,6 @@ const AllProduct = () => {
 
   return (
     <div>
-      <link
-        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-        rel="stylesheet"
-      />
       <div className="flex items-center justify-center bg-gray-900">
         <div className="col-span-12 w-full">
           <div className="overflow-auto lg:overflow-visible ">
@@ -127,15 +126,15 @@ const AllProduct = () => {
         </div>
       </div>
       {/* delete modal */}
-      {deletingProduct && (
-        <ConfirmedModal
-          title={"Are you sure for deleting?"}
-          body={`If you want to remove ${deletingProduct?.productName}. Once you remove it, it's can't be undone.`}
-          action={handleDelete}
-          actionData={deletingProduct}
-          closeModal={setDeletingProduct}
-        />
-      )}
+
+      <ConfirmedModal
+        title={"Are you sure for deleting?"}
+        body={`If you want to remove ${deletingProduct?.productName}. Once you remove it, it's can't be undone.`}
+        action={handleDelete}
+        actionData={deletingProduct}
+        closeModal={setDeletingProduct}
+      />
+
       {/* update modal */}
       <input type="checkbox" id="my-modal-5" className="modal-toggle" />
       <div

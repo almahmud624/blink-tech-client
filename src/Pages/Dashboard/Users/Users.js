@@ -1,15 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import ConfirmedModal from "../../../Component/ConfirmedModal";
-import { AuthContext } from "../../../Context/AuthProvider";
-import useCheckAdmin from "../../../Hooks/useCheckAdmin";
 
 const Users = () => {
-  const { user } = useContext(AuthContext);
-  const [isAdmin] = useCheckAdmin(user?.email);
-
   // remove user state
   const [removingUser, setRemovingUser] = useState(null);
 
@@ -59,10 +54,10 @@ const Users = () => {
   };
 
   // remove user handle
-  const handleRemoveUser = (id) => {
+  const handleRemoveUser = (user) => {
     try {
       axios
-        .delete(`http://localhost:4000/users/admin/${id}`, {
+        .delete(`http://localhost:4000/users/admin/${user?._id}`, {
           headers: {
             authorization: `Bearer ${localStorage.getItem("blink-token")}`,
           },
@@ -71,6 +66,7 @@ const Users = () => {
           if (res?.data.deletedCount > 0) {
             toast.success("User Successfully removed");
             refetch();
+            setRemovingUser(null);
           }
         });
     } catch (error) {
@@ -152,17 +148,15 @@ const Users = () => {
                     )}
                   </td>
                   <td className="whitespace-no-wrap hidden py-4 text-left text-xs sm:px-3 lg:table-cell lg:text-left">
-                    {!isAdmin && (
-                      <label
-                        htmlFor="confirmed-modal"
-                        onClick={() => setRemovingUser(user)}
-                        className=""
-                      >
-                        <span className="p-1 px-3 rounded-lg font-semibold bg-red-600 text-gray-200 cursor-pointer">
-                          Remove
-                        </span>
-                      </label>
-                    )}
+                    <label
+                      htmlFor="confirmed-modal"
+                      onClick={() => setRemovingUser(user)}
+                      className=""
+                    >
+                      <span className="p-1 px-3 rounded-lg font-semibold bg-red-600 text-gray-200 cursor-pointer">
+                        Remove
+                      </span>
+                    </label>
                   </td>
                 </tr>
               ))}
@@ -170,15 +164,13 @@ const Users = () => {
           </table>
         </div>
         {/** Remove User Modal */}
-        {removingUser && (
-          <ConfirmedModal
-            title={"Are you sure for removing user?"}
-            body={`If you want to remove ${removingUser?.name}. Think once more. After removing, it's can't be retrieve.`}
-            action={handleRemoveUser}
-            actionData={removingUser}
-            closeModal={setRemovingUser}
-          />
-        )}
+        <ConfirmedModal
+          title={"Are you sure for removing user?"}
+          body={`If you want to remove ${removingUser?.name}. Think once more. After removing, it's can't be retrieve.`}
+          action={handleRemoveUser}
+          actionData={removingUser}
+          closeModal={setRemovingUser}
+        />
       </div>
     </div>
   );
