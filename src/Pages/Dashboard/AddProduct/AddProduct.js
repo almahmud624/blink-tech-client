@@ -3,7 +3,7 @@ import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FiDelete, FiUploadCloud } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DataContext } from "../../../Context/DataProvider";
 
 const AddProduct = ({ updateId, setModal }) => {
@@ -13,6 +13,7 @@ const AddProduct = ({ updateId, setModal }) => {
   const location = useLocation();
   const [product, setProduct] = useState({});
   const nameRef = useRef();
+  const navigate = useNavigate();
 
   // image preview state
   const [imgPreview, setImgPreview] = useState(null);
@@ -35,9 +36,24 @@ const AddProduct = ({ updateId, setModal }) => {
       `https://api.imgbb.com/1/upload?expiration=600&key=${imgHostingKey}`,
       formData
     );
-    let productImg;
+
     if (data?.success) {
-      productImg = data.data.url;
+      const productImg = data.data.url;
+      productInfo.imgURL = productImg;
+      // store new product on server
+      try {
+        const { data } = await axios.post(
+          "http://localhost:4000/products",
+          productInfo
+        );
+        if (data.acknowledged) {
+          toast.success("New Product Uploaded");
+          setImgPreview(null);
+          navigate("/dashboard/all-products");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     // if (!updateId) {
@@ -191,7 +207,7 @@ const AddProduct = ({ updateId, setModal }) => {
                       id="dropzone-file"
                       type="file"
                       className="hidden"
-                      {...register("productImg", {
+                      {...register("imgURL", {
                         required: "Image is required",
                       })}
                       onChange={handleImgPreview}

@@ -3,25 +3,41 @@ import { DataContext } from "../../../Context/DataProvider";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { toast } from "react-toastify";
 import AddProduct from "../../Dashboard/AddProduct/AddProduct";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import ConfirmedModal from "../../../Component/ConfirmedModal";
 
 const AllProduct = () => {
-  const { products, setProducts } = useContext(DataContext);
+  // const { products, setProducts } = useContext(DataContext);
   const [updateDeleteId, setUpdateDeleteId] = useState("");
   const [modal, setModal] = useState(false);
+  // deleting product state
+  const [deletingProduct, setDeletingProduct] = useState(null);
 
+  // load product
+  const { data: products = [], refetch } = useQuery({
+    queryKey: ["prodcts"],
+    queryFn: async () => {
+      try {
+        const { data } = await axios.get("http://localhost:4000/products");
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
   // Product Delete
   const handleDelete = (id) => {
-    fetch(`http://localhost:4000/products/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount > 0) {
-          toast.success("Data Remove Successfully");
+    try {
+      axios.delete(`http://localhost:4000/products/${id}`).then((res) => {
+        if (res?.data.deletedCount > 0) {
+          toast.success("Product Successfully Removed");
+          refetch();
         }
       });
-    const restProduct = products.filter((product) => product._id !== id);
-    setProducts(restProduct);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleModalUpdateId = (id) => {
@@ -86,8 +102,8 @@ const AllProduct = () => {
                       </button> */}
                       <button className="text-gray-400 hover:text-gray-100 mr-5">
                         <label
-                          htmlFor="my-modal-6"
-                          onClick={() => setUpdateDeleteId(product?._id)}
+                          htmlFor="confirmed-modal"
+                          onClick={() => setDeletingProduct(product)}
                           className="btn text-lg p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none text-gray-400 hover:text-gray-100"
                         >
                           <FiTrash />
@@ -111,28 +127,15 @@ const AllProduct = () => {
         </div>
       </div>
       {/* delete modal */}
-      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
-      <div className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Are You Sure?</h3>
-          <p className="py-4">You Want to Cancel this Order.</p>
-          <div className="modal-action">
-            <label
-              onClick={() => handleDelete(updateDeleteId)}
-              htmlFor="my-modal-6"
-              className="btn py-0 flex my-0 h-10 text-sm capitalize rounded min-h-0 bg-green-700 hover:bg-green-800 text-green-50"
-            >
-              Confirm
-            </label>
-            <label
-              htmlFor="my-modal-6"
-              className="btn py-0 flex my-0 h-10 text-sm capitalize rounded min-h-0 bg-red-700 hover:bg-red-800 text-red-50"
-            >
-              Cancel
-            </label>
-          </div>
-        </div>
-      </div>
+      {deletingProduct && (
+        <ConfirmedModal
+          title={"Are you sure for deleting?"}
+          body={`If you want to remove ${deletingProduct?.productName}. Once you remove it, it's can't be undone.`}
+          action={handleDelete}
+          actionData={deletingProduct}
+          closeModal={setDeletingProduct}
+        />
+      )}
       {/* update modal */}
       <input type="checkbox" id="my-modal-5" className="modal-toggle" />
       <div
