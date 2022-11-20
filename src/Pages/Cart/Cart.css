@@ -1,0 +1,13 @@
+#cart-items::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+#cart-items::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+#cart-items::-webkit-scrollbar-thumb {
+  background-color: rgb(136, 114, 151);
+  outline: 1px solid slategrey;
+  border-radius: 5px;
+}

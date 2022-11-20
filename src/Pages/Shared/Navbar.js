@@ -1,15 +1,15 @@
 import React, { useContext, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { GrMoon, GrSun, GrTechnology } from "react-icons/gr";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
-import { FiMenu, FiShoppingCart } from "react-icons/fi";
+import { FiMenu, FiMoon, FiShoppingCart, FiSun } from "react-icons/fi";
 import { DataContext } from "../../Context/DataProvider";
 import Cart from "../Cart/Cart";
+import { IoGitCompareSharp } from "react-icons/io5";
 
 const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
   const { cart, setSearchText } = useContext(DataContext);
-
+  const location = useLocation();
   const searchRef = useRef();
   const navigate = useNavigate();
   // search product
@@ -95,11 +95,11 @@ const Navbar = ({ setModeTheme }) => {
             </ul>
           </div>
           <Link
-            className="hover:bg-gray-800 rounded px-3 mx-1 py-1  btn btn-ghost normal-case hover:bg-transparent text-xl"
+            className="mx-1  btn btn-ghost normal-case hover:bg-transparent text-xl"
             to=""
           >
             Blink
-            <GrTechnology className="text-red-400" />
+            <IoGitCompareSharp className="text-teal-400" />
             Tech
           </Link>
         </div>
@@ -208,7 +208,9 @@ const Navbar = ({ setModeTheme }) => {
           <Link
             className="hover:bg-gray-800 rounded px-3 mx-1 py-1  inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
             type="button"
-            onClick={() => setIsOpen(true)}
+            onClick={() =>
+              setIsOpen(location?.pathname === "/cart" ? false : true)
+            }
           >
             <FiShoppingCart className="text-xl" />
             <span className="sr-only">Notifications</span>
@@ -219,13 +221,13 @@ const Navbar = ({ setModeTheme }) => {
 
           <label className="swap swap-rotate mr-3">
             <input type="checkbox" />
-            <GrSun
+            <FiSun
               className="swap-on fill-current w-6 h-6"
               onClick={() => setModeTheme("pastel")}
             />
 
-            <GrMoon
-              className="swap-off fill-current w-8 h-8"
+            <FiMoon
+              className="swap-off fill-current w-6 h-6 dark:text-indigo-200"
               onClick={() => setModeTheme("night")}
             />
           </label>
@@ -264,22 +266,25 @@ const Navbar = ({ setModeTheme }) => {
           )}
         </div>
       </div>
+
+      {/** cart Drawer */}
       <div
         className={
-          " fixed overflow-hidden bg-gray-900 z-10  bg-opacity-25 inset-0 transform ease-in-out " +
+          " fixed overflow-hidden bg-gray-700 z-10  bg-opacity-0 inset-0 transform ease-in-out " +
           (isOpen
-            ? " transition-opacity opacity-100 duration-500 translate-x-0  "
-            : " transition-all delay-500 opacity-0 translate-x-full  ")
+            ? " transition-all opacity-100 duration-500 translate-x-0 "
+            : " transition-all delay-500 opacity-0 translate-x-full ")
         }
       >
         <section
           className={
-            " max-w-lg right-0 absolute bg-gray-900  h-full shadow-xl delay-400 duration-500 overflow-y-scroll ease-in-out transition-all transform  " +
+            " max-w-lg right-0 absolute bg-gray-700 shadow-xl delay-400 duration-500 ease-in-out transition-all transform" +
             (isOpen ? " translate-x-0 " : " translate-x-full ")
           }
+          id="cart-drawer"
         >
           <article className="relative max-w-lg pb-10 flex flex-col space-y-6 h-full">
-            <Cart />
+            <Cart setIsOpen={setIsOpen} />
           </article>
         </section>
         <section

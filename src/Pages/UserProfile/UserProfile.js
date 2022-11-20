@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import ProfileEditModal from "../UserProfile/ProfileEditModal";
 
 const UserProfile = () => {

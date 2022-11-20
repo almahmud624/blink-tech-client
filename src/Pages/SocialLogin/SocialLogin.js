@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { GrFacebook, GrGoogle } from "react-icons/gr";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { setAuthToken } from "../../Utilities/JwtApi";
 

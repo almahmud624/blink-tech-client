@@ -7,7 +7,7 @@ import "./Dashboard.css";
 const Dashboard = () => {
   return (
     <div className="flex gap-8 justify-center">
-      <div className="drawer  drawer-mobile">
+      <div className="drawer drawer-mobile">
         <input
           id="drawer-dashboard"
           type="checkbox"

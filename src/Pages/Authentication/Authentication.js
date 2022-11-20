@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertOctagon } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { setAuthToken } from "../../Utilities/JwtApi";
 import SocialLogin from "../SocialLogin/SocialLogin";

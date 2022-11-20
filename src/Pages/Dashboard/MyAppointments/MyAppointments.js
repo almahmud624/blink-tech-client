@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Loader from "../../../Component/Loader";
 
 const MyAppointments = () => {
   const { user, userSignOut } = useContext(AuthContext);
 
-  const { data: bookings = [] } = useQuery({
+  const { data: bookings = [], isLoading } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
       try {
@@ -27,6 +28,10 @@ const MyAppointments = () => {
       }
     },
   });
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>

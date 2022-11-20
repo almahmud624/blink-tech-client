@@ -4,9 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "react-hot-toast";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Zoom } from "react-toastify";
 import AuthProvider from "./Context/AuthProvider";
 import DataProvider from "./Context/DataProvider";
 import "react-day-picker/dist/style.css";
@@ -19,12 +17,6 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <DataProvider>
-          <ToastContainer
-            position="top-center"
-            effect="zoom"
-            transition={Zoom}
-            theme="light"
-          />
           <Toaster />
           <App />
         </DataProvider>

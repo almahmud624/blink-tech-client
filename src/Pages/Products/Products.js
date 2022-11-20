@@ -46,14 +46,13 @@ const Products = () => {
     } else {
       newCart = [...cart, newCartItem];
     }
+
+    const cartItem = JSON.parse(localStorage.getItem("products-list"));
+
     setCart(newCart);
     setShowPopups(true);
-
-    // close modal auto
-    setTimeout(() => {
-      setShowPopups(false);
-    }, 5000);
   };
+  console.log(cart);
 
   // modal total cart price calculation
   const totalPrice = cart.reduce((acc, cur) => {
@@ -106,56 +105,64 @@ const Products = () => {
       </div>
 
       {/* model */}
-      <section
-        className={`${
-          showPopups
-            ? "rounded-3xl shadow-2xl block  fixed  top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 backdrop-blur backdrop-brightness-50"
-            : "rounded-3xl shadow-2xl hidden"
-        }`}
+      <div
+        className={`${showPopups ? " fixed inset-0  z-40 " : " opacity-0 "}`}
       >
-        <div className="bg-gray-100 p-2 rounded">
-          <FiXCircle
-            className="text-2xl text-indigo-900 cursor-pointer"
-            onClick={() => setShowPopups(false)}
-          />
-          <div className="p-6 text-center sm:p-8 max-w-lg mx-auto ">
-            <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
-              The Product was added to your cart
-            </p>
-            <li className="flex items-start justify-between text-gray-700 border p-2 rounded mt-5">
-              <img
-                className="flex-shrink-0 object-cover w-12 h-12 dark:border-transparent rounded outline-none   dark:bg-gray-500"
-                src={cart[cart.length - 1]?.imgURL}
-                alt="Polaroid camera"
-              />
-              <h3>
-                {cart[cart.length - 1]?.productName}
-                <span className=" text-green-600 ml-2 text-lg">
-                  x{cart[cart.length - 1]?.quantity}
-                </span>
-              </h3>
-              <div className="text-right">
-                <span className="block">
-                  ${cart[cart.length - 1]?.productPrice}
-                </span>
-              </div>
-            </li>
-            <div className="flex justify-between text-gray-700 mt-5 items-center">
-              <p className="text-xs">
-                You have {cart?.length} items in your cart
-              </p>
-              <p className="text-sm">Subtotal: {totalPrice}$</p>
-            </div>
+        <div
+          className={` ${
+            showPopups
+              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none scale-100 transition-all duration-500 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px]"
+              : "opacity-0 scale-110 absolute top-0 left-0 "
+          }`}
+        >
+          <div className="relative my-6 mx-auto w-1/3">
+            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white  outline-none focus:outline-none">
+              <div className="bg-gray-100 p-2 rounded">
+                <FiXCircle
+                  className="text-2xl text-indigo-900 cursor-pointer"
+                  onClick={() => setShowPopups(false)}
+                />
+                <div className="p-6 text-center sm:p-8 max-w-lg mx-auto ">
+                  <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+                    The Product was added to your cart
+                  </p>
+                  <li className="flex items-start justify-between text-gray-700 border p-2 rounded mt-5">
+                    <img
+                      className="flex-shrink-0 object-cover w-12 h-12 dark:border-transparent rounded outline-none   dark:bg-gray-500"
+                      src={cart[cart.length - 1]?.imgURL}
+                      alt="Polaroid camera"
+                    />
+                    <h3>
+                      {cart[cart.length - 1]?.productName}
+                      <span className=" text-green-600 ml-2 text-lg">
+                        x{cart[cart.length - 1]?.quantity}
+                      </span>
+                    </h3>
+                    <div className="text-right">
+                      <span className="block">
+                        ${cart[cart.length - 1]?.productPrice}
+                      </span>
+                    </div>
+                  </li>
+                  <div className="flex justify-between text-gray-700 mt-5 items-center">
+                    <p className="text-xs">
+                      You have {cart?.length} items in your cart
+                    </p>
+                    <p className="text-sm">Subtotal: {totalPrice}$</p>
+                  </div>
 
-            <Link
-              className="mt-8 inline-block w-full rounded-lg bg-indigo-600 py-4 text-sm font-bold text-white shadow-xl"
-              to="/checkout"
-            >
-              CheckOut
-            </Link>
+                  <Link
+                    className="mt-8 inline-block w-full rounded-lg bg-indigo-600 py-4 text-sm font-bold text-white shadow-xl"
+                    to="/checkout"
+                  >
+                    CheckOut
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };

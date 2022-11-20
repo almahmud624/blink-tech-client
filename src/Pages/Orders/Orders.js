@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { FiEdit, FiTrash } from "react-icons/fi";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ConfirmedModal from "../../Component/ConfirmedModal";
+import Loader from "../../Component/Loader";
 
 const Orders = () => {
   const { user, userSignOut } = useContext(AuthContext);
@@ -16,7 +17,11 @@ const Orders = () => {
   const pages = Math.ceil(parseInt(count) / size);
 
   // load order by user email
-  const { data: orders = [], refetch } = useQuery({
+  const {
+    data: orders = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["orders", user?.email],
     queryFn: async () => {
       try {
@@ -93,6 +98,10 @@ const Orders = () => {
   //     unsubscribed = true;
   //   };
   // }, [page, size]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div>
       <div className="my-20 max-w-screen-lg px-4 mx-auto">
@@ -102,24 +111,13 @@ const Orders = () => {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      {/* <input
-                      id="checkbox-all"
-                      type="checkbox"
-                      className="w-4 h-4 text-indigo-600 bg-gray-100 rounded border-gray-300 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label for="checkbox-all" className="sr-only">
-                      checkbox
-                    </label> */}
-                    </div>
+                    <div className="flex items-center"></div>
                   </th>
                   <th scope="col" className="py-3 px-6"></th>
                   <th scope="col" className="py-3 px-6">
                     Product name
                   </th>
-                  {/* <th scope="col" className="py-3 px-6">
-                Color
-              </th> */}
+
                   <th scope="col" className="py-3 px-6">
                     Category
                   </th>
@@ -143,16 +141,7 @@ const Orders = () => {
                         className="bg-white border-b dark:bg-gray-800 "
                       >
                         <td className="p-4 w-4">
-                          <div className="flex items-center">
-                            {/* <input
-                        id="checkbox-table-1"
-                        type="checkbox"
-                        className="w-4 h-4 text-indigo-600 bg-gray-100 rounded border-gray-300 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label for="checkbox-table-1" className="sr-only">
-                        checkbox
-                      </label> */}
-                          </div>
+                          <div className="flex items-center"></div>
                         </td>
                         <td className="px-0 w-0">
                           <div className="avatar flex items-center">
@@ -168,10 +157,15 @@ const Orders = () => {
                           scope="row"
                           className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
-                          {item.productName}
+                          {item.productName} {""}{" "}
+                          <span className="font-normal text-red-300">
+                            x{item?.quantity}
+                          </span>
                         </th>
                         {/* <td className="py-4 px-6">Sliver</td> */}
-                        <td className="py-4 px-6">Laptop</td>
+                        <td className="py-4 px-6 capitalize">
+                          {item?.category}
+                        </td>
                         <td className="py-4 px-6">${item.productPrice}</td>
                         <td
                           onClick={() =>

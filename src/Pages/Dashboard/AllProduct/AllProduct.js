@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import { DataContext } from "../../../Context/DataProvider";
+import React, { useState } from "react";
 import { FiEdit, FiTrash } from "react-icons/fi";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import AddProduct from "../../Dashboard/AddProduct/AddProduct";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ConfirmedModal from "../../../Component/ConfirmedModal";
+import Loader from "../../../Component/Loader";
 
 const AllProduct = () => {
   // const { products, setProducts } = useContext(DataContext);
@@ -15,7 +15,11 @@ const AllProduct = () => {
   const [deletingProduct, setDeletingProduct] = useState(null);
 
   // load product
-  const { data: products = [], refetch } = useQuery({
+  const {
+    data: products = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["prodcts"],
     queryFn: async () => {
       try {
@@ -47,6 +51,10 @@ const AllProduct = () => {
     setUpdateDeleteId(id);
     setModal(true);
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>

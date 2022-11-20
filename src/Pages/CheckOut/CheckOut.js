@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertOctagon } from "react-icons/fi";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { DataContext } from "../../Context/DataProvider";
 
@@ -45,7 +45,10 @@ const CheckOut = () => {
 
     // creating user
   };
-
+  const totalPrice = cart.reduce((acc, cur) => {
+    const total = parseInt(acc) + parseInt(cur.productPrice) * cur.quantity;
+    return total;
+  }, 0);
   return (
     <div>
       <div className="relative mx-auto w-full bg-white">
@@ -147,11 +150,6 @@ const CheckOut = () => {
           <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
             <h2 className="sr-only">Order summary</h2>
             <div>
-              <img
-                src="https://images.unsplash.com/photo-1581318694548-0fb6e47fe59b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-              />
               <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
             </div>
             <div className="relative">
@@ -162,19 +160,19 @@ const CheckOut = () => {
                       <img
                         src={item?.imgURL}
                         alt=""
-                        className="max-h-16 bg-indigo-50 rounded-sm"
+                        className="h-16 w-16 object-cover rounded-sm"
                       />
                       <div className="ml-3">
                         <p className="text-base font-semibold text-white">
                           {item?.productName}
                         </p>
                         <p className="text-sm font-medium text-white text-opacity-80 capitalize">
-                          {item?.category}
+                          ${item?.productPrice}
                         </p>
                       </div>
                     </div>
                     <p className="text-sm font-semibold text-white">
-                      ${item?.productPrice}
+                      {item?.quantity}x
                     </p>
                   </li>
                 ))}
@@ -183,7 +181,7 @@ const CheckOut = () => {
               <div className="space-y-2">
                 <p className="flex justify-between text-lg font-bold text-white">
                   <span>Total price:</span>
-                  <span>$510.00</span>
+                  <span>${totalPrice}.00</span>
                 </p>
                 <p className="flex justify-between text-sm font-medium text-white">
                   <span>Vat: 10%</span>
