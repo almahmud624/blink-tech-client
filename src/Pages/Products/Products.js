@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
-import { Link, useLocation } from "react-router-dom";
+import { json, Link, useLocation } from "react-router-dom";
 import SectionTitle from "../../Component/SectionTitle";
 import TitleHighlighter from "../../Component/TitleHighlighter";
 import { DataContext } from "../../Context/DataProvider";
@@ -29,6 +29,7 @@ const Products = () => {
   // product add to cart
   const handleAddToCart = (product) => {
     let newCart;
+    let _id = product?._id;
     const newCartItem = {
       _id: product?._id,
       productName: product?.productName,
@@ -37,6 +38,19 @@ const Products = () => {
       category: product?.category,
       quantity: 1,
     };
+
+    // local db
+    let cartItem = JSON.parse(localStorage.getItem("products-list"));
+    if (!cartItem) {
+      cartItem = {};
+    }
+    if (cartItem[_id] >= 1) {
+      cartItem[_id] += 1;
+    } else {
+      cartItem[_id] = 1;
+    }
+    localStorage.setItem("products-list", JSON.stringify(cartItem));
+
     const exist = cart.find((i) => i._id === newCartItem._id);
     if (exist) {
       exist.quantity += 1;
@@ -47,12 +61,9 @@ const Products = () => {
       newCart = [...cart, newCartItem];
     }
 
-    const cartItem = JSON.parse(localStorage.getItem("products-list"));
-
     setCart(newCart);
     setShowPopups(true);
   };
-  console.log(cart);
 
   // modal total cart price calculation
   const totalPrice = cart.reduce((acc, cur) => {
@@ -62,6 +73,21 @@ const Products = () => {
 
   // hide left sidebar on homepage
   const home = location?.pathname === "/" || location.pathname === "/home";
+
+  // get localstroage data
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem("products-list"));
+    const retriveProducts = [];
+    for (let id in storedProducts) {
+      const getProduct = products.find((product) => product?._id === id);
+      if (getProduct) {
+        getProduct.quantity = storedProducts[id];
+        retriveProducts.push(getProduct);
+      }
+    }
+    setCart(retriveProducts);
+  }, [products, setCart]);
+
   return (
     <div className={`py-20 max-w-screen-xl mx-auto ${!home && "flex gap-20"}`}>
       {!home && (

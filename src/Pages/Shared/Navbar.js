@@ -278,7 +278,7 @@ const Navbar = ({ setModeTheme }) => {
       >
         <section
           className={
-            " max-w-lg right-0 absolute bg-gray-700 shadow-xl delay-400 duration-500 ease-in-out transition-all transform" +
+            " max-w-lg right-0 absolute bg-gray-700 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform" +
             (isOpen ? " translate-x-0 " : " translate-x-full ")
           }
           id="cart-drawer"
