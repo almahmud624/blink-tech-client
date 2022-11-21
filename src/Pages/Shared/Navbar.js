@@ -3,12 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
 import { FiMenu, FiMoon, FiShoppingCart, FiSun } from "react-icons/fi";
 import { DataContext } from "../../Context/DataProvider";
-import Cart from "../Cart/Cart";
+import Cart from "../Cart/Cart/Cart";
 import { IoGitCompareSharp } from "react-icons/io5";
+import CartDrawer from "../Cart/CartDrawer/CartDrawer";
 
 const Navbar = ({ setModeTheme }) => {
   const { user, userSignOut } = useContext(AuthContext);
   const { cart, setSearchText } = useContext(DataContext);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const searchRef = useRef();
   const navigate = useNavigate();
@@ -17,7 +19,63 @@ const Navbar = ({ setModeTheme }) => {
     setSearchText(searchRef.current.value);
     navigate("/products");
   };
-  const [isOpen, setIsOpen] = useState(false);
+
+  // navbar menu item
+  const menuItem = (
+    <>
+      <li>
+        <Link className="hover:bg-gray-800 rounded px-3 mx-1 py-1 " to="">
+          Home
+        </Link>
+      </li>
+      <li tabIndex={0}>
+        <Link
+          className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+          to="/products"
+        >
+          Products
+        </Link>
+      </li>
+      <li tabIndex={0}>
+        <Link
+          className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+          to="/tech-doc"
+        >
+          TechDoc
+        </Link>
+      </li>
+
+      {!user?.uid ? (
+        <>
+          <li>
+            <Link
+              className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+              to="/register"
+            >
+              Sign Up
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+              to="/login"
+            >
+              Sign In
+            </Link>
+          </li>
+        </>
+      ) : (
+        <li>
+          <Link
+            className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
+            to="/dashboard"
+          >
+            Dashboard
+          </Link>
+        </li>
+      )}
+    </>
+  );
   return (
     <div className="sticky py-2 top-0 left-0 bg-base-100 z-30">
       <div className="navbar bg-base-100 max-w-screen-xl mx-auto ">
@@ -30,68 +88,7 @@ const Navbar = ({ setModeTheme }) => {
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <Link
-                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                  to=""
-                >
-                  Home
-                </Link>
-              </li>
-              <li tabIndex={0}>
-                <Link
-                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                  to="/products"
-                >
-                  Products
-                </Link>
-              </li>
-              <li tabIndex={0}>
-                <Link
-                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                  to="/tech-doc"
-                >
-                  TechDoc
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                  to="/dashboard"
-                >
-                  Dashboard
-                </Link>
-              </li>
-
-              {!user?.uid ? (
-                <>
-                  <li>
-                    <Link
-                      className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                      to="/register"
-                    >
-                      Sign Up
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                      to="/login"
-                    >
-                      Sign In
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <li>
-                  <Link
-                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                    to="/orders"
-                  >
-                    Orders
-                  </Link>
-                </li>
-              )}
+              {menuItem}
             </ul>
           </div>
           <Link
@@ -104,58 +101,7 @@ const Navbar = ({ setModeTheme }) => {
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal p-0">
-            <li>
-              <Link className="hover:bg-gray-800 rounded px-3 mx-1 py-1 " to="">
-                Home
-              </Link>
-            </li>
-            <li tabIndex={0}>
-              <Link
-                className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                to="/products"
-              >
-                Products
-              </Link>
-            </li>
-            <li tabIndex={0}>
-              <Link
-                className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                to="/tech-doc"
-              >
-                TechDoc
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                to="/dashboard"
-              >
-                Dashboard
-              </Link>
-            </li>
-
-            {!user?.uid && (
-              <>
-                <li>
-                  <Link
-                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                    to="/register"
-                  >
-                    Sign Up
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="hover:bg-gray-800 rounded px-3 mx-1 py-1 "
-                    to="/login"
-                  >
-                    Sign In
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
+          <ul className="menu menu-horizontal p-0">{menuItem}</ul>
         </div>
         <div className="navbar-end flex justify-evenly w-7/12">
           <div className="w-1/2">
@@ -206,7 +152,7 @@ const Navbar = ({ setModeTheme }) => {
           </div>
 
           <Link
-            className="hover:bg-gray-800 rounded px-3 mx-1 py-1  inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
+            className=" rounded px-3 mx-1 py-1  inline-flex relative items-center p-3 text-sm font-medium text-center text-white"
             type="button"
             onClick={() =>
               setIsOpen(location?.pathname === "/cart" ? false : true)
@@ -214,7 +160,7 @@ const Navbar = ({ setModeTheme }) => {
           >
             <FiShoppingCart className="text-xl" />
             <span className="sr-only">Notifications</span>
-            <div className="inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full border-2 border-white dark:border-gray-900">
+            <div className="inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-indigo-500 rounded-full border-2 border-white dark:border-gray-900">
               {cart.length}
             </div>
           </Link>
@@ -268,32 +214,7 @@ const Navbar = ({ setModeTheme }) => {
       </div>
 
       {/** cart Drawer */}
-      <div
-        className={
-          " fixed overflow-hidden bg-gray-700 z-10  bg-opacity-0 inset-0 transform ease-in-out " +
-          (isOpen
-            ? " transition-all opacity-100 duration-500 translate-x-0 "
-            : " transition-all delay-500 opacity-0 translate-x-full ")
-        }
-      >
-        <section
-          className={
-            " max-w-lg right-0 absolute bg-gray-700 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform" +
-            (isOpen ? " translate-x-0 " : " translate-x-full ")
-          }
-          id="cart-drawer"
-        >
-          <article className="relative max-w-lg pb-10 flex flex-col space-y-6 h-full">
-            <Cart setIsOpen={setIsOpen} />
-          </article>
-        </section>
-        <section
-          className=" h-full cursor-pointer "
-          onClick={() => {
-            setIsOpen(false);
-          }}
-        ></section>
-      </div>
+      <CartDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

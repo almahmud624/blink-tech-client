@@ -9,7 +9,7 @@ import CheckOut from "../Pages/CheckOut/CheckOut";
 import Orders from "../Pages/Orders/Orders";
 import Dashboard from "../Pages/Dashboard/Dashboard/Dashboard";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
-import Cart from "../Pages/Cart/Cart";
+import Cart from "../Pages/Cart/Cart/Cart";
 import TechDoc from "../Pages/TechDoc/TechDoc/TechDoc";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import MyAppointments from "../Pages/Dashboard/MyAppointments/MyAppointments";

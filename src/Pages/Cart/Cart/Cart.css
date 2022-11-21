@@ -7,7 +7,7 @@
 }
 
 #cart-items::-webkit-scrollbar-thumb {
-  background-color: rgb(136, 114, 151);
-  outline: 1px solid slategrey;
+  background-color: rgb(92, 92, 92);
+  outline: 1px solid rgb(71, 82, 92);
   border-radius: 5px;
 }

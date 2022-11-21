@@ -4,6 +4,7 @@ import { FiAlertOctagon } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { DataContext } from "../../Context/DataProvider";
+import { removeFromDb } from "../../Utilities/Localdb";
 
 const CheckOut = () => {
   // const product = useLoaderData();
@@ -41,6 +42,8 @@ const CheckOut = () => {
           toast.success(`${customer.name}, Your Order Successfully Placed.`);
         e.target.reset();
         setCart([]);
+        // also remove from localdb
+        removeFromDb("products-list");
       });
 
     // creating user
@@ -153,7 +156,7 @@ const CheckOut = () => {
               <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
             </div>
             <div className="relative">
-              <ul className="space-y-5">
+              <ul className="space-y-5 h-96 overflow-y-scroll p-4">
                 {cart?.map((item) => (
                   <li key={item?._id} className="flex justify-between">
                     <div className="inline-flex">

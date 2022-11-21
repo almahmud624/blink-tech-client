@@ -4,6 +4,7 @@ import { json, Link, useLocation } from "react-router-dom";
 import SectionTitle from "../../Component/SectionTitle";
 import TitleHighlighter from "../../Component/TitleHighlighter";
 import { DataContext } from "../../Context/DataProvider";
+import { addToDb } from "../../Utilities/Localdb";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Product from "../Product/Product";
 
@@ -39,17 +40,8 @@ const Products = () => {
       quantity: 1,
     };
 
-    // local db
-    let cartItem = JSON.parse(localStorage.getItem("products-list"));
-    if (!cartItem) {
-      cartItem = {};
-    }
-    if (cartItem[_id] >= 1) {
-      cartItem[_id] += 1;
-    } else {
-      cartItem[_id] = 1;
-    }
-    localStorage.setItem("products-list", JSON.stringify(cartItem));
+    // add products on localstorage
+    addToDb(_id, "products-list");
 
     const exist = cart.find((i) => i._id === newCartItem._id);
     if (exist) {
@@ -73,20 +65,6 @@ const Products = () => {
 
   // hide left sidebar on homepage
   const home = location?.pathname === "/" || location.pathname === "/home";
-
-  // get localstroage data
-  useEffect(() => {
-    const storedProducts = JSON.parse(localStorage.getItem("products-list"));
-    const retriveProducts = [];
-    for (let id in storedProducts) {
-      const getProduct = products.find((product) => product?._id === id);
-      if (getProduct) {
-        getProduct.quantity = storedProducts[id];
-        retriveProducts.push(getProduct);
-      }
-    }
-    setCart(retriveProducts);
-  }, [products, setCart]);
 
   return (
     <div className={`py-20 max-w-screen-xl mx-auto ${!home && "flex gap-20"}`}>
@@ -137,9 +115,10 @@ const Products = () => {
         <div
           className={` ${
             showPopups
-              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none scale-100 transition-all duration-500 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px]"
+              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none scale-100 transition-all duration-500 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px] cursor-pointer"
               : "opacity-0 scale-110 absolute top-0 left-0 "
           }`}
+          onClick={() => setShowPopups(false)}
         >
           <div className="relative my-6 mx-auto w-1/3">
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white  outline-none focus:outline-none">

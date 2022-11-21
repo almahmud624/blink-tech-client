@@ -28,6 +28,20 @@ const DataProvider = ({ children }) => {
       .then((data) => setOrders(data));
   }, []);
 
+  // get localstroage data
+  useEffect(() => {
+    const storedProducts = JSON.parse(localStorage.getItem("products-list"));
+    const retriveProducts = [];
+    for (let id in storedProducts) {
+      const getProduct = products?.find((product) => product?._id === id);
+      if (getProduct) {
+        getProduct.quantity = storedProducts[id];
+        retriveProducts.push(getProduct);
+      }
+    }
+    setCart(retriveProducts);
+  }, [products, setCart]);
+
   if (!products || !orders) {
     return;
   }
