@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Toaster } from "react-hot-toast";
-import "react-toastify/dist/ReactToastify.css";
 import AuthProvider from "./Context/AuthProvider";
 import DataProvider from "./Context/DataProvider";
 import "react-day-picker/dist/style.css";

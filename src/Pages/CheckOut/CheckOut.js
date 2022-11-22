@@ -1,29 +1,63 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertOctagon, FiPhoneCall } from "react-icons/fi";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { DataContext } from "../../Context/DataProvider";
-import { removeFromDb } from "../../Utilities/Localdb";
+// import { removeFromDb } from "../../Utilities/Localdb";
 import { IoCartOutline, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import "./CheckOut.css";
+import EmptyCart from "../Cart/EmptyCart/EmptyCart";
 
 const CheckOut = () => {
-  // const product = useLoaderData();
-  // const { _id, productName, productPrice, imgURL, category } = product;
   const { user } = useContext(AuthContext);
   const { cart, setCart } = useContext(DataContext);
+  console.log(cart);
+
+  // stripe card element
+  const stripe = useStripe();
+  const elements = useElements();
+  // payment intents state
+  const [clientSecret, setClientSecret] = useState("");
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (customer, e) => {
+  const onSubmit = async (customer, e) => {
     const order = {
       ...customer,
       orderInfo: cart,
     };
-    console.log(order);
+
+    // getting card data
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable
+      // form submission until Stripe.js has loaded.
+      return;
+    }
+
+    const card = elements.getElement(CardElement);
+
+    if (card == null) {
+      return;
+    }
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card,
+    });
+
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(paymentMethod);
+    }
+
+    console.log(card, order);
 
     // fetch("http://localhost:4000/orders", {
     //   method: "POST",
@@ -50,10 +84,25 @@ const CheckOut = () => {
   }, 0);
 
   // vat
-  const tax = subTotal * (10 / 100);
+  const tax = Number((subTotal * (10 / 100)).toFixed(2));
 
   // total price
   const totalPrice = subTotal + tax;
+
+  // stripe payment intents
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    if (cart.length === 0) {
+      return;
+    }
+    fetch("http://localhost:4000/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ price: parseInt(totalPrice) }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, [totalPrice, cart.length]);
 
   return (
     <div>
@@ -167,7 +216,7 @@ const CheckOut = () => {
                     <span>Payment Information</span>
                   </div>
                 </h1>
-                <div>
+                {/* <div>
                   <label for="adress" className="sr-only">
                     Card Number
                   </label>
@@ -181,12 +230,30 @@ const CheckOut = () => {
                       required: "Card-number is required",
                     })}
                   />
-                </div>
+                </div> */}
 
+                <CardElement
+                  className="p-3"
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: "16px",
+                        color: "#B3C5EF",
+                        "::placeholder": {
+                          color: "#aab7c4",
+                        },
+                      },
+                      invalid: {
+                        color: "#9e2146",
+                      },
+                    },
+                  }}
+                />
                 <div className="flex flex-col mt-4 lg:space-y-2">
                   <button
                     type="submit"
-                    className="flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:bg-gray-200 disabled:hover:text-gray-400"
+                    disabled={!stripe || !clientSecret || cart.length === 0}
                   >
                     Order Now
                   </button>
@@ -232,48 +299,52 @@ const CheckOut = () => {
             </h1>
 
             <div className="relative">
-              <ul
-                className="space-y-3 h-72 overflow-y-scroll my-4 px-4 "
-                id="cart-items"
-              >
-                {cart?.map((item) => (
-                  <li
-                    key={item?._id}
-                    className="flex justify-between items-center bg-gray-700 p-1 py-0 rounded"
-                  >
-                    <div className="inline-flex items-center">
-                      <img
-                        src={item?.imgURL}
-                        alt=""
-                        className="h-16 w-16 object-cover rounded-sm"
-                      />
-                      <div className="ml-3 w-52">
-                        <p
-                          className="text-base  text-white truncate"
-                          title={item?.productName}
-                        >
-                          {item?.productName}
-                        </p>
-                        <p className="text-sm  text-white text-opacity-80 capitalize">
-                          ${item?.productPrice * item?.quantity}
-                        </p>
+              {cart.length > 0 ? (
+                <ul
+                  className="space-y-3 h-72 overflow-y-scroll my-4 px-4 "
+                  id="cart-items"
+                >
+                  {cart?.map((item) => (
+                    <li
+                      key={item?._id}
+                      className="flex justify-between items-center bg-gray-700 p-1 py-0 rounded"
+                    >
+                      <div className="inline-flex items-center">
+                        <img
+                          src={item?.imgURL}
+                          alt=""
+                          className="h-16 w-16 object-cover rounded-sm"
+                        />
+                        <div className="ml-3 w-52">
+                          <p
+                            className="text-base  text-white truncate"
+                            title={item?.productName}
+                          >
+                            {item?.productName}
+                          </p>
+                          <p className="text-sm  text-white text-opacity-80 capitalize">
+                            ${item?.productPrice * item?.quantity}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <p className="text-base  text-gray-300 pr-5">
-                      {item?.quantity} items
-                    </p>
-                  </li>
-                ))}
-              </ul>
+                      <p className="text-base  text-gray-300 pr-5">
+                        {item?.quantity} items
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <EmptyCart />
+              )}
               <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
               <div className="space-y-2">
                 <p className="flex justify-between text-base font-medium text-white">
                   <span>Subtotal:</span>
-                  <span>${subTotal}.00</span>
+                  <span>${subTotal}</span>
                 </p>
                 <p className="flex justify-between text-base font-medium text-white">
                   <span>Tax: 10%</span>
-                  <span>${tax}.00</span>
+                  <span>${tax}</span>
                 </p>
                 <p className="flex justify-between text-base font-medium text-white">
                   <span>Shipping:</span>
@@ -284,7 +355,7 @@ const CheckOut = () => {
               <div className="space-y-2">
                 <p className="flex justify-between text-xl font-medium text-white">
                   <span>Total:</span>
-                  <span>${totalPrice}.00</span>
+                  <span>${totalPrice}</span>
                 </p>
               </div>
             </div>

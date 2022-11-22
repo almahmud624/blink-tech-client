@@ -4,7 +4,7 @@ export const DataContext = createContext();
 const DataProvider = ({ children }) => {
   const [products, setProducts] = useState();
   const [orders, setOrders] = useState();
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState();
   const [searchText, setSearchText] = useState("");
 
   // for price sorting -> ascending & descending
