@@ -3,7 +3,6 @@ import React, { createContext, useEffect, useState } from "react";
 export const DataContext = createContext();
 const DataProvider = ({ children }) => {
   const [products, setProducts] = useState();
-  const [orders, setOrders] = useState();
   const [cart, setCart] = useState();
   const [searchText, setSearchText] = useState("");
 
@@ -21,13 +20,6 @@ const DataProvider = ({ children }) => {
       .then((data) => setProducts(data));
   }, [isAsc, searchText]);
 
-  // get customer orders data
-  useEffect(() => {
-    fetch("http://localhost:4000/orders")
-      .then((res) => res.json())
-      .then((data) => setOrders(data));
-  }, []);
-
   // get localstroage data
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products-list"));
@@ -42,15 +34,13 @@ const DataProvider = ({ children }) => {
     setCart(retriveProducts);
   }, [products, setCart]);
 
-  if (!products || !orders) {
+  if (!products) {
     return;
   }
 
   const dataCenter = {
     products,
     setProducts,
-    orders,
-    setOrders,
     cart,
     setCart,
     setIsAsc,

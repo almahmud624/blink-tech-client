@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { FiArrowLeft, FiArrowRight, FiEdit, FiTrash } from "react-icons/fi";
 import { toast } from "react-hot-toast";
@@ -42,6 +42,7 @@ const Orders = () => {
       }
     },
   });
+  console.log(orders);
 
   // cancel order put method
   const handleDelete = async (order) => {

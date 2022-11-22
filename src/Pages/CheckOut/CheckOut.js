@@ -1,25 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiAlertOctagon, FiPhoneCall } from "react-icons/fi";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { DataContext } from "../../Context/DataProvider";
-// import { removeFromDb } from "../../Utilities/Localdb";
-import { IoCartOutline, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { removeFromDb } from "../../Utilities/Localdb";
+import {
+  IoAlertCircle,
+  IoCartOutline,
+  IoCheckmark,
+  IoCheckmarkCircle,
+  IoShieldCheckmarkOutline,
+} from "react-icons/io5";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import "./CheckOut.css";
 import EmptyCart from "../Cart/EmptyCart/EmptyCart";
+import BounceLoader from "react-spinners/ClipLoader";
 
 const CheckOut = () => {
   const { user } = useContext(AuthContext);
   const { cart, setCart } = useContext(DataContext);
-  console.log(cart);
 
+  // card confirmation state
+  const [err, setErr] = useState("");
+  const [process, setProcss] = useState(false);
+  const [success, setSuccess] = useState(false);
   // stripe card element
   const stripe = useStripe();
   const elements = useElements();
   // payment intents state
   const [clientSecret, setClientSecret] = useState("");
+  // payment confirm traxnId state
+  const [transectionId, setTransectionId] = useState("");
 
   const {
     register,
@@ -28,12 +40,8 @@ const CheckOut = () => {
   } = useForm();
 
   const onSubmit = async (customer, e) => {
-    const order = {
-      ...customer,
-      orderInfo: cart,
-    };
-
-    // getting card data
+    setSuccess(false);
+    // getting stripe card data
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
@@ -52,29 +60,60 @@ const CheckOut = () => {
     });
 
     if (error) {
-      console.log(error);
+      toast.error(error.message);
+      return;
     } else {
-      console.log(paymentMethod);
+    }
+    setProcss(true);
+    // confirm stripe card payment
+    const { paymentIntent, confirmError } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: customer?.name,
+            email: customer?.email,
+            address: customer?.address,
+          },
+        },
+      }
+    );
+
+    if (confirmError) {
+      setErr(confirmError);
+      setProcss(false);
+      return;
     }
 
-    console.log(card, order);
+    if (paymentIntent.status === "succeeded") {
+      setTransectionId(paymentIntent?.id);
+      // send order on database
+      const order = {
+        ...customer,
+        txnId: paymentIntent?.id,
+        orderInfo: cart,
+      };
+      fetch("http://localhost:4000/orders", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(order),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          data.acknowledged &&
+            toast.success(`${customer.name}, Your Order Successfully Placed.`);
+          e.target.reset();
+          setCart([]);
 
-    // fetch("http://localhost:4000/orders", {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(order),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     data.acknowledged &&
-    //       toast.success(`${customer.name}, Your Order Successfully Placed.`);
-    //     e.target.reset();
-    //     setCart([]);
-    //     // also remove from localdb
-    //     removeFromDb("products-list");
-    //   });
+          // also remove from localdb
+          removeFromDb("products-list");
+        });
+    }
+    setProcss(false);
+    setSuccess(true);
   };
 
   // subtotal
@@ -216,22 +255,6 @@ const CheckOut = () => {
                     <span>Payment Information</span>
                   </div>
                 </h1>
-                {/* <div>
-                  <label for="adress" className="sr-only">
-                    Card Number
-                  </label>
-                  <input
-                    type="text"
-                    name="card-number"
-                    id="card-number"
-                    className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                    placeholder="Card Number"
-                    {...register("card-number", {
-                      required: "Card-number is required",
-                    })}
-                  />
-                </div> */}
-
                 <CardElement
                   className="p-3"
                   options={{
@@ -252,13 +275,45 @@ const CheckOut = () => {
                 <div className="flex flex-col mt-4 lg:space-y-2">
                   <button
                     type="submit"
-                    className="flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:bg-gray-200 disabled:hover:text-gray-400"
-                    disabled={!stripe || !clientSecret || cart.length === 0}
+                    className={`flex items-center justify-center w-full px-10 py-3 text-base font-medium text-center text-gray-800 transition duration-500 ease-in-out transform bg-indigo-300 rounded-xl hover:bg-indigo-700 hover:text-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:bg-gray-200 disabled:hover:text-gray-400" ${
+                      success
+                        ? "disabled:bg-green-900  disabled:hover:bg-green-900 "
+                        : "disabled:bg-gray-200  disabled:hover:bg-gray-200 "
+                    }`}
+                    disabled={
+                      !stripe || !clientSecret || cart.length === 0 || process
+                    }
                   >
-                    Order Now
+                    {success ? (
+                      <>
+                        <span className="flex gap-1 font-normal items-center text-green-300">
+                          Payment Successful
+                          <IoCheckmark className="text-green-300 text-xl" />
+                        </span>
+                      </>
+                    ) : process ? (
+                      <BounceLoader
+                        loading={process}
+                        color={"#36d7b7"}
+                        size={20}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    ) : (
+                      "Pay"
+                    )}
                   </button>
                 </div>
               </form>
+              {transectionId && (
+                <p className="my-4 bg-green-900 text-green-300 w-full py-3 rounded-md text-center">
+                  <IoAlertCircle className="inline-block float-left ml-2 text-gray-200 text-2xl" />
+                  <span className="font-medium text-gray-200">
+                    Your Transection Id:
+                  </span>{" "}
+                  {transectionId}
+                </p>
+              )}
             </div>
             <div className="relative mt-20 text-gray-700">
               <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">

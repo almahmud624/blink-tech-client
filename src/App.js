@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 
 import { router } from "./Routes/routes";
 
-const stripePromise = loadStripe(`${process.env.REACT_APP_stripe_pk}`);
+const stripePromise = loadStripe(process.env.REACT_APP_stripe_pk);
 function App() {
   return (
     <div>

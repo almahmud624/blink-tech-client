@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { FiTrash } from "react-icons/fi";
-import { IoCartSharp } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom";
 import { DataContext } from "../../../Context/DataProvider";
 import {
