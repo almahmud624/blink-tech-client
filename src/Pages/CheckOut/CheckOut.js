@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { FiAlertOctagon } from "react-icons/fi";
+import { FiAlertOctagon, FiPhoneCall } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { DataContext } from "../../Context/DataProvider";
 import { removeFromDb } from "../../Utilities/Localdb";
+import { IoCartOutline, IoShieldCheckmarkOutline } from "react-icons/io5";
 
 const CheckOut = () => {
   // const product = useLoaderData();
@@ -21,50 +22,58 @@ const CheckOut = () => {
     const order = {
       ...customer,
       orderInfo: cart,
-      // orderInfo: {
-      //   productId: _id,
-      //   productName,x`
-      //   productPrice,
-      //   imgURL,
-      //   category,
-      // },
     };
-    fetch("http://localhost:4000/orders", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(order),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        data.acknowledged &&
-          toast.success(`${customer.name}, Your Order Successfully Placed.`);
-        e.target.reset();
-        setCart([]);
-        // also remove from localdb
-        removeFromDb("products-list");
-      });
+    console.log(order);
 
-    // creating user
+    // fetch("http://localhost:4000/orders", {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(order),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     data.acknowledged &&
+    //       toast.success(`${customer.name}, Your Order Successfully Placed.`);
+    //     e.target.reset();
+    //     setCart([]);
+    //     // also remove from localdb
+    //     removeFromDb("products-list");
+    //   });
   };
-  const totalPrice = cart.reduce((acc, cur) => {
+
+  // subtotal
+  const subTotal = cart.reduce((acc, cur) => {
     const total = parseInt(acc) + parseInt(cur.productPrice) * cur.quantity;
     return total;
   }, 0);
+
+  // vat
+  const tax = subTotal * (10 / 100);
+
+  // total price
+  const totalPrice = subTotal + tax;
+
   return (
     <div>
       <div className="relative mx-auto w-full bg-white">
         <div className="grid min-h-screen grid-cols-10">
-          <div className="col-span-full py-6 px-4 sm:py-12 lg:col-span-6 lg:py-24">
-            <div className="mx-auto w-full max-w-lg">
-              <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
-                Secure Checkout
-                <span className="mt-2 block h-1 w-10 bg-teal-600 sm:w-20"></span>
+          <div className="col-span-full px-10  lg:col-span-6  py-10">
+            <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
+              <div className="flex items-center gap-2">
+                <IoShieldCheckmarkOutline /> <span>Secure Checkout</span>
+              </div>
+            </h1>
+            <div className="mx-auto w-full max-w-2xl  my-4">
+              <h1 className="relative text-xl font-medium text-gray-700 ">
+                <div className="flex items-center gap-2">
+                  <span>Shipping Information</span>
+                </div>
               </h1>
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="mt-6 space-y-2"
+                className="mt-2 space-y-2"
               >
                 <div className="flex justify-between gap-3">
                   <div className="w-full">
@@ -126,6 +135,21 @@ const CheckOut = () => {
                   />
                 </div>
                 <div>
+                  <label for="adress" className="sr-only">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    placeholder="Enter your address"
+                    {...register("address", {
+                      required: "Address is required",
+                    })}
+                  />
+                </div>
+                <div>
                   <label for="message" className="sr-only">
                     Your Message
                   </label>
@@ -136,6 +160,26 @@ const CheckOut = () => {
                     placeholder="Your Message"
                     defaultValue={user?.message}
                     {...register("message")}
+                  />
+                </div>
+                <h1 className="relative text-xl font-medium text-gray-700 ">
+                  <div className="flex items-center gap-2">
+                    <span>Payment Information</span>
+                  </div>
+                </h1>
+                <div>
+                  <label for="adress" className="sr-only">
+                    Card Number
+                  </label>
+                  <input
+                    type="text"
+                    name="card-number"
+                    id="card-number"
+                    className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                    placeholder="Card Number"
+                    {...register("card-number", {
+                      required: "Card-number is required",
+                    })}
                   />
                 </div>
 
@@ -149,71 +193,100 @@ const CheckOut = () => {
                 </div>
               </form>
             </div>
-          </div>
-          <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4 sm:py-12 lg:col-span-4 lg:py-24">
-            <h2 className="sr-only">Order summary</h2>
-            <div>
-              <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-teal-800 to-teal-400 opacity-95"></div>
+            <div className="relative mt-20 text-gray-700">
+              <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
+                <div className="flex items-center gap-2 mb-5">
+                  <FiPhoneCall /> <span>Support</span>
+                </div>
+              </h1>
             </div>
+            <div className="px-4 max-w-2xl mx-auto flex items-start gap-20">
+              <div>
+                <p className="text-lg font-semibold text-gray-600">
+                  +880 653 235 211 <span className="text-lg">(Phone)</span>
+                </p>
+                <p className="mt-1 text-lg font-semibold text-gray-600">
+                  support@blinktech.com <span className="text-lg">(Email)</span>
+                </p>
+                <p className="mt-2 text-sm text-gray-500 ">
+                  Call us now for payment related issues
+                </p>
+              </div>
+              <div className="relative flex">
+                <p className="flex flex-col">
+                  <span className="text-lg font-semibold text-gray-600">
+                    Money Back Guarantee
+                  </span>
+                  <span className="text-sm  text-gray-500">
+                    within 30 days of purchase
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4  lg:col-span-4  bg-gray-800">
+            <h1 className="relative text-2xl font-medium text-gray-200 sm:text-3xl">
+              <div className="flex items-center gap-2">
+                <IoCartOutline /> <span>Order Summary</span>
+              </div>
+            </h1>
+
             <div className="relative">
-              <ul className="space-y-5 h-96 overflow-y-scroll p-4">
+              <ul
+                className="space-y-3 h-72 overflow-y-scroll my-4 px-4 "
+                id="cart-items"
+              >
                 {cart?.map((item) => (
-                  <li key={item?._id} className="flex justify-between">
-                    <div className="inline-flex">
+                  <li
+                    key={item?._id}
+                    className="flex justify-between items-center bg-gray-700 p-1 py-0 rounded"
+                  >
+                    <div className="inline-flex items-center">
                       <img
                         src={item?.imgURL}
                         alt=""
                         className="h-16 w-16 object-cover rounded-sm"
                       />
-                      <div className="ml-3">
-                        <p className="text-base font-semibold text-white">
+                      <div className="ml-3 w-52">
+                        <p
+                          className="text-base  text-white truncate"
+                          title={item?.productName}
+                        >
                           {item?.productName}
                         </p>
-                        <p className="text-sm font-medium text-white text-opacity-80 capitalize">
-                          ${item?.productPrice}
+                        <p className="text-sm  text-white text-opacity-80 capitalize">
+                          ${item?.productPrice * item?.quantity}
                         </p>
                       </div>
                     </div>
-                    <p className="text-sm font-semibold text-white">
-                      {item?.quantity}x
+                    <p className="text-base  text-gray-300 pr-5">
+                      {item?.quantity} items
                     </p>
                   </li>
                 ))}
               </ul>
               <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
               <div className="space-y-2">
-                <p className="flex justify-between text-lg font-bold text-white">
-                  <span>Total price:</span>
-                  <span>${totalPrice}.00</span>
+                <p className="flex justify-between text-base font-medium text-white">
+                  <span>Subtotal:</span>
+                  <span>${subTotal}.00</span>
                 </p>
-                <p className="flex justify-between text-sm font-medium text-white">
-                  <span>Vat: 10%</span>
-                  <span>$55.00</span>
+                <p className="flex justify-between text-base font-medium text-white">
+                  <span>Tax: 10%</span>
+                  <span>${tax}.00</span>
+                </p>
+                <p className="flex justify-between text-base font-medium text-white">
+                  <span>Shipping:</span>
+                  <span className="text-green-400">Free</span>
                 </p>
               </div>
-            </div>
-            <div className="relative mt-10 text-white">
-              <h3 className="mb-5 text-lg font-bold">Support</h3>
-              <p className="text-sm font-semibold">
-                +01 653 235 211{" "}
-                <span className="font-light">(International)</span>
-              </p>
-              <p className="mt-1 text-sm font-semibold">
-                support@nanohair.com <span className="font-light">(Email)</span>
-              </p>
-              <p className="mt-2 text-xs font-medium">
-                Call us now for payment related issues
-              </p>
-            </div>
-            <div className="relative mt-10 flex">
-              <p className="flex flex-col">
-                <span className="text-sm font-bold text-white">
-                  Money Back Guarantee
-                </span>
-                <span className="text-xs font-medium text-white">
-                  within 30 days of purchase
-                </span>
-              </p>
+              <div className="my-5 h-0.5 w-full bg-white bg-opacity-30"></div>
+              <div className="space-y-2">
+                <p className="flex justify-between text-xl font-medium text-white">
+                  <span>Total:</span>
+                  <span>${totalPrice}.00</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

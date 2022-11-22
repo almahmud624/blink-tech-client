@@ -23,6 +23,7 @@ const Users = () => {
       }
     },
   });
+  console.log(users);
 
   const handleMakeAdmin = async (id) => {
     // try {

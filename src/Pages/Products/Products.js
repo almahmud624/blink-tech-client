@@ -115,7 +115,7 @@ const Products = () => {
         <div
           className={` ${
             showPopups
-              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none scale-100 transition-all duration-500 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px] cursor-pointer"
+              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none scale-100 transition-all duration-200 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px] cursor-pointer"
               : "opacity-0 scale-110 absolute top-0 left-0 "
           }`}
           onClick={() => setShowPopups(false)}

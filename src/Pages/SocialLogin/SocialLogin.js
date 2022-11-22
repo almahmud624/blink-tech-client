@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { setAuthToken } from "../../Utilities/JwtApi";
+import axios from "axios";
 
 const SocialLogin = () => {
   const { userGoogleSignIn, userFacebookSignIn } = useContext(AuthContext);
@@ -15,6 +16,8 @@ const SocialLogin = () => {
     userGoogleSignIn()
       .then((res) => {
         const user = res.user;
+        // store user data
+        storeUserData(user?.displayName, user?.email);
         // get jwt token
         setAuthToken(user);
         navigate(from, { replace: true });
@@ -36,6 +39,20 @@ const SocialLogin = () => {
       .catch((error) => {
         console.log(error.code);
       });
+  };
+
+  // store user data on database
+  const storeUserData = (name, email) => {
+    const user = { name, email };
+    axios({
+      method: "post",
+      url: "http://localhost:4000/users",
+      data: user,
+    }).then((res) => {
+      // get jwt token
+      setAuthToken(user);
+      navigate("/");
+    });
   };
   return (
     <div>
