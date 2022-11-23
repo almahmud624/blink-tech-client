@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 const AppointmentOptions = ({ option, setService, service }) => {
   const { _id, name, slots } = option;
   return (
-    <div>
+    <div className="">
       <div className="relative bg-gray-800 shadow-xl rounded-lg">
         <hr className="border border-base-100 absolute top-20 -right-20 w-full rotate-45"></hr>
         <input
@@ -15,7 +15,6 @@ const AppointmentOptions = ({ option, setService, service }) => {
             setService(option);
           }}
           defaultChecked={service?._id === option?._id ? true : false}
-          // disabled={slots?.length === 0}
         />
 
         <label

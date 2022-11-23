@@ -7,11 +7,11 @@ const TechDoc = () => {
   return (
     <>
       <div className="max-w-6xl mx-auto px-4">
-        <TechDocBanner
+        <TechDocBanner />
+        <AvilableAppointment
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-        <AvilableAppointment selectedDate={selectedDate} />
       </div>
     </>
   );

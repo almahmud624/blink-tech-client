@@ -6,7 +6,7 @@ import PrimaryBtn from "../../Component/PrimaryBtn";
 const Footer = () => {
   return (
     <div>
-      <footer className="footer p-10 bg-base-100 text-base-content">
+      <footer className="footer p-5 md:p-10 bg-base-100 text-base-content">
         <div>
           <div>
             <h4 className="text-3xl font-bold">Blink Tech</h4>
@@ -18,12 +18,12 @@ const Footer = () => {
             <p className="font-base text-md my-1">
               Download our app from Google Play and App store
             </p>
-            <div className="grid grid-flow-col gap-4 w-full mt-4">
+            <div className="grid md:grid-flow-col gap-4 w-full mt-4">
               <a
                 href="https://play.google.com/store/apps"
                 target="_blank"
                 rel="noreferrer"
-                className="flex flex-row justify-center items-center font-medium text-md border-2 py-3 px-4 rounded-md bg-green-600 text-gray-100 border-teal-900 hover:bg-transparent hover:text-green-400 transition-all duration-300"
+                className="flex flex-row justify-center items-center font-medium text-md border-2 py-3 px-1 md:px-4 rounded-md bg-green-600 text-gray-100 border-teal-900 hover:bg-transparent hover:text-green-400 transition-all duration-300 md:w-full w-10/12"
               >
                 Download on Google Play{" "}
                 <IoLogoGooglePlaystore className="ml-2 text-lg" />
@@ -32,7 +32,7 @@ const Footer = () => {
                 href="https://play.google.com/store/apps"
                 target="_blank"
                 rel="noreferrer"
-                className="flex flex-row justify-center items-center font-medium text-md border-2 py-3 px-4 rounded-md bg-green-600 text-gray-100 border-teal-900 hover:bg-transparent hover:text-green-400 transition-all duration-300"
+                className="flex flex-row justify-center items-center font-medium text-md border-2 py-3 px-1 md:px-4 rounded-md bg-green-600 text-gray-100 border-teal-900 hover:bg-transparent hover:text-green-400 transition-all duration-300 md:w-full w-10/12"
               >
                 Download on App store{" "}
                 <IoLogoAppleAppstore className="ml-2 text-lg" />
@@ -73,7 +73,7 @@ const Footer = () => {
             <label className="label">
               <span className="label-text">Enter your email address</span>
             </label>
-            <div className="relative">
+            <div className="relative md:w-full w-10/12">
               <input
                 type="text"
                 placeholder="username@site.com"

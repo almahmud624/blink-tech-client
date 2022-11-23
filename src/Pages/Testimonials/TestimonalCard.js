@@ -3,7 +3,7 @@ import React from "react";
 const TestimonalCard = ({ testimonial }) => {
   return (
     <div>
-      <div className="relative w-72 rounded-xl mt-20 bg-indigo-900 p-4 shadow-lg m-10">
+      <div className="relative md:w-72 w-60 rounded-xl md:mt-20 mt-5 bg-indigo-900 p-4 shadow-lg m-10">
         <a href="/" className="aboslute left-0 top-0">
           <img
             alt=""

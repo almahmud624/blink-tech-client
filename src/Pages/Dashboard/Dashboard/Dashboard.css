@@ -4,3 +4,6 @@
 .drawer {
   height: auto !important;
 }
+.drawer-side {
+  z-index: 1 !important;
+}

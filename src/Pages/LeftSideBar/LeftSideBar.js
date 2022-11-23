@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import SectionTitle from "../../Component/SectionTitle";
 import { DataContext } from "../../Context/DataProvider";
 import SearchAndCategory from "./SearchAndCategory";
 import SortPorduct from "./SortPorduct";
@@ -14,7 +15,10 @@ const LeftSideBar = ({ handleProductFilter, setQuery }) => {
   );
 
   return (
-    <div>
+    <div className="">
+      <div className="mx-4 md:hidden block">
+        <SectionTitle>Explore Our Products</SectionTitle>
+      </div>
       <SearchAndCategory
         filterdCategories={filterdCategories}
         handleProductFilter={handleProductFilter}

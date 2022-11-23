@@ -149,7 +149,7 @@ const CheckOut = () => {
   return (
     <div>
       <div className="relative mx-auto w-full bg-white">
-        <div className="grid min-h-screen grid-cols-10">
+        <div className="md:flex-row flex flex-col-reverse min-h-screen md:justify-between">
           <div className="col-span-full px-10  lg:col-span-6  py-10">
             <h1 className="relative text-2xl font-medium text-gray-700 sm:text-3xl">
               <div className="flex items-center gap-2">
@@ -379,7 +379,7 @@ const CheckOut = () => {
               </div>
             </div>
           </div>
-          <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4  lg:col-span-4  bg-gray-800">
+          <div className="relative col-span-full flex flex-col py-6 pl-8 pr-4  lg:col-span-4 bg-gray-800">
             <h1 className="relative text-2xl font-medium text-gray-200 sm:text-3xl">
               <div className="flex items-center gap-2">
                 <IoCartOutline /> <span>Order Summary</span>

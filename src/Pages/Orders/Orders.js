@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import ConfirmedModal from "../../Component/ConfirmedModal";
 import Loader from "../../Component/Loader";
 import { Link } from "react-router-dom";
-import PrimaryBtn from "../../Component/PrimaryBtn";
 
 const Orders = () => {
   const { user, userSignOut } = useContext(AuthContext);
@@ -109,32 +108,29 @@ const Orders = () => {
 
   return (
     <div>
-      <div className="my-20 max-w-screen-lg px-4 mx-auto">
+      <div className="px-4 mx-auto">
         {orderAvialabilityCheck === true ? (
-          <div className="overflow-x-auto  relative shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  overflow-x-scroll">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="p-4">
-                    <div className="flex items-center"></div>
-                  </th>
-                  <th scope="col" className="py-3 px-6"></th>
-                  <th scope="col" className="py-3 px-6">
-                    Product name
-                  </th>
+          <div className=" relative shadow-md sm:rounded-lg">
+            <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
+              <thead className="hidden border border-gray-800 lg:table-header-group">
+                <tr className="">
+                  <td className="whitespace-normal py-4 text-sm font-semibold text-gray-800 sm:px-3"></td>
 
-                  <th scope="col" className="py-3 px-6">
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
+                    Product name
+                  </td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
                     Category
-                  </th>
-                  <th scope="col" className="py-3 px-6">
+                  </td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
                     Price
-                  </th>
-                  <th scope="col" className="py-3 px-6">
+                  </td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
                     Status
-                  </th>
-                  <th scope="col" className="py-3 px-6">
+                  </td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
                     Action
-                  </th>
+                  </td>
                 </tr>
               </thead>
               <tbody>
@@ -143,12 +139,65 @@ const Orders = () => {
                     {order?.orderInfo.map((item) => (
                       <tr
                         key={Math.random()}
-                        className="bg-white border-b dark:bg-gray-800 "
+                        className="bg-white border-b border-gray-900  dark:bg-gray-800 "
                       >
-                        <td className="p-4 w-4">
-                          <div className="flex items-center"></div>
+                        <td className="whitespace-no-wrap p-4 pb-10 z-50 text-left text-md text-gray-600 sm:px-3 lg:text-left mt-1 flex flex-col font-medium space-y-5 md:hidden">
+                          <div className="avatar flex items-center ">
+                            <div className="w-8 rounded bg-slate-300">
+                              <img
+                                src={item?.imgURL}
+                                alt="Tailwind-CSS-Avatar-component"
+                              />
+                            </div>
+                          </div>
+                          <div className="mt-1 flex flex-col text-base font-medium space-y-3 md:hidden">
+                            <div className="flex items-center text-md text-indigo-200">
+                              {item.productName} {""}{" "}
+                              <span className="font-normal text-red-300">
+                                x{item?.quantity}
+                              </span>
+                            </div>
+                            <div className="flex items-center text-md text-indigo-200">
+                              {item?.category}
+                            </div>
+                            <div className="flex items-center text-md text-indigo-200">
+                              ${item.productPrice * item?.quantity}
+                            </div>
+                            <div
+                              onClick={() =>
+                                handleUpdateStatus(order?._id, item?._id)
+                              }
+                              className={`${
+                                item?.status
+                                  ? " capitalize cursor-pointer text-green-600 flex items-center text-md"
+                                  : " capitalize cursor-pointer text-red-600 flex items-center text-md"
+                              }`}
+                            >
+                              {item?.status ? item?.status : "Pending"}
+                            </div>
+
+                            <div className="flex items-center">
+                              <label className="btn text-lg p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none">
+                                <FiTrash
+                                  onClick={() =>
+                                    setDeletingOrder({
+                                      orderId: order?._id,
+                                      productId: item?._id,
+                                    })
+                                  }
+                                />
+                              </label>
+
+                              <label
+                                htmlFor="my-modal-6"
+                                className="ml-3 text-lg btn p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none"
+                              >
+                                <FiEdit />
+                              </label>
+                            </div>
+                          </div>
                         </td>
-                        <td className="px-0 w-0">
+                        <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-600 sm:px-3 md:table-cell capitalize">
                           <div className="avatar flex items-center">
                             <div className="w-8 rounded bg-slate-300">
                               <img
@@ -158,27 +207,26 @@ const Orders = () => {
                             </div>
                           </div>
                         </td>
-                        <th
-                          scope="row"
-                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
+
+                        <td className="whitespace-no-wrap hidden py-4 text-left text-sm text-indigo-200 sm:px-3 md:table-cell lg:text-left">
                           {item.productName} {""}{" "}
                           <span className="font-normal text-red-300">
                             x{item?.quantity}
                           </span>
-                        </th>
-                        {/* <td className="py-4 px-6">Sliver</td> */}
-                        <td className="py-4 px-6 capitalize">
+                        </td>
+
+                        <td className="whitespace-no-wrap hidden py-4 text-left text-sm text-indigo-200 sm:px-3 md:table-cell lg:text-left">
                           {item?.category}
                         </td>
-                        <td className="py-4 px-6">
+                        <td className="whitespace-no-wrap hidden py-4 text-left text-sm text-indigo-200 sm:px-3 md:table-cell lg:text-left">
                           ${item.productPrice * item?.quantity}
                         </td>
+
                         <td
                           onClick={() =>
                             handleUpdateStatus(order?._id, item?._id)
                           }
-                          className={`${
+                          className={`whitespace-no-wrap hidden py-4 text-left text-sm text-gray-600 sm:px-3 md:table-cell lg:text-left ${
                             item?.status
                               ? "py-4 px-6 capitalize cursor-pointer text-green-600"
                               : "py-4 px-6 capitalize cursor-pointer text-red-600"
@@ -186,7 +234,7 @@ const Orders = () => {
                         >
                           {item?.status ? item?.status : "Pending"}
                         </td>
-                        <td className="py-4 px-6 flex items-center">
+                        <td className="whitespace-no-wrap hidden py-4 text-left text-sm text-gray-600 sm:px-3 md:table-cell lg:text-left">
                           <label className="btn text-lg p-0 py-0 min-h-0 h-0 bg-transparent hover:bg-transparent border-none">
                             <FiTrash
                               onClick={() =>
@@ -212,7 +260,7 @@ const Orders = () => {
               </tbody>
             </table>
 
-            <div className="flex justify-center flex-col items-center my-5 gap-y-5">
+            {/* <div className="flex justify-center flex-col items-center my-5 gap-y-5">
               <p>
                 Currently selected page: {page} and Page size: {size}
               </p>
@@ -227,7 +275,7 @@ const Orders = () => {
                   </button>
                 </li>
 
-                {/* {[...Array(pages).keys()].map((number) => (
+                {[...Array(pages).keys()].map((number) => (
                 <li key={Math.random()}>
                   <button
                     onClick={() => setPage(number)}
@@ -236,7 +284,7 @@ const Orders = () => {
                     {number + 1}
                   </button>
                 </li>
-              ))} */}
+              ))}
 
                 <li>
                   <button
@@ -260,7 +308,7 @@ const Orders = () => {
                   <option value="20">20</option>
                 </select>
               </ol>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="rounded-3xl shadow-2xl">

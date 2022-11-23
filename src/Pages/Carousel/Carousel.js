@@ -38,13 +38,13 @@ const Carousel = () => {
           >
             <div className="relative flex h-screen md:flex-row flex-col-reverse justify-center items-center space-x-4 px-4">
               <div className="z-10 w-full text-center md:text-left md:w-1/2 px-4">
-                <h3 className="text-gray-800  capitalize font-bold text-5xl leading-tight">
+                <h3 className="text-gray-800  capitalize font-bold text-2xl md:text-5xl leading-tight">
                   up to {items?.discount}% off <br></br>
                   <span className="text-indigo-500">{items?.productName}</span>
                 </h3>
-                <p className="text-gray-500  mt-4 font-base">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Deserunt asperiores laboriosam ipsa neque quasi quam.
+                <p className="text-gray-500  mt-4 font-base hidden md:block">
+                  Choose the best Product for you! Which makes you more
+                  comportable on your working session.
                 </p>
                 <Link
                   className="inline-block mt-5 rounded bg-indigo-300 px-8 py-3 text-sm font-medium text-gray-800  hover:bg-indigo-500 hover:text-gray-200 hover:rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-300 transition-all duration-300"
@@ -54,7 +54,7 @@ const Carousel = () => {
                   Buy Now <IoCartOutline className="inline-block h-5 w-5" />
                 </Link>
               </div>
-              <div className="w-full md:w-1/2 drop-shadow-2xl ">
+              <div className="w-1/2 drop-shadow-2xl ">
                 <img src={items?.imgURL} alt="" className="w-full h-full" />
               </div>
             </div>

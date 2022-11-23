@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
-import { json, Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SectionTitle from "../../Component/SectionTitle";
 import TitleHighlighter from "../../Component/TitleHighlighter";
 import { DataContext } from "../../Context/DataProvider";
@@ -67,7 +67,11 @@ const Products = () => {
   const home = location?.pathname === "/" || location.pathname === "/home";
 
   return (
-    <div className={`py-20 max-w-screen-xl mx-auto ${!home && "flex gap-20"}`}>
+    <div
+      className={`md:py-10 py-3 max-w-screen-xl mx-auto ${
+        !home && "md:flex gap-20"
+      }`}
+    >
       {!home && (
         <LeftSideBar
           handleProductFilter={handleProductFilter}
@@ -77,13 +81,15 @@ const Products = () => {
       )}
 
       {/**All Products */}
-      <div className="pt-10">
+      <div className="pt-0 md:pt-5">
         {products.length > 0 ? (
           <>
-            <TitleHighlighter>Products</TitleHighlighter>
-            <SectionTitle>Explore Our Products</SectionTitle>
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-20">
-              {products
+            <div className={`${!home && "md:block hidden"}`}>
+              <TitleHighlighter>Products</TitleHighlighter>
+              <SectionTitle>Explore Our Products</SectionTitle>
+            </div>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 -space-y-8 md:-space-y-0">
+              {filterProducts
                 ?.filter((searchItem) =>
                   searchItem?.productName.toLowerCase().includes(query)
                 )
@@ -120,7 +126,7 @@ const Products = () => {
           }`}
           onClick={() => setShowPopups(false)}
         >
-          <div className="relative my-6 mx-auto w-1/3">
+          <div className="relative my-6 mx-auto w-96 md:w-1/3">
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white  outline-none focus:outline-none">
               <div className="bg-gray-100 p-2 rounded">
                 <FiXCircle

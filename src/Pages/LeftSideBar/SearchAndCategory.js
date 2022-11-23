@@ -9,7 +9,7 @@ const SearchAndCategory = ({
 }) => {
   return (
     <div>
-      <div className="flex flex-col  px-4 py-8 pt-4 bg-white border dark:bg-gray-900 dark:border-gray-700">
+      <div className="flex flex-col px-0 md:px-4 py-0 md:py-8 pt-4 md:mx-0 mx-4 bg-white md:border border-0 dark:bg-gray-900 md:dark:border-gray-700">
         <div className="relative mt-6">
           <span className="absolute inset-y-0 left-0 flex flex-row items-center pl-3">
             <svg
@@ -39,13 +39,13 @@ const SearchAndCategory = ({
          *------->  All Categories
          */}
 
-        <div className="">
+        <div className="md:block hidden">
           <h4 className="text-xl mt-10 font-semibold flex items-center gap-2">
             <FiFilter /> Categories
           </h4>
-          <nav className="flex flex-col ">
+          <nav className="flex flex-wrap md:flex-col ">
             <Link
-              className="flex items-center py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
+              className="flex items-center py-2 mt-2 md:mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
               to=""
               onClick={() => handleProductFilter("all")}
             >
@@ -54,7 +54,7 @@ const SearchAndCategory = ({
             {filterdCategories?.map((category) => (
               <Link
                 key={Math.random()}
-                className="flex items-center py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
+                className="flex items-center py-2 mt-2 md:mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
                 to=""
                 onClick={() => handleProductFilter(category)}
               >

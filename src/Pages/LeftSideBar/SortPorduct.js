@@ -1,22 +1,21 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 import { DataContext } from "../../Context/DataProvider";
 
 const SortPorduct = () => {
   const { setIsAsc } = useContext(DataContext);
   return (
     <div>
-      <div className="flex flex-col mt-10 px-4 py-8 pt-4 bg-white border dark:bg-gray-900 dark:border-gray-700">
+      <div className="flex flex-col mt-5 px-4 py-0 md:mx-0 mx-4 bg-white border dark:bg-gray-900 dark:border-gray-700">
         {/**
          *------->  Sort Product by price
          */}
 
         <div className="">
-          <h4 className="text-xl mt-10 font-semibold flex items-center gap-2">
+          <h4 className="text-xl mt-4 md:mt-4 font-semibold flex items-center gap-2">
             Sort By Price
           </h4>
-          <nav className="flex flex-col p-5">
-            <div className="flex items-center mb-4">
+          <nav className="flex md:flex-col items-center md:items-start gap-4 md:gap-0 p-5">
+            <div className="flex items-center mb-0 md:mb-4">
               <input
                 id="default-radio-1"
                 type="radio"
@@ -48,24 +47,6 @@ const SortPorduct = () => {
                 to High
               </label>
             </div>
-
-            <Link
-              className="flex items-center py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-              to=""
-              //   onClick={() => handleProductFilter("all")}
-            >
-              <span className="mx-4 font-medium capitalize">All</span>
-            </Link>
-            {[Array(4).keys].map((category) => (
-              <Link
-                key={Math.random()}
-                className="flex items-center py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-                to=""
-                // onClick={() => handleProductFilter(category)}
-              >
-                <span className="mx-4 font-medium capitalize">{category}</span>
-              </Link>
-            ))}
           </nav>
         </div>
       </div>

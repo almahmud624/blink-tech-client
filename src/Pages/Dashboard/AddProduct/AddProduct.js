@@ -121,8 +121,8 @@ const AddProduct = ({ updateId, setModal }) => {
             className="relative w-full p-4 mx-auto  bg-gray-800 rounded-md "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-              <div className="">
+            <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
+              <div className="md:col-span-1 col-span-2">
                 <label
                   className="text-gray-700 dark:text-gray-200"
                   for="Productname"
@@ -147,7 +147,7 @@ const AddProduct = ({ updateId, setModal }) => {
                   </p>
                 )}
               </div>
-              <div>
+              <div className="md:col-span-1 col-span-2">
                 <label className="text-gray-700 dark:text-gray-200" for="price">
                   Product Price
                 </label>
@@ -185,7 +185,7 @@ const AddProduct = ({ updateId, setModal }) => {
                 ></textarea>
               </div>
 
-              <div className={`${imgPreview ? "" : "col-span-2"}`}>
+              <div className={`${imgPreview ? "col-span-1" : "col-span-2"}`}>
                 <div className="flex items-center justify-center w-full">
                   <label
                     for="dropzone-file"
@@ -212,7 +212,7 @@ const AddProduct = ({ updateId, setModal }) => {
                 </div>
               </div>
               {imgPreview && (
-                <div className="w-full relative">
+                <div className="w-full relative md:col-span-1 col-span-2">
                   <span
                     className="bg-gray-800 absolute right-0 top-0 p-1 px-2 rounded cursor-pointer"
                     title="Remove Image"
@@ -228,7 +228,7 @@ const AddProduct = ({ updateId, setModal }) => {
                 </div>
               )}
 
-              <div className="flex items-center">
+              <div className="flex items-center md:col-span-1 col-span-2">
                 <div className="form-control w-full max-w-xs mt-0 pt-0">
                   <label className="label mt-0 pt-0">
                     <span className="text-gray-700 dark:text-gray-300">
@@ -260,7 +260,7 @@ const AddProduct = ({ updateId, setModal }) => {
                 </div>
               </div>
 
-              <div className="">
+              <div className="md:col-span-1 col-span-2">
                 <label className="text-gray-700 dark:text-gray-200" for="ra">
                   Discount
                 </label>

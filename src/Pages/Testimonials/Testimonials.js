@@ -34,10 +34,12 @@ const Testimonials = () => {
     },
   ];
   return (
-    <div className="pb-20">
-      <TitleHighlighter>Testimonials</TitleHighlighter>
-      <SectionTitle>Beloved Feedback</SectionTitle>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 mt-10">
+    <div className="md:pb-20 md:pt-0 pt-10">
+      <div className="md:mb-0 mb-8">
+        <TitleHighlighter>Testimonials</TitleHighlighter>
+        <SectionTitle>Beloved Feedback</SectionTitle>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 mt-0 md:mt-10">
         {testimonials?.map((testimonial) => (
           <TestimonalCard
             key={Math.random()}

@@ -1,3 +1,5 @@
+import { async } from "@firebase/util";
+import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 
 export const DataContext = createContext();
@@ -11,13 +13,19 @@ const DataProvider = ({ children }) => {
 
   // get product data with sort by price
   useEffect(() => {
-    fetch(
-      `http://localhost:4000/products?search=${searchText}&order=${
-        isAsc ? "asc" : "desc"
-      }`
-    )
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:4000/products?search=${searchText}&order=${
+            isAsc ? "asc" : "desc"
+          }`
+        );
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProducts();
   }, [isAsc, searchText]);
 
   // get localstroage data

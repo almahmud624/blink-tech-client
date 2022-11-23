@@ -35,12 +35,12 @@ const UserProfile = () => {
   };
   return (
     <div className="">
-      <div className="m-10 max-w-sm mx-auto py-20">
-        <div className="rounded-lg border bg-white px-4 pt-3 pb-10 shadow-lg ">
+      <div className="md:m-10 mt-0  mx-4 max-w-sm md:mx-auto md:py-20 py-5">
+        <div className="rounded-lg border bg-white dark:bg-gray-600 border-gray-500 px-4 pt-3 pb-10 shadow-lg ">
           <div className="text-right pb-5">
             <label
               htmlFor="profile-edit-modal"
-              className="cursor-pointer text-sm underline text-blue-500 text-right"
+              className="cursor-pointer text-sm underline text-indigo-300 text-right"
               onClick={() => {
                 if (!user?.emailVerified) {
                   toast.error("First verify your email,Please...");
@@ -58,19 +58,19 @@ const UserProfile = () => {
               </div>
             </label>
           </div>
-          <h1 className="my-1 text-center text-xl font-bold leading-8 text-gray-900 capitalize">
+          <h1 className="my-1 text-center text-xl font-bold leading-8 text-gray-300 capitalize">
             {user?.displayName}
           </h1>
-          <h3 className="font-lg text-semibold text-center leading-6 text-gray-600">
+          <h3 className="font-lg text-semibold text-center leading-6 text-gray-300">
             {user?.email}
           </h3>
           {/* <p className="text-center text-sm leading-6 text-gray-500 hover:text-gray-600">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             Architecto, placeat!
           </p> */}
-          <ul className="mt-3 divide-y rounded bg-gray-100 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
+          <ul className="mt-3 divide-y rounded bg-gray-100 dark:bg-gray-900 py-2 px-3 text-gray-600 shadow-sm hover:text-gray-700 hover:shadow">
             <li className="flex items-center py-3 text-sm">
-              <span>Status</span>
+              <span className="text-gray-300">Status</span>
               <span className="ml-auto">
                 <span
                   className={`rounded-full  py-1 px-2 text-xs font-medium ${
@@ -83,7 +83,7 @@ const UserProfile = () => {
                 </span>
                 {user?.emailVerified || (
                   <span
-                    className="rounded-full cursor-pointer py-1 px-2 text-xs font-medium capitalize underline text-blue-500"
+                    className="rounded-full cursor-pointer py-1 px-2 text-xs font-medium capitalize underline text-indigo-300"
                     onClick={() => {
                       userVerify();
                       toast.success(
@@ -97,12 +97,14 @@ const UserProfile = () => {
               </span>
             </li>
             <li className="flex items-center py-3 text-sm">
-              <span>Joined On</span>
-              <span className="ml-auto">{userJoinDate}</span>
+              <span className="text-gray-300">Joined On</span>
+              <span className="ml-auto text-gray-400">{userJoinDate}</span>
             </li>
             <li className="flex items-center py-3 text-sm">
-              <span>Last Signed In</span>
-              <span className="ml-auto">{userLastSignedDate}</span>
+              <span className="text-gray-300">Last Signed In</span>
+              <span className="ml-auto text-gray-400">
+                {userLastSignedDate}
+              </span>
             </li>
           </ul>
         </div>

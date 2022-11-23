@@ -77,9 +77,9 @@ const Users = () => {
   return (
     <div>
       <div className="mx-auto px-2 py-5">
-        <div className="overflow-hidden rounded-xl bg-white px-6 shadow lg:px-4">
+        <div className="overflow-hidden rounded-xl bg-gray-800 px-6 shadow lg:px-4">
           <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
-            <thead className="hidden border-b lg:table-header-group">
+            <thead className="hidden border-b border-gray-900 lg:table-header-group">
               <tr className="">
                 <td className="whitespace-normal py-4 text-sm font-semibold text-gray-800 sm:px-3"></td>
 
@@ -95,46 +95,58 @@ const Users = () => {
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
                   Action
                 </td>
-
-                {/* <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
-                    Customer
-                  </td>
-                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
-                    Dimensions
-                  </td>
-
-                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
-                    Weight
-                  </td>
-
-                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-500 sm:px-3">
-                    Status
-                  </td> */}
               </tr>
             </thead>
 
-            <tbody className="bg-white lg:border-gray-300">
+            <tbody className="bg-gray-800 lg:border-gray-300">
               {users?.map((user, i) => (
                 <tr key={Math.random()} className="">
-                  <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-600 sm:px-3 lg:text-left">
-                    {i + 1}
-                    {/* <div className="mt-1 flex flex-col text-xs font-medium lg:hidden">
-                      <div className="flex items-center">Jane Doeson</div>
-                      <div className="flex items-center">Desktop Computer</div>
-                      <div className="">24 x 10 x 5 cm</div>
-                      <div className="flex items-center">1 Kg</div>
-                    </div> */}
+                  <td className="whitespace-no-wrap py-4 z-50 text-left text-sm text-gray-600 sm:px-3 lg:text-left">
+                    <span className="text-gray-400 font-semibold">{i + 1}</span>
+                    <div className="mt-1 flex flex-col text-xs font-medium space-y-3 md:hidden">
+                      <div className="flex items-center text-md text-indigo-200">
+                        {user?.name}
+                      </div>
+                      <div className="flex items-center text-md text-indigo-200">
+                        {user?.email}
+                      </div>
+                      <div className="">
+                        {user?.role === "admin" ? (
+                          <span className="p-1 px-3 rounded-lg font-semibold bg-green-600 text-gray-200">
+                            Admin
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => handleMakeAdmin(user?._id)}
+                            className="btn btn-info btn-xs text-xs capitalize"
+                          >
+                            Make Admin
+                          </button>
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <label
+                          htmlFor="confirmed-modal"
+                          onClick={() => setRemovingUser(user)}
+                          className=""
+                        >
+                          <span className="p-1 px-3 rounded-lg font-semibold bg-red-600 text-gray-200 cursor-pointer">
+                            Remove
+                          </span>
+                        </label>
+                      </div>
+                    </div>
                   </td>
 
-                  <td className="whitespace-no-wrap hidden py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell capitalize">
+                  <td className="whitespace-no-wrap hidden py-4 text-sm font-normal  sm:px-3   md:table-cell capitalize text-indigo-200">
                     {user?.name}
                   </td>
 
-                  <td className="whitespace-no-wrap hidden py-4 text-left text-sm text-gray-600 sm:px-3 lg:table-cell lg:text-left">
+                  <td className="whitespace-no-wrap hidden py-4 text-left text-sm  sm:px-3   md:table-cell lg:text-left text-indigo-200">
                     {user?.email}
                   </td>
 
-                  <td className="whitespace-no-wrap hidden py-4 text-left text-xs text-gray-600 sm:px-3 lg:table-cell lg:text-left">
+                  <td className="whitespace-no-wrap hidden py-4 text-left text-xs  sm:px-3   md:table-cell lg:text-left text-indigo-200">
                     {user?.role === "admin" ? (
                       <span className="p-1 px-3 rounded-lg font-semibold bg-green-600 text-gray-200">
                         Admin
@@ -148,7 +160,7 @@ const Users = () => {
                       </button>
                     )}
                   </td>
-                  <td className="whitespace-no-wrap hidden py-4 text-left text-xs sm:px-3 lg:table-cell lg:text-left">
+                  <td className="whitespace-no-wrap hidden py-4 text-left text-xs sm:px-3   md:table-cell lg:text-left">
                     <label
                       htmlFor="confirmed-modal"
                       onClick={() => setRemovingUser(user)}
