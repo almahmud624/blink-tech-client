@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FiAlertOctagon, FiPhoneCall } from "react-icons/fi";
+import { FiAlertOctagon, FiCheckSquare, FiPhoneCall } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthProvider";
 import { DataContext } from "../../Context/DataProvider";
@@ -9,17 +9,19 @@ import {
   IoAlertCircle,
   IoCartOutline,
   IoCheckmark,
-  IoCheckmarkCircle,
+  IoCopy,
   IoShieldCheckmarkOutline,
 } from "react-icons/io5";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import "./CheckOut.css";
 import EmptyCart from "../Cart/EmptyCart/EmptyCart";
 import BounceLoader from "react-spinners/ClipLoader";
+import useCopyData from "../../Hooks/useCopyData";
 
 const CheckOut = () => {
   const { user } = useContext(AuthContext);
   const { cart, setCart } = useContext(DataContext);
+  const [copyText, copy, setCopiedText] = useCopyData();
 
   // card confirmation state
   const [err, setErr] = useState("");
@@ -114,6 +116,7 @@ const CheckOut = () => {
     }
     setProcss(false);
     setSuccess(true);
+    setCopiedText(null);
   };
 
   // subtotal
@@ -300,18 +303,48 @@ const CheckOut = () => {
                         data-testid="loader"
                       />
                     ) : (
-                      "Pay"
+                      `Pay  $${totalPrice}`
                     )}
                   </button>
                 </div>
               </form>
-              {transectionId && (
+              {transectionId ? (
                 <p className="my-4 bg-green-900 text-green-300 w-full py-3 rounded-md text-center">
                   <IoAlertCircle className="inline-block float-left ml-2 text-gray-200 text-2xl" />
                   <span className="font-medium text-gray-200">
                     Your Transection Id:
                   </span>{" "}
-                  {transectionId}
+                  <span
+                    className="cursor-pointer"
+                    title="Click to copy the Id"
+                    onClick={() => copy(transectionId)}
+                  >
+                    <span className="mx-2">{transectionId}</span>{" "}
+                    {!copyText ? (
+                      <IoCopy className="inline-block text-xs" />
+                    ) : (
+                      <FiCheckSquare className="inline-block text-sm" />
+                    )}
+                  </span>
+                </p>
+              ) : (
+                <p className="my-4 bg-red-900 text-gray-200 w-full py-3 rounded-md text-center">
+                  <IoAlertCircle className="inline-block float-left ml-2 text-gray-200 text-2xl" />
+                  <span className="font-medium text-gray-200">
+                    Test Card No:
+                  </span>{" "}
+                  <span
+                    className="cursor-pointer"
+                    title="Click to copy the number"
+                    onClick={() => copy("371449635398431")}
+                  >
+                    <span className="mx-2">371449635398431</span>{" "}
+                    {!copyText ? (
+                      <IoCopy className="inline-block text-xs" />
+                    ) : (
+                      <FiCheckSquare className="inline-block text-sm" />
+                    )}
+                  </span>
                 </p>
               )}
             </div>

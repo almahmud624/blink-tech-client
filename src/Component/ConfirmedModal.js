@@ -9,8 +9,8 @@ const ConfirmedModal = ({ title, body, action, actionData, closeModal }) => {
         <div
           className={` ${
             actionData
-              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none scale-100 transition-all duration-500 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px]"
-              : "opacity-0 scale-110 absolute top-0 left-0 "
+              ? " justify-center items-center  opacity-100 flex overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none absolute top-0 left-0 focus:outline-none block transition-all duration-500 backdrop-blur- backdrop-brightness-50 backdrop-blur-[0.75px]"
+              : "opacity-0 hidden absolute top-0 left-0 "
           }`}
         >
           <div className="relative my-6 mx-auto w-1/3">

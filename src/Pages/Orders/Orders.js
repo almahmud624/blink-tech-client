@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { FiArrowLeft, FiArrowRight, FiEdit, FiTrash } from "react-icons/fi";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ConfirmedModal from "../../Component/ConfirmedModal";
 import Loader from "../../Component/Loader";
+import { Link } from "react-router-dom";
+import PrimaryBtn from "../../Component/PrimaryBtn";
 
 const Orders = () => {
   const { user, userSignOut } = useContext(AuthContext);
@@ -42,7 +43,6 @@ const Orders = () => {
       }
     },
   });
-  console.log(orders);
 
   // cancel order put method
   const handleDelete = async (order) => {
@@ -100,13 +100,17 @@ const Orders = () => {
   //   };
   // }, [page, size]);
 
+  const orderQuery = orders.map((order) => order?.orderInfo.length > 0);
+  const orderAvialabilityCheck = orderQuery.find((i) => i === true);
+
   if (isLoading) {
     return <Loader />;
   }
+
   return (
     <div>
       <div className="my-20 max-w-screen-lg px-4 mx-auto">
-        {orders?.length > 0 ? (
+        {orderAvialabilityCheck === true ? (
           <div className="overflow-x-auto  relative shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  overflow-x-scroll">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -259,7 +263,7 @@ const Orders = () => {
             </div>
           </div>
         ) : (
-          <section className="rounded-3xl shadow-2xl">
+          <div className="rounded-3xl shadow-2xl">
             <div className="p-8 text-center sm:p-12">
               <p className="text-sm font-semibold uppercase tracking-widest text-indigo-500">
                 You have no orders
@@ -273,10 +277,10 @@ const Orders = () => {
                 className="mt-8 inline-block w-1/3 rounded-full bg-indigo-600 py-4 text-sm font-bold text-white shadow-xl"
                 to="/products"
               >
-                Track Order
+                Go To Shop
               </Link>
             </div>
-          </section>
+          </div>
         )}
       </div>
       {/* Deleting Modal */}

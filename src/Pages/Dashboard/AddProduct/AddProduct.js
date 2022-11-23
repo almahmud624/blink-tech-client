@@ -1,15 +1,11 @@
 import axios from "axios";
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FiDelete, FiUploadCloud } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DataContext } from "../../../Context/DataProvider";
 
 const AddProduct = ({ updateId, setModal }) => {
-  const { products, setProducts } = useContext(DataContext);
-  const [trending, setTrending] = useState(false);
-  const [promoted, setPromoted] = useState(false);
   const location = useLocation();
   const [product, setProduct] = useState({});
   const nameRef = useRef();
@@ -231,42 +227,6 @@ const AddProduct = ({ updateId, setModal }) => {
                   />
                 </div>
               )}
-              {/* <div>
-                <label
-                  className="text-gray-700 dark:text-gray-200"
-                  for="product-img"
-                >
-                  Product ImgURL
-                </label>
-                <input
-                  id="product-img"
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                  name="imgURL"
-                  required
-                  defaultValue={product?.imgURL}
-                  {...register("productImg", {
-                    required: "ProductImg is required",
-                  })}
-                />
-              </div> */}
-
-              {/* <div className="flex items-center">
-                <div className="form-control w-full max-w-xs flex flex-row items-center gap-1">
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={() => setTrending(!trending)}
-                    name="isTranding"
-                    defaultChecked={product?.isTrending}
-                  />
-                  <label className="label">
-                    <span className="text-gray-700 dark:text-gray-300">
-                      is Trending?
-                    </span>
-                  </label>
-                </div>
-              </div> */}
 
               <div className="flex items-center">
                 <div className="form-control w-full max-w-xs mt-0 pt-0">
@@ -299,24 +259,7 @@ const AddProduct = ({ updateId, setModal }) => {
                   </select>
                 </div>
               </div>
-              {/* <div>
-                <label className="text-gray-700 dark:text-gray-200" for="ra">
-                  Rating
-                </label>
-                <input
-                  id="rating"
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                  pattern="^(\d)*(\.)?([0-9]{1})?$"
-                  name="rating"
-                  placeholder="Rating 5 or Less"
-                  required
-                  defaultValue={product?.rating}
-                  {...register("rating", {
-                    required: "Rating name is required",
-                  })}
-                />
-              </div> */}
+
               <div className="">
                 <label className="text-gray-700 dark:text-gray-200" for="ra">
                   Discount
@@ -338,22 +281,6 @@ const AddProduct = ({ updateId, setModal }) => {
                   />
                 </div>
               </div>
-              {/* <div className="flex items-end">
-                <div className="form-control w-full max-w-xs flex flex-row items-center gap-1">
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={() => setPromoted(!promoted)}
-                    name="isPromoted"
-                    defaultChecked={product?.isPromoted}
-                  />
-                  <label className="label">
-                    <span className="text-gray-700 dark:text-gray-300">
-                      is Promoted?
-                    </span>
-                  </label>
-                </div>
-              </div> */}
             </div>
 
             <div className="flex justify-end mt-6 gap-5">
