@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import ConfirmedModal from "../../Component/ConfirmedModal";
 import Loader from "../../Component/Loader";
 import { Link } from "react-router-dom";
+import SectionTitle from "../../Component/SectionTitle";
 
 const Orders = () => {
   const { user, userSignOut } = useContext(AuthContext);
@@ -109,6 +110,7 @@ const Orders = () => {
   return (
     <div>
       <div className="px-4 mx-auto">
+        <SectionTitle customClass={"mb-5"}>Your Orders</SectionTitle>
         {orderAvialabilityCheck === true ? (
           <div className=" relative shadow-md sm:rounded-lg">
             <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">

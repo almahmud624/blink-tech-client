@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ConfirmedModal from "../../../Component/ConfirmedModal";
 import Loader from "../../../Component/Loader";
+import SectionTitle from "../../../Component/SectionTitle";
 
 const AllProduct = () => {
   // const { products, setProducts } = useContext(DataContext);
@@ -58,6 +59,7 @@ const AllProduct = () => {
 
   return (
     <div>
+      <SectionTitle customClass={"mb-5"}>All Products</SectionTitle>
       <div className="flex items-center justify-center bg-gray-900">
         <div className="col-span-12 w-full">
           <div className="overflow-auto lg:overflow-visible ">

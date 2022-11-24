@@ -309,42 +309,50 @@ const CheckOut = () => {
                 </div>
               </form>
               {transectionId ? (
-                <p className="my-4 bg-green-900 text-green-300 w-full py-3 rounded-md text-center">
-                  <IoAlertCircle className="inline-block float-left ml-2 text-gray-200 text-2xl" />
-                  <span className="font-medium text-gray-200">
-                    Your Transection Id:
-                  </span>{" "}
-                  <span
-                    className="cursor-pointer"
-                    title="Click to copy the Id"
-                    onClick={() => copy(transectionId)}
-                  >
-                    <span className="mx-2">{transectionId}</span>{" "}
-                    {!copyText ? (
-                      <IoCopy className="inline-block text-xs" />
-                    ) : (
-                      <FiCheckSquare className="inline-block text-sm" />
-                    )}
-                  </span>
+                <p className="my-4 bg-green-900 text-green-300 w-full py-3 rounded-md text-center md:block flex items-center">
+                  <IoAlertCircle className="inline-block float-left mx-2 text-gray-200 md:text-2xl text-base" />
+                  <div>
+                    <span className="font-medium text-gray-200 md:text-base text-xs">
+                      Your Transection Id:
+                    </span>{" "}
+                    <span
+                      className="cursor-pointer"
+                      title="Click to copy the Id"
+                      onClick={() => copy(transectionId)}
+                    >
+                      <span className="mx-2 md:text-base text-xs">
+                        {transectionId}
+                      </span>{" "}
+                      {!copyText ? (
+                        <IoCopy className="inline-block text-xs" />
+                      ) : (
+                        <FiCheckSquare className="inline-block text-sm" />
+                      )}
+                    </span>
+                  </div>
                 </p>
               ) : (
-                <p className="my-4 bg-red-900 text-gray-200 w-full py-3 rounded-md text-center">
-                  <IoAlertCircle className="inline-block float-left ml-2 text-gray-200 text-2xl" />
-                  <span className="font-medium text-gray-200">
-                    Test Card No:
-                  </span>{" "}
-                  <span
-                    className="cursor-pointer"
-                    title="Click to copy the number"
-                    onClick={() => copy("371449635398431")}
-                  >
-                    <span className="mx-2">371449635398431</span>{" "}
-                    {!copyText ? (
-                      <IoCopy className="inline-block text-xs" />
-                    ) : (
-                      <FiCheckSquare className="inline-block text-sm" />
-                    )}
-                  </span>
+                <p className="my-4 bg-red-900 text-gray-200 w-full py-3 rounded-md text-center md:block flex items-center ">
+                  <IoAlertCircle className="inline-block float-left mx-2 text-gray-200 md:text-2xl text-base" />
+                  <div className="">
+                    <span className="font-medium text-gray-200 md:text-base text-xs">
+                      Test Card No:
+                    </span>{" "}
+                    <span
+                      className="cursor-pointer"
+                      title="Click to copy the number"
+                      onClick={() => copy("371449635398431")}
+                    >
+                      <span className="mx-2 md:text-base text-xs">
+                        371449635398431
+                      </span>{" "}
+                      {!copyText ? (
+                        <IoCopy className="inline-block text-xs" />
+                      ) : (
+                        <FiCheckSquare className="inline-block text-sm" />
+                      )}
+                    </span>
+                  </div>
                 </p>
               )}
             </div>
@@ -355,7 +363,7 @@ const CheckOut = () => {
                 </div>
               </h1>
             </div>
-            <div className="px-4 max-w-2xl mx-auto flex items-start gap-20">
+            <div className="px-4 max-w-2xl mx-auto md:flex-row flex flex-col items-start md:gap-20 gap-4">
               <div>
                 <p className="text-lg font-semibold text-gray-600">
                   +880 653 235 211 <span className="text-lg">(Phone)</span>
@@ -389,7 +397,7 @@ const CheckOut = () => {
             <div className="relative">
               {cart.length > 0 ? (
                 <ul
-                  className="space-y-3 h-72 overflow-y-scroll my-4 px-4 "
+                  className="space-y-3 max-h-72 overflow-y-scroll my-4 px-4 "
                   id="cart-items"
                 >
                   {cart?.map((item) => (
@@ -401,21 +409,24 @@ const CheckOut = () => {
                         <img
                           src={item?.imgURL}
                           alt=""
-                          className="h-16 w-16 object-cover rounded-sm"
+                          className="md:h-16 h-12 md:w-16 w-12 object-cover rounded-sm"
                         />
                         <div className="ml-3 w-52">
                           <p
-                            className="text-base  text-white truncate"
+                            className="md:text-base text-sm text-white truncate"
                             title={item?.productName}
                           >
-                            {item?.productName}
+                            {item?.productName}{" "}
+                            <span className="font-normal text-red-300 md:hidden inline-block">
+                              x{item?.quantity}
+                            </span>
                           </p>
                           <p className="text-sm  text-white text-opacity-80 capitalize">
                             ${item?.productPrice * item?.quantity}
                           </p>
                         </div>
                       </div>
-                      <p className="text-base  text-gray-300 pr-5">
+                      <p className="text-base  text-gray-300 pr-5 md:block hidden">
                         {item?.quantity} items
                       </p>
                     </li>

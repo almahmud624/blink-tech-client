@@ -6,16 +6,22 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./Carousel.css";
 import { IoCartOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import { DataContext } from "../../Context/DataProvider";
+import { addToDb } from "../../Utilities/Localdb";
+import { useNavigate } from "react-router-dom";
 
 const Carousel = () => {
   const { products } = useContext(DataContext);
+  const navigate = useNavigate();
 
   const promotedProduct = products?.filter(
     (product) => product.isPromoted === true
   );
 
+  const handleBuy = (items) => {
+    addToDb(items?._id, "products-list");
+    navigate("/checkout");
+  };
   return (
     <div className="max-w-screen-xl mx-auto">
       <Swiper
@@ -46,13 +52,13 @@ const Carousel = () => {
                   Choose the best Product for you! Which makes you more
                   comportable on your working session.
                 </p>
-                <Link
+                <button
                   className="inline-block mt-5 rounded bg-indigo-300 px-8 py-3 text-sm font-medium text-gray-800  hover:bg-indigo-500 hover:text-gray-200 hover:rotate-2 hover:scale-110 focus:outline-none focus:ring active:bg-indigo-300 transition-all duration-300"
                   href="/download"
-                  to={`/checkout/${items?._id}`}
+                  onClick={() => handleBuy(items)}
                 >
                   Buy Now <IoCartOutline className="inline-block h-5 w-5" />
-                </Link>
+                </button>
               </div>
               <div className="w-1/2 drop-shadow-2xl ">
                 <img src={items?.imgURL} alt="" className="w-full h-full" />

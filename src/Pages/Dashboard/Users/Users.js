@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import ConfirmedModal from "../../../Component/ConfirmedModal";
+import SectionTitle from "../../../Component/SectionTitle";
 
 const Users = () => {
   // remove user state
@@ -23,22 +24,8 @@ const Users = () => {
       }
     },
   });
-  console.log(users);
 
   const handleMakeAdmin = async (id) => {
-    // try {
-    //   const res = await axios.patch(`http://localhost:4000/users/admin/${id}`, {
-    //     headers: {
-    //       authorization: `Bearer ${localStorage.getItem("blink-token")}`,
-    //     },
-    //   });
-    // if (res?.data.modifiedCount > 0) {
-    //   toast.success("Set Role Admin Successfull");
-    //   refetch();
-    // }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     fetch(`http://localhost:4000/users/admin/${id}`, {
       method: "PATCH",
       headers: {
@@ -76,6 +63,7 @@ const Users = () => {
   };
   return (
     <div>
+      <SectionTitle customClass={"mb-5"}>All Users</SectionTitle>
       <div className="mx-auto px-2 py-5">
         <div className="overflow-hidden rounded-xl bg-gray-800 px-6 shadow lg:px-4">
           <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">

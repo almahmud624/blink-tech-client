@@ -126,7 +126,7 @@ const Products = () => {
           }`}
           onClick={() => setShowPopups(false)}
         >
-          <div className="relative my-6 mx-auto w-96 md:w-1/3">
+          <div className="relative my-6 md:mx-auto mx-4 w-96 md:w-1/3">
             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white  outline-none focus:outline-none">
               <div className="bg-gray-100 p-2 rounded">
                 <FiXCircle
@@ -134,7 +134,7 @@ const Products = () => {
                   onClick={() => setShowPopups(false)}
                 />
                 <div className="p-6 text-center sm:p-8 max-w-lg mx-auto ">
-                  <p className="text-sm font-semibold uppercase tracking-widest text-pink-500">
+                  <p className="text-sm font-semibold uppercase tracking-widest text-indigo-500">
                     The Product was added to your cart
                   </p>
                   <li className="flex items-start justify-between text-gray-700 border p-2 rounded mt-5">
@@ -163,7 +163,7 @@ const Products = () => {
                   </div>
 
                   <Link
-                    className="mt-8 inline-block w-full rounded-lg bg-indigo-600 py-4 text-sm font-bold text-white shadow-xl"
+                    className="mt-8 inline-block md:w-full w-1/2 rounded-lg bg-indigo-600 md:py-4 py-3 text-sm font-bold text-white shadow-xl"
                     to="/checkout"
                   >
                     CheckOut

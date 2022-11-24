@@ -58,10 +58,12 @@ const Cart = ({ setIsOpen }) => {
             }`}
           >
             <div>
-              <h2 className="text-xl font-semibold mb-3">Your cart</h2>
+              <h2 className="text-xl md:text-3xl font-semibold mb-3">
+                Your cart
+              </h2>
 
               <div
-                className="gap-2 overflow-y-scroll max-h-96 p-2 rounded"
+                className="gap-2 overflow-y-scroll md:max-h-96 max-h-72 p-2 rounded"
                 id="cart-items"
                 style={{
                   boxShadow: "inset 0 0 6px #0000004d",
@@ -167,7 +169,7 @@ const Cart = ({ setIsOpen }) => {
                   Not including taxes and shipping costs
                 </p>
               </div>
-              <div className="flex justify-end space-x-4">
+              <div className="md:flex-row flex flex-col md:justify-end justify-center md:space-x-4 space-x-0">
                 {location?.pathname === "/cart" ? (
                   <button
                     type="button"
@@ -183,7 +185,7 @@ const Cart = ({ setIsOpen }) => {
                   <Link
                     to="/cart"
                     type="button"
-                    className="px-6 py-2 border rounded-md dark:border-violet-400"
+                    className="md:px-6 px-2 py-2 border rounded-md dark:border-violet-400"
                     onClick={() => setIsOpen(false)}
                   >
                     View Cart
@@ -192,9 +194,9 @@ const Cart = ({ setIsOpen }) => {
                 <Link
                   to="/checkout"
                   type="button"
-                  className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400"
+                  className="px-6 md:mt-0 mt-3 text-center py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400"
                 >
-                  <span className="sr-only sm:not-sr-only">Checkout</span>
+                  <span className="">Checkout</span>
                 </Link>
               </div>
             </div>

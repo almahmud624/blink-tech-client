@@ -13,7 +13,7 @@ const CartDrawer = ({ isOpen, setIsOpen }) => {
     >
       <section
         className={
-          "w-96 right-0 absolute bg-gray-700 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform" +
+          "md:w-96 w-40 right-0 absolute bg-gray-700 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform" +
           (isOpen ? " translate-x-0 " : " translate-x-full ")
         }
         id="cart-drawer"

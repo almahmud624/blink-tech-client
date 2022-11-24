@@ -3,6 +3,7 @@ import { AuthContext } from "../../../Context/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loader from "../../../Component/Loader";
+import SectionTitle from "../../../Component/SectionTitle";
 
 const MyAppointments = () => {
   const { user, userSignOut } = useContext(AuthContext);
@@ -36,6 +37,7 @@ const MyAppointments = () => {
   return (
     <div>
       <div className=" ">
+        <SectionTitle customClass={"mb-5"}>Your Appointments</SectionTitle>
         <div className="mx-auto px-2 py-5">
           <div className="overflow-hidden rounded-xl bg-gray-800 px-6 shadow lg:px-4">
             <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">

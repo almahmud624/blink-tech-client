@@ -84,8 +84,26 @@ export const router = createBrowserRouter([
           </PrivateRouter>
         ),
         children: [
-          { index: true, element: <AllProduct /> },
-          { path: "all-products", element: <AllProduct /> },
+          // {
+          //   index: true,
+          //   element: (
+          //     <AdminRouter>
+          //       <AllProduct />
+          //     </AdminRouter>
+          //   ),
+          // },
+          {
+            index: true,
+            element: <Orders />,
+          },
+          {
+            path: "all-products",
+            element: (
+              <AdminRouter>
+                <AllProduct />
+              </AdminRouter>
+            ),
+          },
           {
             path: "add-products",
             element: (
