@@ -19,7 +19,7 @@ const AvilableAppointment = ({ selectedDate, setSelectedDate }) => {
     queryKey: ["appointment-options"],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:4000/appointment-options?date=${date}`
+        `https://blink-tech-server.vercel.app/appointment-options?date=${date}`
       );
       const data = await res.json();
       return data;

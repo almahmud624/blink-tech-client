@@ -39,7 +39,7 @@ const AddProduct = ({ updateId, setModal }) => {
       // store new product on server
       try {
         const { data } = await axios.post(
-          "http://localhost:4000/products",
+          "https://blink-tech-server.vercel.app/products",
           productInfo
         );
         if (data.acknowledged) {
@@ -55,7 +55,7 @@ const AddProduct = ({ updateId, setModal }) => {
     // if (!updateId) {
     //   try {
     //     const { data } = await axios.post(
-    //       "http://localhost:4000/products",
+    //       "https://blink-tech-server.vercel.app/products",
     //       product
     //     );
     //     const newProduct = [...products, data];
@@ -66,7 +66,7 @@ const AddProduct = ({ updateId, setModal }) => {
     //   }
     // } else {
     //   // update product
-    //   fetch(`http://localhost:4000/products/${updateId}`, {
+    //   fetch(`https://blink-tech-server.vercel.app/products/${updateId}`, {
     //     method: "PUT",
     //     headers: {
     //       "content-type": "application/json",
@@ -93,7 +93,7 @@ const AddProduct = ({ updateId, setModal }) => {
 
   // get single product
   // useEffect(() => {
-  //   fetch(`http://localhost:4000/products/${updateId}`)
+  //   fetch(`https://blink-tech-server.vercel.app/products/${updateId}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setProduct(data);

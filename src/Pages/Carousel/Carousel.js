@@ -40,9 +40,9 @@ const Carousel = () => {
         {promotedProduct?.map((items) => (
           <SwiperSlide
             key={Math.random()}
-            className="bg-[#DCDDE2]  relative rounded"
+            className="bg-[#DCDDE2]  relative rounded md:screen h-20"
           >
-            <div className="relative flex h-screen md:flex-row flex-col-reverse justify-center items-center space-x-4 px-4">
+            <div className="relative flex md:h-screen  md:flex-row flex-col-reverse justify-center items-center space-x-4 px-4">
               <div className="z-10 w-full text-center md:text-left md:w-1/2 px-4">
                 <h3 className="text-gray-800  capitalize font-bold text-2xl md:text-5xl leading-tight">
                   up to {items?.discount}% off <br></br>

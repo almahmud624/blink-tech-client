@@ -96,7 +96,7 @@ const CheckOut = () => {
         txnId: paymentIntent?.id,
         orderInfo: cart,
       };
-      fetch("http://localhost:4000/orders", {
+      fetch("https://blink-tech-server.vercel.app/orders", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -137,7 +137,7 @@ const CheckOut = () => {
     if (cart.length === 0) {
       return;
     }
-    fetch("http://localhost:4000/create-payment-intent", {
+    fetch("https://blink-tech-server.vercel.app/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ price: parseInt(totalPrice) }),

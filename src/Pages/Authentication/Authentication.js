@@ -55,7 +55,7 @@ const Authentication = () => {
     const user = { name, email };
     axios({
       method: "post",
-      url: "http://localhost:4000/users",
+      url: "https://blink-tech-server.vercel.app/users",
       data: user,
     }).then((res) => {
       // get jwt token
@@ -89,7 +89,7 @@ const Authentication = () => {
                 >
                   {location.pathname !== "/login" && (
                     <div className="flex justify-between gap-3">
-                      <div className="w-1/2">
+                      <div className="w-full">
                         <label for="email" className="sr-only">
                           Your Name
                         </label>
@@ -106,26 +106,6 @@ const Authentication = () => {
                           <p role="alert" className="py-2 pb-1 text-red-500">
                             <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
                             Your name is required
-                          </p>
-                        )}
-                      </div>
-                      <div className="w-1/2">
-                        <label for="photoURL" className="sr-only">
-                          Your photoURL
-                        </label>
-                        <input
-                          type="text"
-                          name="photoURL"
-                          id="photoURL"
-                          className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                          placeholder="Your photoURL"
-                          {...register("photoURL", { required: true })}
-                          aria-invalid={errors.photoURL ? "true" : "false"}
-                        />
-                        {errors.photoURL?.type === "required" && (
-                          <p role="alert" className="py-2 pb-1 text-red-500">
-                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
-                            Your photoURL is required
                           </p>
                         )}
                       </div>

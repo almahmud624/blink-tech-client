@@ -27,7 +27,7 @@ const Orders = () => {
     queryFn: async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/orders?email=${user?.email}`,
+          `https://blink-tech-server.vercel.app/orders?email=${user?.email}`,
           {
             headers: {
               authorization: `Bearer ${localStorage.getItem("blink-token")}`,
@@ -48,7 +48,7 @@ const Orders = () => {
   const handleDelete = async (order) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:4000/orders/${order?.orderId}`,
+        `https://blink-tech-server.vercel.app/orders/${order?.orderId}`,
         { productId: order?.productId }
       );
       if (data.modifiedCount > 0) {
@@ -65,7 +65,7 @@ const Orders = () => {
   const handleUpdateStatus = async (orderId, productId) => {
     try {
       const { data } = await axios.patch(
-        `http://localhost:4000/orders/${orderId}`,
+        `https://blink-tech-server.vercel.app/orders/${orderId}`,
         { status: "approved", productId: productId },
         {
           headers: {
@@ -85,7 +85,7 @@ const Orders = () => {
   // pagination
   // useEffect(() => {
   //   let unsubscribed = false;
-  //   fetch(`http://localhost:4000/orders?page=${page}&size=${size}`)
+  //   fetch(`https://blink-tech-server.vercel.app/orders?page=${page}&size=${size}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       if (!unsubscribed) {

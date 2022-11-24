@@ -46,7 +46,7 @@ const SocialLogin = () => {
     const user = { name, email };
     axios({
       method: "post",
-      url: "http://localhost:4000/users",
+      url: "https://blink-tech-server.vercel.app/users",
       data: user,
     }).then((res) => {
       // get jwt token

@@ -15,7 +15,7 @@ const DataProvider = ({ children }) => {
     const fetchProducts = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/products?search=${searchText}&order=${
+          `https://blink-tech-server.vercel.app/products?search=${searchText}&order=${
             isAsc ? "asc" : "desc"
           }`
         );

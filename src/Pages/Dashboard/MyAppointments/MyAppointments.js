@@ -13,7 +13,7 @@ const MyAppointments = () => {
     queryFn: async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/bookings?email=${user?.email}`,
+          `https://blink-tech-server.vercel.app/bookings?email=${user?.email}`,
           {
             headers: {
               authorization: `Bearer ${localStorage.getItem("blink-token")}`,

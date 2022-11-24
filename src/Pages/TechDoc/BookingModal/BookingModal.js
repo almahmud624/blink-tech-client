@@ -22,7 +22,7 @@ const BookingModal = ({ service, selectedDate, setService, refetch }) => {
     // send booking info on server
     try {
       const res = await axios.post(
-        "http://localhost:4000/bookings",
+        "https://blink-tech-server.vercel.app/bookings",
         bookingInfo
       );
       if (res.data.acknowledged) {

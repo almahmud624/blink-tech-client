@@ -24,7 +24,9 @@ const AllProduct = () => {
     queryKey: ["prodcts"],
     queryFn: async () => {
       try {
-        const { data } = await axios.get("http://localhost:4000/products");
+        const { data } = await axios.get(
+          "https://blink-tech-server.vercel.app/products"
+        );
         return data;
       } catch (error) {
         console.log(error);
@@ -35,7 +37,7 @@ const AllProduct = () => {
   const handleDelete = (product) => {
     try {
       axios
-        .delete(`http://localhost:4000/products/${product?._id}`)
+        .delete(`https://blink-tech-server.vercel.app/products/${product?._id}`)
         .then((res) => {
           if (res?.data.deletedCount > 0) {
             toast.success("Product Successfully Removed");

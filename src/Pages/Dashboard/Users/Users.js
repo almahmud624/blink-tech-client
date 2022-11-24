@@ -13,11 +13,14 @@ const Users = () => {
     queryKey: ["users"],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:4000/users", {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("blink-token")}`,
-          },
-        });
+        const res = await axios.get(
+          "https://blink-tech-server.vercel.app/users",
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+            },
+          }
+        );
         return res.data;
       } catch (error) {
         console.log(error);
@@ -26,7 +29,7 @@ const Users = () => {
   });
 
   const handleMakeAdmin = async (id) => {
-    fetch(`http://localhost:4000/users/admin/${id}`, {
+    fetch(`https://blink-tech-server.vercel.app/users/admin/${id}`, {
       method: "PATCH",
       headers: {
         authorization: `Bearer ${localStorage.getItem("blink-token")}`,
@@ -45,11 +48,14 @@ const Users = () => {
   const handleRemoveUser = (user) => {
     try {
       axios
-        .delete(`http://localhost:4000/users/admin/${user?._id}`, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("blink-token")}`,
-          },
-        })
+        .delete(
+          `https://blink-tech-server.vercel.app/users/admin/${user?._id}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("blink-token")}`,
+            },
+          }
+        )
         .then((res) => {
           if (res?.data.deletedCount > 0) {
             toast.success("User Successfully removed");
