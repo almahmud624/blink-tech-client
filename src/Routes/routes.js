@@ -66,7 +66,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/tech-doc",
-        element: <TechDoc />,
+        element: (
+          <PrivateRouter>
+            <TechDoc />
+          </PrivateRouter>
+        ),
       },
       {
         path: "/profile",
