@@ -23,7 +23,7 @@ const SocialLogin = () => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        toast.error(error.code);
+        console.error(error.code);
       });
   };
 

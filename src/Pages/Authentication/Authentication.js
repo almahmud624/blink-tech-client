@@ -31,7 +31,7 @@ const Authentication = () => {
           storeUserData(name, mail);
         })
         .catch((error) => {
-          toast.error(error.code);
+          toast.error(error.code.split("/")[1].split("-").join(" "));
         });
     } else {
       // login user
@@ -44,7 +44,7 @@ const Authentication = () => {
           navigate(from, { replace: true });
         })
         .catch((error) => {
-          toast.error(error.code);
+          toast.error(error.code.split("/")[1].split("-").join(" "));
         });
     }
     reset();
