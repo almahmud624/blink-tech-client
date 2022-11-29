@@ -111,99 +111,149 @@ const Authentication = () => {
                       </div>
                     </div>
                   )}
-                  <div>
-                    <label for="email" className="sr-only">
-                      Email
-                    </label>
-                    <input
-                      type="text"
-                      name="email"
-                      id="email"
-                      className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      placeholder="Enter your email"
-                      {...register("mail", {
-                        required: "Email Address is required",
-                        validate: {
-                          emailValidation: (value) =>
-                            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                              value
-                            ) === true,
-                        },
-                      })}
-                      aria-invalid={errors.mail ? "true" : "false"}
-                    />
-                    {errors.mail && (
-                      <p role="alert" className="py-2 pb-1 text-red-500">
-                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />
-                        {errors.mail?.message}
-                      </p>
-                    )}
-                    {errors.mail && errors.mail.type === "emailValidation" && (
-                      <p className="py-1 pb-1 text-red-500 flex items-center">
-                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
-                        Your email is invalid
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label for="password" className="sr-only">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-                      placeholder="Enter your password"
-                      {...register("password", {
-                        required: "Password is required",
-                        validate: {
-                          positiveNumber: (value) =>
-                            /[0-9]/g.test(value) === true,
-                          graterThanSeven: (value) => value.length >= 6,
-                          aCapitalLetter: (value) =>
-                            /[A-Z]/g.test(value) === true,
-                          aSmallLetter: (value) =>
-                            /[a-z]/g.test(value) === true,
-                        },
-                      })}
-                      aria-invalid={errors.password ? "true" : "false"}
-                    />
-                    {errors.password && (
-                      <p role="alert" className="py-2 pb-1 text-red-500">
-                        <FiAlertOctagon className="inline-block text-red-500 mr-1" />
-                        {errors.password?.message}
-                      </p>
-                    )}
-                    {errors.password &&
-                      errors.password.type === "positiveNumber" && (
-                        <p className="py-1 pb-1 text-red-500 flex items-center">
-                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
-                          Your password conatain at least One Number
+                  {location.pathname !== "/login" ? (
+                    <div>
+                      <label for="email" className="sr-only">
+                        Email
+                      </label>
+                      <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        placeholder="Enter your email"
+                        {...register("mail", {
+                          required: "Email Address is required",
+                          validate: {
+                            emailValidation: (value) =>
+                              /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                                value
+                              ) === true,
+                          },
+                        })}
+                        aria-invalid={errors.mail ? "true" : "false"}
+                      />
+                      {errors.mail?.message && (
+                        <p role="alert" className="py-2 pb-1 text-red-500">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />
+                          {errors.mail?.message}
                         </p>
                       )}
-                    {errors.password &&
-                      errors.password.type === "graterThanSeven" && (
+                      {errors.mail && errors.mail.type === "emailValidation" && (
                         <p className="py-1 pb-1 text-red-500 flex items-center">
                           <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
-                          Your password should have 6 character
+                          Your email is invalid
                         </p>
                       )}
-                    {errors.password &&
-                      errors.password.type === "aCapitalLetter" && (
-                        <p className="py-1 pb-1 text-red-500 flex items-center">
-                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
-                          Password Contain at least One Capital letter.
+                    </div>
+                  ) : (
+                    <div>
+                      <label for="email" className="sr-only">
+                        Email
+                      </label>
+                      <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        placeholder="Enter your email"
+                        {...register("mail", {
+                          required: "Email Address is required",
+                        })}
+                        aria-invalid={errors.mail ? "true" : "false"}
+                      />
+                      {errors.mail?.message && (
+                        <p role="alert" className="py-2 pb-1 text-red-500">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />
+                          {errors.mail?.message}
                         </p>
                       )}
-                    {errors.password &&
-                      errors.password.type === "aSmallLetter" && (
-                        <p className="py-1 pb-1 text-red-500 flex items-center">
-                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
-                          Password Contain at least One Small letter.
+                    </div>
+                  )}
+                  {location.pathname !== "/login" ? (
+                    <div>
+                      <label for="password" className="sr-only">
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        placeholder="Enter your password"
+                        {...register("password", {
+                          required: "Password is required",
+                          validate: {
+                            positiveNumber: (value) =>
+                              /[0-9]/g.test(value) === true,
+                            graterThanSeven: (value) => value.length >= 6,
+                            aCapitalLetter: (value) =>
+                              /[A-Z]/g.test(value) === true,
+                            aSmallLetter: (value) =>
+                              /[a-z]/g.test(value) === true,
+                          },
+                        })}
+                        aria-invalid={errors.password ? "true" : "false"}
+                      />
+                      {errors.password?.message && (
+                        <p role="alert" className="py-2 pb-1 text-red-500">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />
+                          {errors.password?.message}
                         </p>
                       )}
-                  </div>
+                      {errors.password &&
+                        errors.password.type === "positiveNumber" && (
+                          <p className="py-1 pb-1 text-red-500 flex items-center">
+                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                            Your password conatain at least One Number
+                          </p>
+                        )}
+                      {errors.password &&
+                        errors.password.type === "graterThanSeven" && (
+                          <p className="py-1 pb-1 text-red-500 flex items-center">
+                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                            Your password should have 6 character
+                          </p>
+                        )}
+                      {errors.password &&
+                        errors.password.type === "aCapitalLetter" && (
+                          <p className="py-1 pb-1 text-red-500 flex items-center">
+                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                            Password Contain at least One Capital letter.
+                          </p>
+                        )}
+                      {errors.password &&
+                        errors.password.type === "aSmallLetter" && (
+                          <p className="py-1 pb-1 text-red-500 flex items-center">
+                            <FiAlertOctagon className="inline-block text-red-500 mr-1" />{" "}
+                            Password Contain at least One Small letter.
+                          </p>
+                        )}
+                    </div>
+                  ) : (
+                    <div>
+                      <label for="password" className="sr-only">
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        className="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-slate-900 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        placeholder="Enter your password"
+                        {...register("password", {
+                          required: "Password is required",
+                        })}
+                        aria-invalid={errors.password ? "true" : "false"}
+                      />
+                      {errors.password?.message && (
+                        <p role="alert" className="py-2 pb-1 text-red-500">
+                          <FiAlertOctagon className="inline-block text-red-500 mr-1" />
+                          {errors.password?.message}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   <div className="flex flex-col mt-4 lg:space-y-2">
                     <button
                       type="submit"

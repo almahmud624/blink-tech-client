@@ -54,7 +54,14 @@ const UserProfile = () => {
             {/* <span className="absolute right-0 m-3 h-3 w-3 rounded-full bg-green-500 ring-2 ring-green-300 ring-offset-2"></span> */}
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-36 rounded-full h-auto">
-                <img src={user?.photoURL} alt="" />
+                <img
+                  src={
+                    user?.photoURL
+                      ? user?.photoURL
+                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrxIowHNK_RDNCH9s7q_BOfWFkWSScYXs4vMEDnKmwS2YQBTodn04kuxqsO7Kb8sJajFI&usqp=CAU"
+                  }
+                  alt=""
+                />
               </div>
             </label>
           </div>

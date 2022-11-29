@@ -138,7 +138,14 @@ const Navbar = ({ setModeTheme }) => {
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                   <div className="w-10 rounded-full">
-                    <img src={user?.photoURL} alt="" />
+                    <img
+                      src={
+                        user?.photoURL
+                          ? user?.photoURL
+                          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrxIowHNK_RDNCH9s7q_BOfWFkWSScYXs4vMEDnKmwS2YQBTodn04kuxqsO7Kb8sJajFI&usqp=CAU"
+                      }
+                      alt=""
+                    />
                   </div>
                 </label>
                 <ul
@@ -203,7 +210,14 @@ const Navbar = ({ setModeTheme }) => {
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src={user?.photoURL} alt="" />
+                  <img
+                    src={
+                      user?.photoURL
+                        ? user?.photoURL
+                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrxIowHNK_RDNCH9s7q_BOfWFkWSScYXs4vMEDnKmwS2YQBTodn04kuxqsO7Kb8sJajFI&usqp=CAU"
+                    }
+                    alt=""
+                  />
                 </div>
               </label>
               <ul
