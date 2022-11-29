@@ -7,6 +7,7 @@ On this site a user can buy any tech product and repair his any devices buy book
 - User buy added product on cart, this cart data also store in localstorage
 - by Checkout and after payment user order store in database and show on my orders
 - A user can make booking for repair his/her any products
+- Products filter by category and price added
 - Added Stripe Payment system
 - Added Authentication process
 - Added JWT data secure
